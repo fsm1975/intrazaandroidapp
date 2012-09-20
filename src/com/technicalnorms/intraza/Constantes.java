@@ -3,7 +3,7 @@ package com.technicalnorms.intraza;
 import java.text.DecimalFormat;
 
 /**
- * Clase que define constantes usadas en distintos puntos de la aplicacion android
+ * Clase que define constantes usadas en distintos puntos de la aplicacion
  * 
  * @author JLZS
  *
