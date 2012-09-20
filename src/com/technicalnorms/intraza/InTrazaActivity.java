@@ -25,7 +25,7 @@ import android.widget.Toast;
  */
 public class InTrazaActivity extends Activity 
 {
-	//Codigos de los subdialogos que se usan en la Activity
+	// Codigos de los subdialogos que se usan en la Activity
 	private static final int DIALOGO_PIDE_DATOS_NUEVO_PEDIDO = 0;
 	private static final int PANTALLA_RUTERO = 1;
 	private static final int DIALOGO_PIDE_DATOS_CONSULTA_PEDIDOS = 2;
