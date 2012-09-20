@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- *** PANTALLA PRINCIPAL *** -->
+	
+    <string name="app_name">InTraza</string>
+    
+    <!-- Cadenas para las columnas de la tabla rutero -->
+    <string name="colReferencia">REFERENCIA</string>
+    <string name="colArticulo">ARTICULO</string>
+    <string name="colFechaAnterior">ULT. FECHA</string>
+    <string name="colCantidadAnterior">CANT./T.AÑO</string>
+    <string name="colTarifaAnterior">ULT. TARIFA</string>
+    <string name="colCantidad">CANTIDAD</string>
+    <string name="colTarifa">TARIFA</string>
+    <string name="colTarifaLista">TARIFA LISTA</string>
+    <string name="colPrecio">PRECIO</string>
+    
+    <!-- Cadenas para las columnas de la tabla pedidos -->
+    <string name="colIdPedido">ID. PEDIDO</string>
+    <string name="colCliente">CLIENTE</string>
+    <string name="colFechaPedido">FECHA PEDIDO</string>
+    <string name="colFechaEntrega">FECHA ENTREGA</string>
+    <string name="colPrecioTotal">PRECIO TOTAL</string>
+    <string name="colPendienteEnviar">ENVIAR</string>
+    <string name="colSuprimir">BORRAR</string>
+    
+    <!-- Cadenas para definir medida del pedido -->
+	<string name="kilogramos">KG</string>
+	<string name="unidades">UD</string>
+	
+	<!--  Mensajes de aviso que se muestran con Toast -->
+	<string name="avisoFaltaCantidadNuevoPedido">Debe introducir la cantidad del pedido</string>
+	<string name="avisoFaltaPrecioNuevoPedido">Debe introducir el precio del pedido</string>
+	
+	<!--  Prompt para los spinner -->
+	<string name="promptSpinnerCliente">Seleccione un cliente</string>
+	<string name="promptSpinnerArticulo">Seleccione un articulo</string>
+
+</resources>

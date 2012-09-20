@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@color/colorFilaCabecera">
+    
+    <!-- Se usa para poner un marco al RelativeLayout que contiene los datos del pedido -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/marcoP"
+    	android:layout_width="1280dp"
+    	android:layout_height="130dp"
+    	android:background="@color/colorBotonRutero">
+    
+    	<!-- Se usa para los datos del pedido -->
+    	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	    android:id="@+id/cabeceraP"
+	    	android:layout_width="1260dp"
+    		android:layout_height="110dp"
+    		android:layout_marginTop="10dp"
+    		android:layout_marginLeft="10dp"
+    		android:background="@color/colorFilaClaro">
+    		
+    		<TextView
+        		android:id="@+id/textoFechaP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"       	
+				android:layout_marginTop="10dp"
+        		android:layout_alignLeft="@+id/botonFechaEntregaP"
+				android:layout_marginLeft="4dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"/>    
+        		
+    		<TextView
+        		android:id="@+id/textoIdP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"       
+        		android:layout_alignBaseline="@+id/textoFechaP"
+        		android:layout_toRightOf="@+id/textoFechaP"
+        		android:layout_marginLeft="30dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"/>
+        		
+    		<TextView
+        		android:id="@+id/textoPrecioTotalP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"       
+        		android:layout_alignBaseline="@+id/textoFechaP"
+        		android:layout_toRightOf="@+id/textoIdP" 		
+				android:layout_marginLeft="30dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"/> 		
+        		
+    		<Button
+        		android:id="@+id/botonFechaEntregaP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center" 
+        		android:layout_below="@+id/textoFechaP"
+				android:layout_marginTop="15dp"
+        		android:layout_marginLeft="25dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido" />
+    		
+    		<Button
+        		android:id="@+id/botonClienteP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"
+        		android:layout_alignBaseline="@+id/botonFechaEntregaP"
+        		android:layout_toRightOf="@+id/botonFechaEntregaP" 	
+        		android:layout_marginLeft="10dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"/>
+    		
+    		<Button
+        		android:id="@+id/botonObservacionesP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"
+        		android:layout_alignBaseline="@+id/botonFechaEntregaP"
+        		android:layout_toRightOf="@+id/botonClienteP" 		
+        		android:layout_marginLeft="15dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido" 
+        		android:text="OBSERVACIONES"/>
+    		
+    		<TextView
+        		android:id="@+id/textoOcultarRuterolP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"       
+        		android:layout_marginLeft="1070dp"
+        		android:layout_marginTop="70dp"
+				android:textColor="@android:color/black"
+        		android:text="OCULTAR RUTERO"/> 	
+			
+			<ImageButton
+			    android:id="@+id/botonGuardarP"
+			    android:layout_width="57dp"
+			    android:layout_height="wrap_content"
+        		android:layout_marginLeft="1188dp"
+        		android:layout_marginTop="8dp"
+			    android:src="@drawable/no_guardar" />
+			
+			<ToggleButton
+        		android:id="@+id/botonOcultarRuteroP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:layout_toRightOf="@+id/textoOcultarRuterolP" 		
+        		android:layout_marginLeft="5dp"
+        		android:layout_marginTop="60dp"
+        		android:textOn="ON"
+        		android:textOff="OFF" />
+    		
+    	</RelativeLayout>
+    </RelativeLayout>
+    
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
+		<TableRow android:layout_width="fill_parent" android:layout_height="@dimen/heightCabeceraTabla">
+			<TextView android:text="@string/colReferencia" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColReferencia" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    				android:layout_width="@dimen/widthColArticulo"
+    				android:layout_height="@dimen/heightCabeceraTabla"
+					android:background="@color/colorFilaCabecera">
+					
+				<TextView android:id="@+id/columnaArticuloP" android:text="@string/colArticulo" android:gravity="center" android:layout_marginTop="8dp" android:layout_marginLeft="70dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorTextoFilaCabecera"/>
+    			<Button android:id="@+id/botonNuevoArticuloP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="center" android:layout_alignBaseline="@+id/columnaArticuloP" android:layout_toRightOf="@+id/columnaArticuloP" android:layout_marginLeft="5dp" android:textColor="@android:color/white" android:textSize="@dimen/textSizePedido" android:text="+"/>
+				
+			</RelativeLayout>
+			<TextView android:text="@string/colFechaAnterior" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColFechaAnterior" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<TextView android:text="@string/colCantidadAnterior" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColCantidadAnterior" android:textSize="16px" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<TextView android:text="@string/colTarifaAnterior" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColTarifaAnterior" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<TextView android:text="@string/colCantidad" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColCantidad" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorTextoFilaCabecera"/>
+			<TextView android:text="@string/colTarifa" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColTarifa" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorTextoFilaCabecera"/>
+			<TextView android:text="@string/colPrecio" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColPrecio" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorTextoFilaCabecera"/>
+			<TextView android:text="@string/colTarifaLista" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColTarifaLista" android:textSize="@dimen/textSizeCabeceraTabla" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>				
+		</TableRow>
+	</TableLayout>  
+        
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/scrollTablaLineasPedidoP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fadeScrollbars="true">
+		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/ruteroTableLayout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+	</ScrollView>
+	
+</LinearLayout>

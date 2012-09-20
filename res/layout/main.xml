@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/colorFondoPantallaPrincipal">
+	
+	<Button
+		android:id="@+id/botonMainRutero"
+        android:layout_width="600dp"
+        android:layout_height="110dp"
+        android:gravity="center"
+		android:layout_marginTop="100dp"
+		android:layout_marginLeft="675dp"
+		android:textColor="@android:color/white"
+        android:textSize="30dp" 
+        android:text="Crear Pedidos"/>	
+    
+	<Button
+		android:id="@+id/botonMainPedidos"
+        android:layout_width="600dp"
+        android:layout_height="110dp"
+        android:gravity="center"
+		android:layout_alignLeft="@+id/botonMainRutero"
+		android:layout_below="@+id/botonMainRutero"
+		android:textColor="@android:color/white"
+        android:textSize="30dp" 
+        android:text="Gestión de Pedidos"/>	
+        
+	<Button
+		android:id="@+id/botonMainSincronizar"
+        android:layout_width="600dp"
+        android:layout_height="110dp"
+        android:gravity="center"
+		android:layout_alignLeft="@+id/botonMainRutero"
+        android:layout_below="@+id/botonMainPedidos" 
+		android:textColor="@android:color/white"
+        android:textSize="30dp" 
+        android:text="Sincronizar con InTraza"/>
+	
+	<Button
+		android:id="@+id/botonMainAcercaDe"
+        android:layout_width="600dp"
+        android:layout_height="110dp"
+        android:gravity="center"
+		android:layout_alignLeft="@+id/botonMainSincronizar"
+        android:layout_below="@+id/botonMainSincronizar" 
+		android:textColor="@android:color/white"
+        android:textSize="30dp" 
+        android:text="Acerca de"/>
+	
+	<ImageView 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="100dp"
+		android:layout_marginLeft="200dp"
+		android:src="@drawable/logo_intraza_azul_grande"/>
+			
+</RelativeLayout>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="745dp"
+    android:layout_height="fill_parent"
+    android:background="@color/colorFondoDatosNuevoLP" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/DCP"
+    	android:layout_width="745dp"
+    	android:layout_height="wrap_content"
+    	android:background="@color/colorFondoDatosLP" >
+    
+		<TextView
+			android:id="@+id/textoInfoDCNP"
+			android:layout_width="745dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:background="@color/colorFondoDatoArticuloLP"
+			android:textColor="@android:color/white"
+			android:textSize="30px" 
+			android:text="Introduzca los datos de los pedidos a consultar"/>
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/infoDCP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/DCP"
+        android:textColor="@android:color/white"
+        android:textSize="20px" 
+        android:text="Introduzca uno de los siguentes datos:"/>
+      	
+    <TextView
+        android:id="@+id/textoIdPedidoDCP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/infoDCP"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/infoDCP"
+        android:text="Identificador"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+	<AutoCompleteTextView android:id="@+id/idPedidoDCP"
+		android:layout_width="200dp"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/textoIdPedidoDCP"
+		android:layout_below="@+id/textoIdPedidoDCP"
+		android:inputType="number" 
+		android:singleLine="true"
+		android:selectAllOnFocus="true"/>
+	
+	<TextView
+        android:id="@+id/textoClienteDCP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/clienteDCP"
+		android:layout_toRightOf="@+id/textoIdPedidoDCP"
+        android:layout_alignBaseline="@+id/textoIdPedidoDCP"               
+        android:text="Cliente"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+	<AutoCompleteTextView android:id="@+id/clienteDCP"
+		android:layout_width="400dp"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textoClienteDCP"
+		android:layout_toRightOf="@+id/idPedidoDCP"
+		android:layout_alignBaseline="@+id/idPedidoDCP"
+		android:layout_marginLeft="40dp"
+		android:singleLine="true"
+		android:selectAllOnFocus="true"/>	
+		
+	<Button
+		android:id="@+id/botonAbreSpinnerDCP"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/clienteDCP"
+		android:layout_alignBaseline="@+id/idPedidoDCP"
+		android:textSize="20px"
+		android:text=" ... " />
+		
+	<Spinner
+        android:id="@+id/spinnerInvisibleClienteDCP"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+		android:textSize="20px"
+		android:visibility="invisible"
+		android:prompt="@string/promptSpinnerCliente"/>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idPedidoDCP"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/bottom_bar"
+        android:orientation="horizontal"
+        android:paddingBottom="1.0dip"
+        android:paddingLeft="4.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingTop="5.0dip" >
+
+        <Button
+            android:id="@+id/consultarBotonDialogoDCP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="CONSULTAR" />
+
+        <Button
+            android:id="@+id/cancelarBotonDialogoDCP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="CANCELAR" />
+        
+    </LinearLayout>
+</RelativeLayout>

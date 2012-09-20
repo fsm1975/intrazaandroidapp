@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1300dp"
+    android:layout_height="fill_parent"
+    android:background="@color/colorFondoDatosNuevoLP" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/datosLP"
+    	android:layout_width="1300dp"
+    	android:layout_height="wrap_content"
+    	android:background="@color/colorFondoDatosLP" >
+    
+	<!-- Widgets para mostar los datos de la anterior linea de pedido que hizo el cliente -->
+    <TextView
+        android:id="@+id/datoLP"
+        android:layout_width="1300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/colorFondoDatoArticuloLP"
+		android:textColor="@android:color/white"
+        android:textSize="30px" />
+    
+    <TextView
+        android:id="@+id/infoDatosAnterioresLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/datoLP"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+    <TextView
+        android:id="@+id/datoCantidadAnteriorLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+		android:layout_marginTop="5dp"
+        android:layout_below="@+id/infoDatosAnterioresLP"
+		android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+    <TextView
+        android:id="@+id/datoTarifaAnteriorLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_below="@+id/datoCantidadAnteriorLP"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />        
+	</RelativeLayout>
+	
+    <!-- Widgets para recoger los datos de la nueva linea de pedido -->
+    <TextView
+        android:id="@+id/infoDatosNuevoLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/datosLP"
+        android:text="Rellene los datos para el pedido:"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+    <TextView
+        android:id="@+id/textoCantidadNuevoLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/infoDatosNuevoLP"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="15dp"
+        android:text="Cantidad:"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+
+    <EditText
+        android:id="@+id/cantidadNuevoLP"
+        android:layout_width="120px"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textoCantidadNuevoLP"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/textoCantidadNuevoLP"
+        android:inputType="numberDecimal"
+		android:selectAllOnFocus="true"
+        android:text="0"
+        android:maxLength="@integer/longitudCantidadLP" />
+    
+	<TextView
+        android:id="@+id/textoPrecioTotalLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textoCantidadNuevoLP"
+        android:layout_toRightOf="@+id/cantidadNuevoLP"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+    <TextView
+        android:id="@+id/textoTarifaNuevoLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textoCantidadNuevoLP"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Tarifa cliente:"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+
+    <EditText
+        android:id="@+id/tarifaNuevoLP"
+        android:layout_width="120px"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textoTarifaNuevoLP"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/textoTarifaNuevoLP"
+        android:inputType="numberDecimal"
+		android:selectAllOnFocus="true"
+        android:maxLength="@integer/longitudPrecioLP" />
+    
+	<CheckBox
+		android:id="@+id/checkFijarTarifaLP"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/textoTarifaNuevoLP"
+        android:layout_toRightOf="@+id/tarifaNuevoLP"
+        android:layout_marginLeft="5dp"
+		android:text="Fijar tarifa"
+		android:textSize="20px" />
+        
+    <TextView
+        android:id="@+id/textoTarifaListaLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_below="@+id/textoTarifaNuevoLP"
+        android:layout_marginLeft="53dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+    <!-- Se usa para poner un marco al RelativeLayout de las observaciones -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="774dp"
+    	android:layout_height="264dp"
+		android:layout_marginTop="45dp"
+        android:layout_marginLeft="478dp"
+        android:padding="10px"
+    	android:background="@color/colorFondoDatoArticuloLP" />
+	
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="770dp"
+    	android:layout_height="260dp"
+		android:layout_marginTop="47dp"
+        android:layout_marginLeft="480dp"
+    	android:background="@color/colorFondoObservacionesLP" >
+    
+		<!-- Widgets para obtener las observaciones de la linea de pedido -->
+    	<TextView
+	        android:id="@+id/textoObservacionesLP"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_marginTop="15dp"
+        	android:layout_marginLeft="30dp"
+        	android:text="Observaciones:"
+        	android:textColor="@android:color/white"
+        	android:textSize="20px" />
+
+    	<EditText
+	        android:id="@+id/observacionesLP"
+        	android:layout_width="400dp"
+        	android:layout_height="120dp"
+	        android:gravity="top"
+        	android:layout_marginLeft="30dp"
+			android:layout_marginTop="5dp"
+			android:layout_below="@+id/textoObservacionesLP"
+        	android:inputType="textMultiLine"
+        	android:maxLength="@integer/longitudObservacionesNuevoLP"/>
+    	
+		<Button
+			android:id="@+id/botonQuitarObservacionesLP"
+			android:layout_width="200dp"
+			android:layout_height="50dp"
+			android:layout_alignLeft="@+id/observacionesLP"
+			android:layout_below="@+id/observacionesLP"
+			android:text="VALOR POR DEFECTO" />
+		
+		<Button
+			android:id="@+id/botonIncluirObservacionesLP"
+			android:layout_width="200dp"
+			android:layout_height="50dp"
+			android:layout_alignBaseline="@+id/botonQuitarObservacionesLP"
+        	android:layout_toRightOf="@+id/botonQuitarObservacionesLP"
+			android:text="INCLUIR SELECCIONES" />
+		
+		<CheckBox
+			android:id="@+id/checkFijarObservacionesLP"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/observacionesLP"
+    	    android:layout_below="@+id/botonQuitarObservacionesLP"
+			android:text="Fijar observaciones en InTraza"
+			android:textSize="20px" />
+    	
+		<ScrollView 
+		    xmlns:android="http://schemas.android.com/apk/res/android" 
+		    android:layout_width="310dp" 
+		    android:layout_height="230dp"
+			android:layout_marginTop="15dp"
+    	    android:layout_marginLeft="470dp"
+    	    android:fadeScrollbars="false">
+    	    
+    		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		    android:id="@+id/listaCheckBoxObservacionesLP"
+    			android:layout_width="fill_parent"
+    			android:layout_height="fill_parent"
+    			android:background="@color/colorFondoObservacionesCheckBoxLP" />
+		</ScrollView>
+	</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textoTarifaListaLP"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/bottom_bar"
+        android:orientation="horizontal"
+        android:paddingBottom="1.0dip"
+        android:paddingLeft="4.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingTop="5.0dip" >
+
+        <Button
+            android:id="@+id/aceptarBotonDialogoNuevoLP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="ACEPTAR" />
+
+        <Button
+            android:id="@+id/cancelarBotonDialogoNuevoLP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="CANCELAR" />
+        
+        <Button
+            android:id="@+id/eliminarBotonDialogoNuevoLP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:enabled="false"
+            android:text="SUPRIMIR" />
+        
+        <Button
+            android:id="@+id/clonarBotonDialogoNuevoLP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:enabled="false"
+            android:text="CLONAR ARTICULO" />
+    </LinearLayout>
+</RelativeLayout>

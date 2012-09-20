@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.technicalnorms.intraza"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="12" />
+
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <application
+        android:icon="@drawable/logo_intraza_azul"
+        android:label="@string/app_name" android:debuggable="false">
+        
+        <activity
+            android:name=".InTrazaActivity"
+            android:label="@string/app_name" 
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".interfaz.PantallaRutero"
+          android:label="Rutero"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        
+        <activity android:name=".interfaz.PantallaListaPedidos"
+          android:label="Lista pedidos"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        
+        <activity android:name=".interfaz.PantallaSincronizar"
+          android:label="Sincronizar con InTraza"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoDatosPedido"
+          android:label="Datos pedido"
+          android:screenOrientation="landscape"
+          android:windowSoftInputMode="adjustResize"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoDatosLineaPedido"
+          android:label="Datos linea pedido"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoAvisoDatosSinGuardar"
+          android:label="Aviso datos sin guardar"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoDatosNuevoArticuloRutero"
+          android:label="Datos Nuevo Articulo Rutero"
+          android:screenOrientation="landscape"
+          android:windowSoftInputMode="adjustResize"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoDatosConsultaPedidos"
+          android:label="Datos consulta pedidos"
+          android:screenOrientation="landscape"
+          android:windowSoftInputMode="adjustResize"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoMensaje"
+          android:label="Mensaje"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoMuestraObservacionesPedido"
+          android:label="Observaciones pedido"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoConfirmacionBorrarPedidos"
+          android:label="Confirmacion borrar pedidos"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoConfirmacionEnviarPedidos"
+          android:label="Confirmacion enviar pedidos"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".interfaz.DialogoConfirmacionSincronizar"
+          android:label="Confirmacion sincronizar con InTraza"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name="com.technicalnorms.intraza.interfaz.DialogoAcercaDe"
+          android:label="Acerca De"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.Dialog"/>
+        
+    </application>
+
+</manifest>

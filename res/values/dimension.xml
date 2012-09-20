@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- *** PANTALLA PRINCIPAL *** -->
+        
+    <!-- Anchos de las columnas de la tabla rutero -->
+    <dimen name="widthColReferencia">140px</dimen>
+    <dimen name="widthColArticulo">240px</dimen>
+    <dimen name="widthColFechaAnterior">160px</dimen>
+    <dimen name="widthColCantidadAnterior">100px</dimen>
+    <dimen name="widthColTarifaAnterior">150px</dimen>
+    <dimen name="widthColCantidad">100px</dimen>
+    <dimen name="widthColTarifa">120px</dimen>
+    <dimen name="widthColPrecio">130px</dimen>
+    <dimen name="widthColTarifaLista">140px</dimen>
+    
+    <!-- Anchos de las columnas de la tabla pedidos -->
+    <dimen name="widthColIdPedido">150px</dimen>
+    <dimen name="widthColCliente">340px</dimen>
+    <dimen name="widthColFechaPedido">180px</dimen>
+    <dimen name="widthColFechaEntrega">180px</dimen>
+    <dimen name="widthColPrecioTotal">180px</dimen>
+    <dimen name="widthColPendienteEnviar">120px</dimen>
+    <dimen name="widthColSuprimir">130px</dimen>
+    
+    <!-- Alto de las filas de la tabla -->
+    <dimen name="heightCabeceraTabla">60px</dimen>
+    <dimen name="heightFilaDatosTabla">50px</dimen>
+
+	<dimen name="textSizePedido">20px</dimen>
+    <dimen name="textSizeCabeceraTabla">20px</dimen>
+ 	<dimen name="textSizeCabeceraTablaP">22px</dimen>
+    <dimen name="textSizeFilaDatosTabla">18px</dimen>
+    
+    <dimen name="heightObservacionesPedidoCliente">60px</dimen>
+    <dimen name="textSizeObservacionesPedidoCliente">18px</dimen>
+    
+    
+    <!-- *** USADOS EN LOS DIALOGOS *** -->
+	
+    <integer name="longitudCantidadLP">7</integer>
+    <integer name="longitudPrecioLP">9</integer>
+    <integer name="longitudObservacionesNuevoLP">600</integer>
+	
+</resources>

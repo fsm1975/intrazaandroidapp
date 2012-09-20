@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1300dp"
+    android:layout_height="fill_parent"
+    android:background="@color/colorFondoDatosNuevoLP" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/DCNP"
+    	android:layout_width="1300dp"
+    	android:layout_height="wrap_content"
+    	android:background="@color/colorFondoDatosLP" >
+    
+		<TextView
+			android:id="@+id/textoInfoDCNP"
+			android:layout_width="1300dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:background="@color/colorFondoDatoArticuloLP"
+			android:textColor="@android:color/white"
+			android:textSize="30px" />
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/textoClienteDCNP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/DCNP"
+        android:text="Cliente"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+	<AutoCompleteTextView android:id="@+id/clienteDCNP"
+		android:layout_width="400dp"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/textoClienteDCNP"
+		android:layout_below="@+id/textoClienteDCNP"
+		android:singleLine="true"
+		android:selectAllOnFocus="true"/>
+	
+	<Button
+		android:id="@+id/botonAbreSpinnerDCNP"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/clienteDCNP"
+		android:layout_alignBaseline="@+id/clienteDCNP"
+		android:textSize="20px"
+		android:text=" ... " />
+	
+	<Spinner
+        android:id="@+id/spinnerInvisibleClienteDCNP"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+		android:textSize="20px"
+		android:visibility="invisible"
+		android:prompt="@string/promptSpinnerCliente"/>
+    
+    <TextView
+        android:id="@+id/textoFechaEntregaDCNP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clienteDCNP"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:text="Fecha de entrega"
+        android:textColor="@android:color/white"
+        android:textSize="20px" /> 
+        
+    <DatePicker
+        android:id="@+id/fechaEntregaDCNP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textoFechaEntregaDCNP"
+        android:layout_below="@+id/textoFechaEntregaDCNP"
+        android:layout_marginTop="5dp" />
+    
+    <Button
+		android:id="@+id/botonFechaHoyDCNP"
+		android:layout_width="150dp"
+		android:layout_height="66dp"
+		android:layout_alignTop="@+id/fechaEntregaDCNP"
+		android:layout_toRightOf="@+id/fechaEntregaDCNP"
+        android:layout_marginLeft="5dp"
+        android:textSize="16px"
+		android:text="HOY" />
+    
+    <Button
+		android:id="@+id/botonFechaLunesDCNP"
+		android:layout_width="150dp"
+		android:layout_height="66dp"
+		android:layout_alignLeft="@+id/botonFechaHoyDCNP"
+		android:layout_below="@+id/botonFechaHoyDCNP"
+		android:textSize="16px"
+		android:text="PROXIMO LUNES" />
+        
+    <!-- Se usa para poner un marco al RelativeLayout de las observaciones -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="734dp"
+    	android:layout_height="264dp"
+		android:layout_marginTop="45dp"
+        android:layout_marginLeft="498dp"
+        android:padding="10px"
+    	android:background="@color/colorFondoDatoArticuloLP" />
+	
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="730dp"
+    	android:layout_height="260dp"
+		android:layout_marginTop="47dp"
+        android:layout_marginLeft="500dp"
+    	android:background="@color/colorFondoObservacionesLP" >
+    
+		<!-- Widgets para obtener las observaciones de la linea de pedido -->
+    	<TextView
+	        android:id="@+id/textoObservacionesDCNP"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_marginTop="15dp"
+        	android:layout_marginLeft="30dp"
+        	android:text="Observaciones:"
+        	android:textColor="@android:color/white"
+        	android:textSize="20px" />
+
+    	<EditText
+	        android:id="@+id/observacionesDCNP"
+        	android:layout_width="400dp"
+        	android:layout_height="120dp"
+	        android:gravity="top"
+        	android:layout_marginLeft="30dp"
+			android:layout_marginTop="5dp"
+			android:layout_below="@+id/textoObservacionesDCNP"
+        	android:inputType="textMultiLine"
+        	android:maxLength="@integer/longitudObservacionesNuevoLP"/>
+    	
+		<Button
+			android:id="@+id/botonQuitarObservacionesDCNP"
+			android:layout_width="200dp"
+			android:layout_height="50dp"
+			android:layout_alignLeft="@+id/observacionesDCNP"
+			android:layout_below="@+id/observacionesDCNP"
+			android:text="VALOR POR DEFECTO" />
+		
+		<Button
+			android:id="@+id/botonIncluirObservacionesDCNP"
+			android:layout_width="200dp"
+			android:layout_height="50dp"
+			android:layout_alignBaseline="@+id/botonQuitarObservacionesDCNP"
+			android:layout_toRightOf="@+id/botonQuitarObservacionesDCNP"
+			android:text="INCLUIR SELECCIONES" />
+		
+		<CheckBox
+			android:id="@+id/checkFijarObservacionesDCNP"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/observacionesDCNP"
+    	    android:layout_below="@+id/botonQuitarObservacionesDCNP"
+			android:text="Fijar observaciones en InTraza"
+			android:textSize="20px" />
+    	
+		<ScrollView 
+		    xmlns:android="http://schemas.android.com/apk/res/android" 
+		    android:layout_width="290dp" 
+		    android:layout_height="230dp"
+			android:layout_marginTop="15dp"
+    	    android:layout_marginLeft="470dp"
+    	    android:fadeScrollbars="false">
+    	    
+		    <!-- Contendra una lista de CheckBox que se rellenan de forma dinamica, con los datos de las observaciones de la BD -->
+    		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		    android:id="@+id/listaCheckBoxObservacionesDCNP"
+    			android:layout_width="fill_parent"
+    			android:layout_height="fill_parent"
+    			android:background="@color/colorFondoObservacionesCheckBoxLP" />
+		</ScrollView>
+	</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fechaEntregaDCNP"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/bottom_bar"
+        android:orientation="horizontal"
+        android:paddingBottom="1.0dip"
+        android:paddingLeft="4.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingTop="5.0dip" >
+
+        <Button
+            android:id="@+id/aceptarBotonDialogoDCNP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="ACEPTAR" />
+
+        <Button
+            android:id="@+id/cancelarBotonDialogoDCNP"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="CANCELAR" />
+        
+    </LinearLayout>
+</RelativeLayout>

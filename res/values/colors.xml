@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- *** PANTALLA PRINCIPAL *** -->
+    
+    <!-- Colores para las filas de la tabla -->
+    <color name="colorFilaCabecera">#668844</color>
+	<color name="colorFilaClaro">#88AA33</color>
+	<color name="colorFilaOscuro">#779944</color>
+	
+	<!-- Colores para el texto de la tabla -->
+	<color name="colorTextoFilaCabecera">#FFFFFF</color>
+	<color name="colorTextoFilaClaro">#FFFFFF</color>
+	<color name="colorTextoFilaOscuro">#FFFFFF</color>
+	<color name="colorFilaDatoAnterior">#DDDD00</color>
+	<color name="colorFilaDatoNuevo">#FFFFAA</color>
+	<color name="colorFilaDatoIntroducido">#FFFFFF</color>
+	
+	<!-- Colores para el texto de la tabla de pedidos -->
+	<color name="colorTextoFilaClaroTablaP">#FFFFAA</color>
+	<color name="colorTextoFilaOscuroTablaP">#FFFFAA</color>
+	<color name="colorTextoConClickTablaP">#FFFFFF</color>
+	<color name="colorTextoBotonDeshabilitadoTablaP">#CCCCCC</color>
+	
+	<!-- Colores para el texto de datos pedido sin introducir -->
+	<!-- <color name="colorTextoSinValorPedido">#FFFFAA</color> -->
+	<color name="colorTextoSinValorPedido">#CCCCCC</color>
+	
+	<!-- Colores para las observaciones -->
+	<color name="colorObservacionesPedidoCliente">#999999</color>
+	<color name="colorTextoObservacionesPedidoCliente">#FFCCAA</color>
+	
+    <!-- *** ALERT INTRODUCCION DATOs NUEVO PEDIDO *** -->
+    
+    <color name="colorFondoDatoArticuloLP">#668844</color>
+    <color name="colorFondoDatosLP">#779944</color>
+    <color name="colorFondoDatosNuevoLP">#779944</color>
+    
+    <color name="colorFondoObservacionesLP">#779944</color>
+    <color name="colorFondoObservacionesCheckBoxLP">#779944</color>
+    
+    <!-- *** Para mensajes toast de AVISO -->
+    <color name="colorRojo">#FF0000</color>
+    <color name="colorNegro">#000000</color>
+    
+    <!-- Color para los botones del menu principal -->
+    <color name="colorFondoPantallaPrincipal">#668844</color>
+	<color name="colorBotonRutero">@android:color/black</color>
+	<color name="colorBotonPedidos">@android:color/white</color>
+ 
+</resources>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="690dp"
+    android:layout_height="fill_parent"
+    android:background="@color/colorFondoDatosNuevoLP" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/DM"
+    	android:layout_width="690dp"
+    	android:layout_height="wrap_content"
+    	android:background="@color/colorFondoDatosLP" >
+    
+		<TextView
+			android:id="@+id/tituloAcercaDe"
+			android:layout_width="690dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:background="@color/colorFondoDatoArticuloLP"
+			android:textColor="@android:color/white"
+			android:text="INTRAZA TABLET VERSION 1.0"
+			android:textSize="30px" />
+    </RelativeLayout>
+    
+	<ImageView 
+	    android:id="@+id/imagenTechnicalNormsAcercaDe"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/DM"
+		android:layout_marginLeft="30dp"
+        android:layout_marginTop="55dp"
+		android:src="@drawable/logo_technicalnorms"/>
+    
+    <TextView
+        android:id="@+id/informacionAcercaDe1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/DM"
+        android:layout_toRightOf="@+id/imagenTechnicalNormsAcercaDe"        
+        android:textColor="@android:color/white"
+        android:text="Desarrollado por TechnicalNorms:"
+        android:textSize="20px" />
+    
+    <TextView
+        android:id="@+id/informacionAcercaDe2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_below="@+id/informacionAcercaDe1"
+        android:layout_toRightOf="@+id/imagenTechnicalNormsAcercaDe"        
+        android:textColor="#0000FF"
+        android:text="www.technicalnorms.com"
+        android:textSize="22px" />
+    
+    <TextView
+        android:id="@+id/informacionAcercaDe3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/informacionAcercaDe2"
+        android:layout_toRightOf="@+id/imagenTechnicalNormsAcercaDe"        
+        android:textColor="@android:color/white"
+        android:text="Atención al cliente:"
+        android:textSize="20px" />
+    
+    <TextView
+        android:id="@+id/informacionAcercaDe4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_below="@+id/informacionAcercaDe3"
+        android:layout_toRightOf="@+id/imagenTechnicalNormsAcercaDe"        
+        android:textColor="#0000FF"
+        android:text="91 15 22 146"
+        android:textSize="22px" />
+    
+    <TextView
+        android:id="@+id/informacionAcercaDe5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/informacionAcercaDe4"
+        android:layout_toRightOf="@+id/imagenTechnicalNormsAcercaDe"        
+        android:textColor="@android:color/white"
+        android:text="Sugerencias:"
+        android:textSize="20px" />
+    
+    <TextView
+        android:id="@+id/informacionAcercaDe6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_below="@+id/informacionAcercaDe5"
+        android:layout_toRightOf="@+id/imagenTechnicalNormsAcercaDe"        
+        android:textColor="#0000FF"
+        android:text="info@technicalnorms.com"
+        android:textSize="22px" />
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/informacionAcercaDe6"
+        android:layout_marginTop="30dp"
+        android:background="@android:drawable/bottom_bar"
+        android:orientation="horizontal"
+        android:paddingBottom="1.0dip"
+        android:paddingLeft="4.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingTop="5.0dip" >
+
+        <Button
+            android:id="@+id/aceptarAcercaDe"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="ACEPTAR" />
+        
+    </LinearLayout>
+</RelativeLayout>

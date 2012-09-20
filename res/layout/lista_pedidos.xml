@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@color/colorFilaCabecera">
+    
+    <!-- Se usa para poner un marco al RelativeLayout que contiene los datos del pedido -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="1280dp"
+    	android:layout_height="130dp"
+    	android:background="@color/colorBotonPedidos">
+    
+    	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:layout_width="1260dp"
+    		android:layout_height="110dp"
+    		android:layout_marginTop="10dp"
+    		android:layout_marginLeft="10dp"
+    		android:background="@color/colorFilaClaro">
+    		
+    		<Button
+        		android:id="@+id/botonNuevaConsultaPLP"
+        		android:layout_width="400dp"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"
+        		android:layout_marginTop="32dp"
+        		android:layout_marginLeft="15dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"
+        		android:text="NUEVA CONSULTA"/>
+    		
+    		<Button
+        		android:id="@+id/botonEnviarPLP"
+        		android:layout_width="400dp"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"
+        		android:layout_toRightOf="@+id/botonNuevaConsultaPLP"
+        		android:layout_alignBaseline="@+id/botonNuevaConsultaPLP"
+        		android:layout_marginLeft="15dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"
+        		android:text="ENVIAR PEDIDOS SELECCIONADOS"/>
+    		
+    		<Button
+        		android:id="@+id/botonBorrarPLP"
+        		android:layout_width="400dp"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"
+        		android:layout_toRightOf="@+id/botonEnviarPLP"
+        		android:layout_alignBaseline="@+id/botonNuevaConsultaPLP"
+        		android:layout_marginLeft="15dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"
+        		android:text="BORRAR PEDIDOS SELECCIONADOS"/>
+    		
+    	</RelativeLayout>
+    </RelativeLayout>
+    
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
+		<TableRow android:layout_width="fill_parent" android:layout_height="@dimen/heightCabeceraTabla">
+			<TextView android:text="@string/colIdPedido" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColIdPedido" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorTextoFilaCabecera"/>
+			<TextView android:text="@string/colCliente" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColCliente" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<TextView android:text="@string/colFechaPedido" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColFechaPedido" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<TextView android:text="@string/colFechaEntrega" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColFechaEntrega" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<TextView android:text="@string/colPrecioTotal" android:gravity="center" android:height="@dimen/heightCabeceraTabla" android:width="@dimen/widthColPrecioTotal" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    				android:layout_width="@dimen/widthColPendienteEnviar"
+    				android:layout_height="@dimen/heightCabeceraTabla"
+					android:background="@color/colorFilaCabecera">
+					
+				<TextView android:id="@+id/columnaEnviar" android:text="@string/colPendienteEnviar" android:gravity="center" android:layout_marginTop="15dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+				<CheckBox android:id="@+id/checkColumnaEnviar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="center" android:layout_toRightOf="@+id/columnaEnviar" android:layout_marginTop="12dp" android:layout_marginLeft="3dp"/>
+				
+			</RelativeLayout>
+			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    				android:layout_width="@dimen/widthColSuprimir"
+    				android:layout_height="@dimen/heightCabeceraTabla"
+					android:background="@color/colorFilaCabecera">
+				
+				<TextView android:id="@+id/columnaSuprimir" android:text="@string/colSuprimir" android:gravity="center" android:layout_marginTop="15dp" android:layout_marginLeft="10dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorFilaDatoAnterior"/>
+				<CheckBox android:id="@+id/checkColumnaSuprimir" android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="center" android:layout_toRightOf="@+id/columnaSuprimir" android:layout_marginTop="12dp" android:layout_marginLeft="3dp"/>
+			</RelativeLayout><AbsoluteLayout ></AbsoluteLayout>
+		</TableRow>
+	</TableLayout>  
+        
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/scrollTablaP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fadeScrollbars="true">
+		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/pedidosTableP" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+	</ScrollView>
+	
+</LinearLayout>
