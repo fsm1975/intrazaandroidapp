@@ -28,13 +28,13 @@ public class Configuracion
 	//Parametro TIMEOUT_WEB_SERVICES_SINCRONIZACION
 	public static final String NOMBRE_PARAMETRO_TIMEOUT_WEB_SERVICES_SINCRONIZACION = "TIMEOUT_WEB_SERVICES_SINCRONIZACION";
 	public static final String VALOR_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "30";
-	public static final String DESCRIPCION_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "Timeout en segundos, para la conexion con los Web Service REST de sincronizacion";
+	public static final String DESCRIPCION_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "Timeout en segundos, para la conexion con los Web Service de sincronizacion y envio de pedidos a InTraza";
 	public static final boolean ES_EDITABLE_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = true;
 	
 	//Parametro URI_WEB_SERVICES_SINCRONIZACION
 	public static final String NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "URI_WEB_SERVICES_SINCRONIZACION";
 	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "https://213.0.78.111:8069/InTrazaWeb/rest/sincroniza";
-	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "URI de solicitud de los Web Service para la sincronizacion con la BD de InTraza";
+	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "URI de solicitud de los Web Service para la sincronizacion y envio de pedido a InTraza";
 	public static final boolean ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = true;
 	
 	//Parametro PERMITIR_PRECIO_0
@@ -46,7 +46,7 @@ public class Configuracion
 	//Parametro NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO
 	public static final String NOMBRE_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = "NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO";
 	public static final String VALOR_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = "15";
-	public static final String DESCRIPCION_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = "Segun el valor de este parametro, se pondra una marca en la tarifa general en el rutero, para informar al comercial";
+	public static final String DESCRIPCION_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = "Indica el numero de dias, para que se considere que una tarifa es reciente. Segun el valor de este parametro, se pondra una marca en la tarifa general en el rutero, para informar al comercial";
 	public static final boolean ES_EDITABLE_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = true;
 	
 	//Parametro USUARIO_WS
