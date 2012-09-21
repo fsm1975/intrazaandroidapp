@@ -472,6 +472,8 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 			String encoding = MyBase64.encode(Configuracion.dameUsuarioWS(this.contexto)+":"+Configuracion.damePasswordWS(this.contexto));
 			
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+			
+			connection.setConnectTimeout(Configuracion.dameTimeoutWebServices(this.contexto)*1000);
 
 			connection.setSSLSocketFactory(ctx.getSocketFactory());
 			//	connection.setRequestMethod("POST");

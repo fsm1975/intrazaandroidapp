@@ -25,6 +25,10 @@
     <string name="colPendienteEnviar">ENVIAR</string>
     <string name="colSuprimir">BORRAR</string>
     
+    <!-- Cadenas para las columnas de la tabla configuracion -->
+    <string name="colDescripcionParametro">DESCRIPCION PARAMETRO</string>
+    <string name="colValorParametro">VALOR PARAMETRO</string>
+    
     <!-- Cadenas para definir medida del pedido -->
 	<string name="kilogramos">KG</string>
 	<string name="unidades">UD</string>

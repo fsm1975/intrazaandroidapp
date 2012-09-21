@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@color/colorFilaCabecera">
+    
+    <!-- Se usa para poner un marco al RelativeLayout que contiene los datos del pedido -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="1280dp"
+    	android:layout_height="130dp"
+    	android:background="@color/colorBotonConfiguracion">
+    
+    	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:layout_width="1260dp"
+    		android:layout_height="110dp"
+    		android:layout_marginTop="10dp"
+    		android:layout_marginLeft="10dp"
+    		android:background="@color/colorFilaClaro">
+    		
+    		<Button
+        		android:id="@+id/botonGuardarCambiosPC"
+        		android:layout_width="400dp"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"
+        		android:layout_marginTop="32dp"
+        		android:layout_marginLeft="450dp"
+				android:textColor="@android:color/white"
+        		android:textSize="@dimen/textSizePedido"
+        		android:text="GUARDAR CAMBIOS"/>
+    		    		
+    	</RelativeLayout>
+    </RelativeLayout>
+    
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
+		<TableRow android:layout_width="fill_parent" android:layout_height="@dimen/heightCabeceraTabla">
+			<TextView android:text="@string/colDescripcionParametro" android:gravity="center" android:height="@dimen/heightCabeceraTablaConfiguracion" android:width="@dimen/widthColDescripcionParametro" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorTextoDescripcionParametro"/>
+			<TextView android:text="@string/colValorParametro" android:gravity="center" android:height="@dimen/heightCabeceraTablaConfiguracion" android:width="@dimen/widthColValorParametro" android:textSize="@dimen/textSizeCabeceraTablaP" android:background="@color/colorFilaCabecera" android:textColor="@color/colorTextoValorParametro"/>
+		</TableRow>
+	</TableLayout>  
+        
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/scrollTablaC" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fadeScrollbars="true">
+		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/parametrosTableC" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+	</ScrollView>
+	
+</LinearLayout>

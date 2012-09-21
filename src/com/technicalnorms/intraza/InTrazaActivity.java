@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 /**
  * Activity principal.
@@ -80,6 +81,16 @@ public class InTrazaActivity extends Activity
 			}
 		});
 		
+		((ImageButton)findViewById(R.id.botonMainConfiguracion)).setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v) 
+			{	
+				habilitaClickEnActivity(false);
+				
+				subdialogoConfiguracion();
+			}
+		});
+		
 		//Crea datos de prueba en la BD
 		//creaDatosPruebaBD();
     }
@@ -128,6 +139,7 @@ public class InTrazaActivity extends Activity
 		((Button)findViewById(R.id.botonMainPedidos)).setClickable(habilita);
 		((Button)findViewById(R.id.botonMainSincronizar)).setClickable(habilita);
 		((Button)findViewById(R.id.botonMainAcercaDe)).setClickable(habilita);
+		((ImageButton)findViewById(R.id.botonMainConfiguracion)).setClickable(habilita);
 	}
 	
 	private void subdialogoDatosNuevoPedido()
@@ -243,6 +255,18 @@ public class InTrazaActivity extends Activity
 		Intent intent = null;
 
 		intent = new Intent(this, com.technicalnorms.intraza.interfaz.DialogoAcercaDe.class);
+			
+		startActivity(intent);
+		
+		//Habilita los eventos onClick de la activity
+		habilitaClickEnActivity(true);
+	}
+	
+	private void subdialogoConfiguracion()
+	{
+		Intent intent = null;
+
+		intent = new Intent(this, com.technicalnorms.intraza.interfaz.PantallaConfiguracion.class);
 			
 		startActivity(intent);
 		

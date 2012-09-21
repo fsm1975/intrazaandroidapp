@@ -20,25 +20,14 @@
 			android:textSize="30px"
 			android:text="CONFIRMACIÓN SINCRONIZACIÓN" />
     </RelativeLayout>
-    
-    <EditText
-        android:id="@+id/editUrlSincronizacionDCS"
-        android:layout_width="550dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/tituloDCS"
-        android:inputType="textUri"
-        android:singleLine="true"
-        android:textSize="20px"/> 
-    
+       
     <TextView
         android:id="@+id/textoMensajeAvisoDCS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/editUrlSincronizacionDCS"
+        android:layout_below="@+id/tituloDCS"
         android:textColor="@android:color/white"
         android:textSize="20px"/> 
         

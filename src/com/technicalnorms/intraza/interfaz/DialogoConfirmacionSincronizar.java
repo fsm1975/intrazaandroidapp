@@ -23,9 +23,6 @@ import com.technicalnorms.intraza.R;
  */
 public class DialogoConfirmacionSincronizar extends Activity
 {	
-	//Almacena la URL de sincronizacion con los web services
-	private EditText uriSincronizacion = null;
-	
 	//Guardamos el contexto
 	private Context contexto = null;
 	
@@ -43,9 +40,6 @@ public class DialogoConfirmacionSincronizar extends Activity
 		
 		this.contexto = this;
 		
-		this.uriSincronizacion = (EditText)findViewById(R.id.editUrlSincronizacionDCS);
-		this.uriSincronizacion.setText(Configuracion.dameUriWebServicesSincronizacion(this));
-		
 		//Formamos el mensaje a mostrar al usuario
 		mensaje = "La última sincronización se realizó el "+Configuracion.dameUltimaFechaSincronizacion(this)+".\n\n"+
 				  "Se va a proceder a la sincronización de datos con InTraza.\n¿Desea continuar?";
@@ -60,12 +54,6 @@ public class DialogoConfirmacionSincronizar extends Activity
 		{
 			public void onClick(View v) 
 			{		
-				//Comprobamos si el usuario ha cambiado la URL de sincronizacion para almacenarla en la BD
-				if (!uriSincronizacion.getText().toString().equals(Configuracion.dameUriWebServicesSincronizacion(contexto)))
-				{
-					Configuracion.ponUriWebServicesSincronizacion(contexto, uriSincronizacion.getText().toString());
-				}
-				
 				returnContinuar();
 			}
 		});

@@ -117,6 +117,7 @@ public class Constantes
 	public static final String MENSAJE_PANTALLA_PEDIDOS_BORRADOS = "¡Se han borrado los pedidos!";
 	public static final String MENSAJE_PANTALLA_PEDIDOS_ENVIADOS = "¡Pedidos enviados a InTraza!";
 	public static final String MENSAJE_PANTALLA_NINGUN_PEDIDO_SELECCIONADO = "¡Ningún pedido seleccionado!";
+	public static final String MENSAJE_PARAMETROS_PC_GUARDADOS = "¡Parametros de configuración guardados!";
 	
 	//Mensajes para el subdialogo mensaje
 	public static final String TITULO_SIN_PEDIDOS_CONSULTA = "CONSULTA SIN PEDIDOS";

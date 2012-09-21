@@ -96,6 +96,11 @@
           android:screenOrientation="landscape"
           android:theme="@android:style/Theme.Dialog"/>
         
+        <activity android:name=".interfaz.PantallaConfiguracion"
+          android:label="Opciones de configuración"
+          android:screenOrientation="landscape"
+          android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        
     </application>
 
 </manifest>

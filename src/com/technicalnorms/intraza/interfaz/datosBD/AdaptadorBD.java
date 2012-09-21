@@ -58,48 +58,56 @@ public class AdaptadorBD
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_TIMEOUT_WEB_SERVICES_SINCRONIZACION);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
-				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_URI_WEB_SERVICE_SINCRONIZACION);
-				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_URI_WEB_SERVICE_SINCRONIZACION);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_PERMITIR_PRECIO_0);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_PERMITIR_PRECIO_0);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_PERMITIR_PRECIO_0);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_PERMITIR_PRECIO_0);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_USUARIO_WS);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_USUARIO_WS);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_USUARIO_WS);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_USUARIO_WS);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_PASSWORD_WS);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_PASSWORD_WS);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_PASSWORD_WS);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_PASSWORD_WS);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
 				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 
 				//Creamos el resto de tablas de la BD
@@ -170,16 +178,18 @@ public class AdaptadorBD
 	 * @param nombre
 	 * @param valor
 	 * @param descripcion
+	 * @param esEditable
 	 * 
 	 * @return true si ha ido bien, o false en caso de error
 	 */
-	public boolean insertarParametroConfiguracion(String nombre, String valor, String descripcion) 
+	public boolean insertarParametroConfiguracion(String nombre, String valor, String descripcion, boolean esEditable) 
 	{
 		ContentValues valoresIniciales = new ContentValues();
 		
 		valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, nombre);
 		valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, valor);
 		valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, descripcion);
+		valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, esEditable);
 		
 		return db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales) != -1;
 	}
@@ -204,7 +214,7 @@ public class AdaptadorBD
 	public Cursor obtenerTodosLosParametrosDeConfiguracion() 
 	{
 		return db.query(TablaConfiguracion.NOMBRE_TABLA, 
-						new String[] { TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, TablaConfiguracion.CAMPO_VALOR, TablaConfiguracion.CAMPO_DESCRIPCION }, 
+						new String[] { TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, TablaConfiguracion.CAMPO_VALOR, TablaConfiguracion.CAMPO_DESCRIPCION, TablaConfiguracion.CAMPO_ES_EDITABLE}, 
 						null, null, null, null, null);
 	}
 
@@ -219,7 +229,7 @@ public class AdaptadorBD
 	public Cursor obtenerParametroConfiguracion(String nombre) throws SQLException 
 	{
 		Cursor mCursor = db.query(true, TablaConfiguracion.NOMBRE_TABLA, 
-								  new String[] { TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, TablaConfiguracion.CAMPO_VALOR, TablaConfiguracion.CAMPO_DESCRIPCION }, 
+								  new String[] { TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, TablaConfiguracion.CAMPO_VALOR, TablaConfiguracion.CAMPO_DESCRIPCION, TablaConfiguracion.CAMPO_ES_EDITABLE }, 
 								  TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO + " like '" + nombre + "'",
 								  null, null, null, null, null);
 		if (mCursor != null) 
@@ -236,16 +246,35 @@ public class AdaptadorBD
 	 * @param nombre
 	 * @param valor
 	 * @param descripcion
+	 * @param esEditable
 	 * 
 	 * @return true si los datos se han actualizado correctamente, o false en caso contrario
 	 */
-	public boolean actualizarParametroConfiguracion(String nombre, String valor, String descripcion) 
+	public boolean actualizarParametroConfiguracion(String nombre, String valor, String descripcion, boolean esEditable) 
 	{
 		ContentValues args = new ContentValues();
 		
 		args.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, nombre);
 		args.put(TablaConfiguracion.CAMPO_VALOR, valor);
 		args.put(TablaConfiguracion.CAMPO_DESCRIPCION, descripcion);
+		args.put(TablaConfiguracion.CAMPO_ES_EDITABLE, esEditable);
+		
+		return db.update(TablaConfiguracion.NOMBRE_TABLA, args, TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO + " like '" + nombre + "'", null) > 0;
+	}
+	
+	/**
+	 * Actualiza el valor de un parametro en concreto
+	 * 
+	 * @param nombre
+	 * @param valor
+	 * 
+	 * @return true si los datos se han actualizado correctamente, o false en caso contrario
+	 */
+	public boolean actualizarValorParametroConfiguracion(String nombre, String valor) 
+	{
+		ContentValues args = new ContentValues();
+		
+		args.put(TablaConfiguracion.CAMPO_VALOR, valor);
 		
 		return db.update(TablaConfiguracion.NOMBRE_TABLA, args, TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO + " like '" + nombre + "'", null) > 0;
 	}

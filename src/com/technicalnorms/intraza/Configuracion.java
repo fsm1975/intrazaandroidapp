@@ -23,41 +23,49 @@ public class Configuracion
 	public static final String NOMBRE_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION = "ULTIMA_FECHA_SINCRONIZACION";
 	public static final String VALOR_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION = "--/--/-- --:--:--";
 	public static final String DESCRIPCION_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION = "Fecha de la ultima sincronizacion con InTraza";
+	public static final boolean ES_EDITABLE_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION = false;
 	
 	//Parametro TIMEOUT_WEB_SERVICES_SINCRONIZACION
 	public static final String NOMBRE_PARAMETRO_TIMEOUT_WEB_SERVICES_SINCRONIZACION = "TIMEOUT_WEB_SERVICES_SINCRONIZACION";
 	public static final String VALOR_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "30";
 	public static final String DESCRIPCION_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "Timeout en segundos, para la conexion con los Web Service REST de sincronizacion";
+	public static final boolean ES_EDITABLE_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = true;
 	
 	//Parametro URI_WEB_SERVICES_SINCRONIZACION
 	public static final String NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "URI_WEB_SERVICES_SINCRONIZACION";
-	public static final String VALOR_PARAMETRO_URI_WEB_SERVICE_SINCRONIZACION = "https://213.0.78.111:8069/InTrazaWeb/rest/sincroniza";
-	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICE_SINCRONIZACION = "URI de solicitud de los Web Service para la sincronizacion con la BD de InTraza";
+	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "https://213.0.78.111:8069/InTrazaWeb/rest/sincroniza";
+	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "URI de solicitud de los Web Service para la sincronizacion con la BD de InTraza";
+	public static final boolean ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = true;
 	
 	//Parametro PERMITIR_PRECIO_0
 	public static final String NOMBRE_PARAMETRO_PERMITIR_PRECIO_0 = "PERMITIR_PRECIO_0";
 	public static final String VALOR_PARAMETRO_PERMITIR_PRECIO_0 = "SI";
 	public static final String DESCRIPCION_PARAMETRO_PERMITIR_PRECIO_0 = "Puede tomar los valores SI o NO, indica si esta permitido crear lineas de pedido con precio 0";
+	public static final boolean ES_EDITABLE_PARAMETRO_PERMITIR_PRECIO_0 = true;
 	
 	//Parametro NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO
 	public static final String NOMBRE_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = "NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO";
 	public static final String VALOR_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = "15";
 	public static final String DESCRIPCION_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = "Segun el valor de este parametro, se pondra una marca en la tarifa general en el rutero, para informar al comercial";
+	public static final boolean ES_EDITABLE_PARAMETRO_NUM_DIAS_ANTIGUEDAD_MARCA_TARIFA_DEFECTO = true;
 	
 	//Parametro USUARIO_WS
 	public static final String NOMBRE_PARAMETRO_USUARIO_WS = "USUARIO_WS";
 	public static final String VALOR_PARAMETRO_USUARIO_WS = "intraza";
 	public static final String DESCRIPCION_PARAMETRO_USUARIO_WS = "Usuario para la validacion SSL de los WS REST";
+	public static final boolean ES_EDITABLE_PARAMETRO_USUARIO_WS = true;
 	
 	//Parametro PASSWORD_WS
 	public static final String NOMBRE_PARAMETRO_PASSWORD_WS = "PASSWORD_WS";
 	public static final String VALOR_PARAMETRO_PASSWORD_WS = "intrazaviper";
 	public static final String DESCRIPCION_PARAMETRO_PASSWORD_WS = "Password para la validacion SSL de los WS REST";
+	public static final boolean ES_EDITABLE_PARAMETRO_PASSWORD_WS = true;
 	
 	//Parametro PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES
 	public static final String NOMBRE_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES = "PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES";
 	public static final String VALOR_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES = "NO";
 	public static final String DESCRIPCION_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES = "Indica si se permite la sintronizacion con InTraza, cuando hay pedidos pendientes de enviar.";
+	public static final boolean ES_EDITABLE_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES = true;
 	
 	//Para invocar a los WS de sincronizacion con InTraza
 	public static final String NOMBRE_WS_REST_TOTALES = "/totales";
@@ -107,7 +115,7 @@ public class Configuracion
 		
 		db.abrir();
 		
-		db.actualizarParametroConfiguracion(NOMBRE_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION, new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()), DESCRIPCION_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION);
+		db.actualizarParametroConfiguracion(NOMBRE_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION, new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()), DESCRIPCION_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION, ES_EDITABLE_PARAMETRO_ULTIMA_FECHA_SINCRONIZACION);
 		
 		db.cerrar();
 		
@@ -143,7 +151,7 @@ public class Configuracion
 	
 	public static String dameUriWebServicesSincronizacion(Context context)
 	{
-		String uri = VALOR_PARAMETRO_URI_WEB_SERVICE_SINCRONIZACION;
+		String uri = VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION;
 		AdaptadorBD db = new AdaptadorBD(context);
 		Cursor cursorParametro = null;
 		
@@ -173,7 +181,7 @@ public class Configuracion
 		
 		db.abrir();
 		
-		db.actualizarParametroConfiguracion(NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION, uri, DESCRIPCION_PARAMETRO_URI_WEB_SERVICE_SINCRONIZACION);
+		db.actualizarParametroConfiguracion(NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION, uri, DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION, ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
 		
 		db.cerrar();
 		
@@ -229,7 +237,7 @@ public class Configuracion
 		//Si tenemos resultado de la consulta...
 		if (cursorParametro.moveToFirst())
 		{	
-			estaPermitido = cursorParametro.getString(TablaConfiguracion.POS_CAMPO_VALOR).equals("SI");
+			estaPermitido = cursorParametro.getString(TablaConfiguracion.POS_CAMPO_VALOR).toUpperCase().equals("SI");
 		}		
 		
 		db.cerrar();
@@ -337,7 +345,7 @@ public class Configuracion
 		//Si tenemos resultado de la consulta...
 		if (cursorParametro.moveToFirst())
 		{	
-			estaPermitido = cursorParametro.getString(TablaConfiguracion.POS_CAMPO_VALOR).equals("SI");
+			estaPermitido = cursorParametro.getString(TablaConfiguracion.POS_CAMPO_VALOR).toUpperCase().equals("SI");
 		}		
 		
 		db.cerrar();

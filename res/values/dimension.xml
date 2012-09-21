@@ -23,6 +23,14 @@
     <dimen name="widthColPendienteEnviar">120px</dimen>
     <dimen name="widthColSuprimir">130px</dimen>
     
+    <!-- Anchos de las columnas de la tabla de configuracion -->
+    <dimen name="widthColDescripcionParametro">900px</dimen>
+    <dimen name="widthColValorParametro">380px</dimen>
+    
+	<dimen name="heightCabeceraTablaConfiguracion">90px</dimen>
+    <dimen name="heightFilaDatosTablaConfiguracion">80px</dimen>
+    <dimen name="textSizeFilaDatosTablaConfiguracion">20px</dimen>
+    
     <!-- Alto de las filas de la tabla -->
     <dimen name="heightCabeceraTabla">60px</dimen>
     <dimen name="heightFilaDatosTabla">50px</dimen>

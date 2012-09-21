@@ -47,5 +47,10 @@
     <color name="colorFondoPantallaPrincipal">#668844</color>
 	<color name="colorBotonRutero">@android:color/black</color>
 	<color name="colorBotonPedidos">@android:color/white</color>
+	<color name="colorBotonConfiguracion">#ff0000</color>
+	
+   <!-- Colores para la configuracion -->
+   	<color name="colorTextoDescripcionParametro">#FFFFFF</color>
+   	<color name="colorTextoValorParametro">#DDDD00</color>
  
 </resources>
