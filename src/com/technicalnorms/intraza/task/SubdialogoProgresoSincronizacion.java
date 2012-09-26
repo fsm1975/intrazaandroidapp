@@ -1,6 +1,7 @@
 package com.technicalnorms.intraza.task;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -14,6 +15,15 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -163,7 +173,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 	 */
 	private void registrosTotalesParaSincronizar() throws Exception
 	{
-		JSONObject jsonTotales = new JSONObject(invocaWebService(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionTotalRegistros(this.contexto)));
+		JSONObject jsonTotales = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionTotalRegistros(this.contexto)));
 		
 		//Chequeamos que la ejecucion fue correcta
 		if (jsonTotales.getInt("totalArticulos")==-1)
@@ -196,7 +206,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		db.abrir();
 		
 		//1 - Obtenemos los datos de los articulos de intraza
-		JSONArray jsonArrayArticulos = new JSONArray(invocaWebService(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionArticulo(this.contexto)));
+		JSONArray jsonArrayArticulos = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionArticulo(this.contexto)));
 		
 		if (jsonArrayArticulos.length()>0)
 		{
@@ -259,7 +269,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		db.abrir();
 		
 		//1 - Obtenemos los datos de los clientes de intraza
-		JSONArray jsonArrayClientes = new JSONArray(invocaWebService(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionCliente(this.contexto)));
+		JSONArray jsonArrayClientes = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionCliente(this.contexto)));
 		
 		if (jsonArrayClientes.length()>0)
 		{
@@ -322,7 +332,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		db.abrir();
 		
 		//1 - Obtenemos los datos de los ruteros de intraza
-		JSONArray jsonArrayRuteros = new JSONArray(invocaWebService(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRutero(this.contexto)));
+		JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRutero(this.contexto)));
 		
 		if (jsonArrayRuteros.length()>0)
 		{
@@ -387,7 +397,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		db.abrir();
 		
 		//1 - Obtenemos los datos de las observaciones de intraza
-		JSONArray jsonArrayObservaciones = new JSONArray(invocaWebService(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionObservacion(this.contexto)));
+		JSONArray jsonArrayObservaciones = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionObservacion(this.contexto)));
 		
 		if (jsonArrayObservaciones.length()>0)
 		{
@@ -438,7 +448,64 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 	 * @param la URL de invocacion al Web Service
 	 * @return Una cadena con el resultado de la invocacion al Web Service
 	 */
-	private String invocaWebService(int segundosTimeout, String urlWebServiceRest) throws Exception
+	private String invocaWebServiceHttp(int segundosTimeout, String urlWebServiceRest) throws Exception
+	{  
+		Log.d("Sincronizacion", "TRAZA - URL ("+urlWebServiceRest+") timeout ("+segundosTimeout+")");
+		//HttpParams params = null;
+		HttpClient httpclient = null;  
+		HttpGet request = null;  
+		String result = "";
+		BufferedReader rd = null;
+		BasicHttpResponse response = null;
+        
+		try 
+		{  
+			//params = new BasicHttpParams();
+			//HttpConnectionParams.setConnectionTimeout(params, segundosTimeout * 1000);
+			//HttpConnectionParams.setSoTimeout(params, segundosTimeout * 1000);
+			//httpclient = new DefaultHttpClient(params);
+			httpclient = new DefaultHttpClient();
+			HttpConnectionParams.setSoTimeout(httpclient.getParams(), segundosTimeout * 1000);
+			HttpConnectionParams.setConnectionTimeout(httpclient.getParams(), segundosTimeout * 1000); 
+			
+			request = new HttpGet(urlWebServiceRest); 			
+			request.addHeader("accept", "application/json");
+			
+			response = (BasicHttpResponse)httpclient.execute(request); 
+            
+			rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+			String line = "";
+			while ((line = rd.readLine()) != null) 
+			{
+				result += line;
+			}
+		} 
+		catch (Exception e) 
+		{  
+			result = e.getMessage();
+			e.printStackTrace();
+			
+			throw e;
+		} 
+		finally
+		{
+			rd.close();
+			httpclient.getConnectionManager().shutdown();
+		}
+		
+		Log.d("Sincronizacion", "TRAZA - Resultado WS ("+result+")");
+        
+		return result;
+	}
+	
+	/**
+	 * Invoca un WebService REST.
+	 * 
+	 * @param la URL de invocacion al Web Service
+	 * @return Una cadena con el resultado de la invocacion al Web Service
+	 */
+	private String invocaWebServiceHttps(int segundosTimeout, String urlWebServiceRest) throws Exception
 	{  
 		String result = "";
 		 
@@ -473,7 +540,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 			
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 			
-			connection.setConnectTimeout(Configuracion.dameTimeoutWebServices(this.contexto)*1000);
+			connection.setConnectTimeout(segundosTimeout*1000);
 
 			connection.setSSLSocketFactory(ctx.getSocketFactory());
 			//	connection.setRequestMethod("POST");

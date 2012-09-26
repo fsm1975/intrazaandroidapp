@@ -27,7 +27,7 @@ public class Configuracion
 	
 	//Parametro TIMEOUT_WEB_SERVICES_SINCRONIZACION
 	public static final String NOMBRE_PARAMETRO_TIMEOUT_WEB_SERVICES_SINCRONIZACION = "TIMEOUT_WEB_SERVICES_SINCRONIZACION";
-	public static final String VALOR_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "30";
+	public static final String VALOR_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "600";
 	public static final String DESCRIPCION_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "Timeout en segundos, para la conexion con los Web Service de sincronizacion y envio de pedidos a InTraza";
 	public static final boolean ES_EDITABLE_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = true;
 	

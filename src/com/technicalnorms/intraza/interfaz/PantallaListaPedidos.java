@@ -61,8 +61,11 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -1389,7 +1392,7 @@ public class PantallaListaPedidos extends Activity
 				jsonPedido = creaObjetoJsonPedido(cursorPedidos, cursorLineasPedido, db);
 			
 				//Invocamos al WS para que introducir los datos del pedido en InTraza
-				JSONObject jsonResultado = new JSONObject(invocaWebService(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesEnvioPrepedido(this.contexto), jsonPedido));
+				JSONObject jsonResultado = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesEnvioPrepedido(this.contexto), jsonPedido));
 			
 				//Comprobamos si el envio fue correo
 				if (jsonResultado.getInt("codigoError") != 0)
@@ -1602,7 +1605,65 @@ public class PantallaListaPedidos extends Activity
 	 * 
 	 * @return Una cadena con el resultado de la invocacion al Web Service
 	 */
-	private String invocaWebService(int segundosTimeout, String urlWebServiceRest, JsonPedido pedido) throws Exception
+	private String invocaWebServiceHttp(int segundosTimeout, String urlWebServiceRest, JsonPedido pedido) throws Exception
+	{  
+		Log.d("Sincronizacion", "TRAZA - URL ("+urlWebServiceRest+") timeout ("+segundosTimeout+")");
+		//HttpParams params = new BasicHttpParams();
+		HttpClient httpclient = null;  
+		HttpPost request = null;  
+		String result = "";
+		BufferedReader rd = null;
+        
+		try 
+		{  
+			httpclient = new DefaultHttpClient();
+			HttpConnectionParams.setSoTimeout(httpclient.getParams(), segundosTimeout * 1000);
+			HttpConnectionParams.setConnectionTimeout(httpclient.getParams(), segundosTimeout * 1000); 
+			
+			//Para convertir el objeto a un json
+			ObjectMapper mapper = new ObjectMapper();			
+			StringEntity input = new StringEntity(mapper.writeValueAsString(pedido));
+			input.setContentType("application/json");
+			
+			request = new HttpPost(urlWebServiceRest);  
+			request.setEntity(input);
+
+			HttpResponse response = httpclient.execute(request); 
+            
+			rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+			String line = "";
+			while ((line = rd.readLine()) != null) 
+			{
+				result += line;
+			}
+		} 
+		catch (Exception e) 
+		{  
+			result = e.getMessage();
+			e.printStackTrace();
+			
+			throw e;
+		} 
+		finally
+		{
+			rd.close();
+			httpclient.getConnectionManager().shutdown();
+		}
+        
+		return result;
+	}
+	
+	/**
+	 * Invoca un WebService REST enviando los datos con un JSON.
+	 * 
+	 * @param timeout para recibir una respuesta
+	 * @param la URL de invocacion al Web Service
+	 * @param los datos del prepedido a enviar
+	 * 
+	 * @return Una cadena con el resultado de la invocacion al Web Service
+	 */
+	private String invocaWebServiceHttps(int segundosTimeout, String urlWebServiceRest, JsonPedido pedido) throws Exception
 	{  
 		String result = "";
 		 
