@@ -205,7 +205,7 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 					{
 						tarifaDefecto = consultaTarifaDefectoArticuloEnBD(referenciaView.getText().toString()); 
 								
-						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), articuloView.getText().toString(), consultaMedidaArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 0, (float)0, (float)0, (float)0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
+						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), articuloView.getText().toString(), consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 0, (float)0, (float)0, (float)0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
 					
 						//Chequeamos si hay que fijar el articulo en la BD de intraza, para los futuros ruteros
 						if (fijarArticulo.isChecked())
@@ -291,6 +291,35 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 		db.cerrar();
 		
 		return medida;
+	}
+	
+	/**
+	 * Dado un codigo de articulo, obtiene si es congelado o no
+	 * 
+	 * @param codArticulo
+	 * @return la medida para la linea de pedido.
+	 */
+	private boolean consultaCongeladoArticuloEnBD(String codArticulo)
+	{
+		boolean esCongelado = false;
+		AdaptadorBD db = new AdaptadorBD(this);
+		Cursor cursorArticulos = null;
+		
+		db.abrir();
+		
+		cursorArticulos = db.obtenerArticulo(codArticulo);
+		
+		if (cursorArticulos.moveToFirst())
+		{
+			if (cursorArticulos.getString(TablaArticulo.POS_CAMPO_ES_CONGELADO).equals("1"))
+			{
+				esCongelado = true;
+			}
+		}
+		
+		db.cerrar();
+		
+		return esCongelado;
 	}
 	
 	/**

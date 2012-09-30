@@ -47,9 +47,13 @@ public class Constantes
 	public static final String SEPARADOR_FECHA = "-";
 	public static final String MARCA_FIJAR_TARIFA = "*";
 	public static final String MARCA_FIJAR_ARTICULO = "*";
+	public static final String MARCA_CONGELADO = " (CONGELADO)";
 	public static final String MARCA_TARIFA_DEFECTO_CAMBIADA_RECIENTEMENTE = "*";
 	public static final String SEPARADOR_CANTIDAD_TOTAL_ANIO = " / ";
 	public static final String MARCA_TONELADAS = " T";
+	
+	//Indica el valor del descuento especial
+	public static final int DESCUENTO_ESPECIAL = 100;
 	
 	// Cadena cuando que se muestra en los datos del nuevo pedido, cuando este no ha sido introducido
 	public static final String DATOS_NUEVO_PEDIDO_SIN_INTRODUCIR = "????";

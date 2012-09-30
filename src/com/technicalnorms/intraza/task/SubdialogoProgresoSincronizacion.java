@@ -1,7 +1,6 @@
 package com.technicalnorms.intraza.task;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -15,15 +14,11 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -58,9 +53,12 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 	//Indica si se ha producido un error durante el proceso de sincronizacion
 	private boolean hayErrorSincronizacion = false;
 	
-	public SubdialogoProgresoSincronizacion(Context contexto) 
+	private boolean esSincronizacion3G = false;
+	
+	public SubdialogoProgresoSincronizacion(Context contexto, boolean usar3G) 
 	{
 		this.contexto = contexto;
+		this.esSincronizacion3G = usar3G;
 		
 		this.dialog = new ProgressDialog(contexto);
     }
@@ -111,7 +109,16 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 			//Hacemos la sincronizacion
 			sincronizaArticulos(incrementoTablaArticulo);
 			sincronizaClientes(incrementoTablaCliente);
-			sincronizaRuteros(incrementoTablaRutero);
+			
+			//Al sincronizar por 3G hay problema pues a los 5 minutos movistart corta la conexion, por lo que hay que usar WS mas ligeros
+			if (esSincronizacion3G)
+			{
+				sincronizaRuterosDatos(incrementoTablaRutero);
+			}
+			else
+			{
+				sincronizaRuterosTotal(incrementoTablaRutero);
+			}
 			sincronizaObservaciones(incrementoTablaObservacion);
 			
 			//Hemos finalizado la sincronizacion
@@ -314,6 +321,72 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		db.cerrar();
 	}
 	
+    /**
+     * Sincroniza los datos de ruteros de la BD de intraza con los de la tablet:
+     * 1 - Obtiene los datos de intraza invocando a un WebService REST que devuelve un JSON.
+     * 2 - Borra todos los registros de ruteros de la BD de tablet
+     * 3 - Procesa el JSON obtenido almacenando los datos de los ruteros en la BD de la tablet.
+     *
+     * @param incremento total de la tabla en la barra de progreso
+     * @throws Exception
+     */
+    private void sincronizaRuterosTotal(int incrementoTabla) throws Exception
+    {
+            AdaptadorBD db = new AdaptadorBD(this.contexto);
+            float incrementoActual = 0;
+            int incrementoTotal = 0;
+           
+            db.abrir();
+           
+            //1 - Obtenemos los datos de los ruteros de intraza
+            JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTotal(this.contexto)));
+           
+            if (jsonArrayRuteros.length()>0)
+            {
+                    //2 - Borramos los ruteros anteriores que tenemos en la BD de la tablet
+                    db.borrarTodosLosRuteros();
+                   
+                    //3 - Procesamos el JSON para obtener los datos de cada rutero y guardarlos en la BD de la tablet
+                    incrementoActual = (float)incrementoTabla/(float)jsonArrayRuteros.length();
+                    for (int i=0; i<jsonArrayRuteros.length(); i++)
+                    {
+                            JSONObject jsonRutero = jsonArrayRuteros.getJSONObject(i);
+                   
+                            db.insertarRutero(jsonRutero.getString("codigoArticulo"), jsonRutero.getInt("idCliente"),
+                                                              jsonRutero.getString("fechaPedido"), jsonRutero.getDouble("peso"), jsonRutero.getDouble("pesoTotalAnio"),
+                                                              jsonRutero.getDouble("precio"), jsonRutero.getDouble("precioCliente"), jsonRutero.getString("observacionesItem"));
+                           
+                            if ((new Float(incrementoActual)).intValue()<1)
+                            {
+                                    incrementoActual += (float)incrementoTabla/(float)jsonArrayRuteros.length();
+                            }
+                            else
+                            {
+                                    //Para segurarnos que no incrementamos de mas
+                                    if (incrementoTotal+(new Float(incrementoActual)).intValue() <= incrementoTabla)
+                                    {
+                                            this.dialog.incrementProgressBy((new Float(incrementoActual)).intValue());
+                                            incrementoTotal += (new Float(incrementoActual)).intValue();
+                                    }
+                                    incrementoActual = (float)incrementoTabla/(float)jsonArrayRuteros.length();
+                            }
+                    }
+                   
+                    //Para asegurarnos que llegamos al incremento asignado a la tabla
+                    if ((incrementoTabla - incrementoTotal) > 0)
+                    {
+                            this.dialog.incrementProgressBy(incrementoTabla - incrementoTotal);
+                    }
+            }
+            else
+            {
+                    throw new Exception("Se ha producido una excepcion en la tarea de sincronizacion al recuperar los ruteros.");
+            }
+           
+            db.cerrar();
+    }
+
+	
 	/**
 	 * Sincroniza los datos de ruteros de la BD de intraza con los de la tablet:
 	 * 1 - Obtiene los datos de intraza invocando a un WebService REST que devuelve un JSON.
@@ -328,6 +401,10 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		AdaptadorBD db = new AdaptadorBD(this.contexto);
 		float incrementoActual = 0;
 		int incrementoTotal = 0;
+		double precioCliente = 0;
+		double pesoTotalAnio = 0;
+		
+		Log.d("Sincronizacion", "TRAZA - Sincronizacion para 3G");
 		
 		db.abrir();
 		
@@ -344,10 +421,131 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 			for (int i=0; i<jsonArrayRuteros.length(); i++)
 			{
 				JSONObject jsonRutero = jsonArrayRuteros.getJSONObject(i);
+				
+				//*** OBTENEMOS LA TARIFA CLIENTE DE LA LINEA DE RUTERO
+				JSONObject jsonResultadoTC = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTarifaCliente(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
+				
+				//Si no hay tarifa cliente tenemos que obtener la tarifa defecto
+				if (jsonResultadoTC.getInt("codigoError") == 0 && jsonResultadoTC.getDouble("dato")!=-1)
+				{
+					precioCliente = jsonResultadoTC.getDouble("dato");
+				}	
+				else
+				{
+					JSONObject jsonResultadoTD = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTarifaDefecto(this.contexto, jsonRutero.getString("codigoArticulo"))));
+					
+					//Si no hay tarifa cliente tenemos que obtener la tarifa defecto
+					if (jsonResultadoTD.getInt("codigoError") == 0 && jsonResultadoTD.getDouble("dato")!=-1)
+					{
+						precioCliente = jsonResultadoTD.getDouble("dato");
+					}	
+					else
+					{
+						precioCliente = 0;
+						
+						Log.d("Sincronizacion", "TRAZA - Tarifa para rutero 0. idCliente ("+jsonRutero.getInt("idCliente")+") codigoArticulo ("+jsonRutero.getString("codigoArticulo")+")");
+					}
+				}
+				
+				//*** OBTENEMOS EL PESO TOTAL ANUAL DE LA LINEA DE RUTERO
+				JSONObject jsonResultadoPTA = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroPesoTotalAnio(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
+				
+				if (jsonResultadoPTA.getInt("codigoError") == 0)
+				{
+					pesoTotalAnio = jsonResultadoTC.getDouble("dato");
+				}	
+				else
+				{
+					pesoTotalAnio = 0;
+					
+					Log.e("Sincronizacion", "TRAZA - Error al obtener el peso total al anio. idCliente ("+jsonRutero.getInt("idCliente")+") codigoArticulo ("+jsonRutero.getString("codigoArticulo")+") error ("+jsonResultadoPTA.getString("descripcionError")+")");
+				}
 			
 				db.insertarRutero(jsonRutero.getString("codigoArticulo"), jsonRutero.getInt("idCliente"),
-								  jsonRutero.getString("fechaPedido"), jsonRutero.getDouble("peso"), jsonRutero.getDouble("pesoTotalAnio"),
-								  jsonRutero.getDouble("precio"), jsonRutero.getDouble("precioCliente"), jsonRutero.getString("observacionesItem"));
+								  jsonRutero.getString("fechaPedido"), jsonRutero.getDouble("peso"), pesoTotalAnio,
+								  jsonRutero.getDouble("precio"), precioCliente, jsonRutero.getString("observacionesItem"));
+				
+				if ((new Float(incrementoActual)).intValue()<1)
+				{
+					incrementoActual += (float)incrementoTabla/(float)jsonArrayRuteros.length();
+				}
+				else
+				{
+					//Para segurarnos que no incrementamos de mas
+					if (incrementoTotal+(new Float(incrementoActual)).intValue() <= incrementoTabla)
+					{
+						this.dialog.incrementProgressBy((new Float(incrementoActual)).intValue());
+						incrementoTotal += (new Float(incrementoActual)).intValue();
+					}
+					incrementoActual = (float)incrementoTabla/(float)jsonArrayRuteros.length();
+				}
+			}
+			
+			//Para asegurarnos que llegamos al incremento asignado a la tabla
+			if ((incrementoTabla - incrementoTotal) > 0)
+			{
+				this.dialog.incrementProgressBy(incrementoTabla - incrementoTotal);
+			}
+		}
+		else
+		{
+			throw new Exception("Se ha producido una excepcion en la tarea de sincronizacion al recuperar los ruteros.");
+		}
+		
+		db.cerrar();
+	}
+	
+	/**
+	 * Sincroniza los datos de ruteros de la BD de intraza con los de la tablet:
+	 * 1 - Obtiene los datos de intraza invocando a un WebService REST que devuelve un JSON.
+	 * 2 - Borra todos los registros de ruteros de la BD de tablet
+	 * 3 - Procesa el JSON obtenido almacenando los datos de los ruteros en la BD de la tablet.
+	 * 
+	 * @param incremento total de la tabla en la barra de progreso
+	 * @throws Exception
+	 */
+	private void sincronizaRuterosDatos(int incrementoTabla) throws Exception
+	{
+		AdaptadorBD db = new AdaptadorBD(this.contexto);
+		float incrementoActual = 0;
+		int incrementoTotal = 0;
+		double precioCliente = 0;
+		double pesoTotalAnio = 0;
+		
+		Log.d("Sincronizacion", "TRAZA - Sincronizacion para 3G");
+		
+		db.abrir();
+		
+		//1 - Obtenemos los datos de los ruteros de intraza
+		JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRutero(this.contexto)));
+		
+		if (jsonArrayRuteros.length()>0)
+		{
+			//2 - Borramos los ruteros anteriores que tenemos en la BD de la tablet
+			db.borrarTodosLosRuteros();
+			
+			//3 - Procesamos el JSON para obtener los datos de cada rutero y guardarlos en la BD de la tablet
+			incrementoActual = (float)incrementoTabla/(float)jsonArrayRuteros.length();
+			for (int i=0; i<jsonArrayRuteros.length(); i++)
+			{
+				JSONObject jsonRutero = jsonArrayRuteros.getJSONObject(i);
+				
+				//*** OBTENEMOS LOS DATOS DE LA LINEA DE RUTERO
+				JSONObject jsonResultadoDR = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroDatos(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
+				
+				if (jsonResultadoDR.getInt("codigoError") == 0)
+				{
+					precioCliente = jsonResultadoDR.getDouble("tarifaCliente");
+					pesoTotalAnio = jsonResultadoDR.getDouble("pesoTotalAnio");
+				}	
+				else
+				{
+					throw new Exception("Error al obtener datos de rutero para idCliente ("+jsonRutero.getInt("idCliente")+") codigoArticulo ("+jsonRutero.getString("codigoArticulo")+"): ("+jsonResultadoDR.getInt("descripcionError")+")");
+				}
+			
+				db.insertarRutero(jsonRutero.getString("codigoArticulo"), jsonRutero.getInt("idCliente"),
+								  jsonRutero.getString("fechaPedido"), jsonRutero.getDouble("peso"), pesoTotalAnio,
+								  jsonRutero.getDouble("precio"), precioCliente, jsonRutero.getString("observacionesItem"));
 				
 				if ((new Float(incrementoActual)).intValue()<1)
 				{
@@ -436,7 +634,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		}
 		else
 		{
-			throw new Exception("Se ha producido una excepcion en la tarea de sincronizacion al recuperar las observaciones.");
+			Log.d("Sincronizacion", "TRAZA - No hay observaciones que sincronizar");
 		}
 		
 		db.cerrar();
@@ -541,6 +739,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 			
 			connection.setConnectTimeout(segundosTimeout*1000);
+			connection.setReadTimeout(segundosTimeout*1000);
 
 			connection.setSSLSocketFactory(ctx.getSocketFactory());
 			//	connection.setRequestMethod("POST");

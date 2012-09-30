@@ -77,7 +77,7 @@ public class DialogoDatosLineaPedido extends Activity
 		
 		//Tenemos que crear una nueva instancia del objeto, ya que sino se referencia al mismo objeto
 		this.datosLineaPedidoOriginal = new DatosLineaPedido(this.datosLineaPedido.getCodArticulo(), this.datosLineaPedido.getArticulo(), 
-																this.datosLineaPedido.getMedida(), this.datosLineaPedido.getUltimaFecha(),
+																this.datosLineaPedido.getMedida(), this.datosLineaPedido.getEsCongelado(), this.datosLineaPedido.getUltimaFecha(),
 																this.datosLineaPedido.getUltimaCantidad(), this.datosLineaPedido.getCantidadTotalAnio(),
 																this.datosLineaPedido.getUltimaTarifa(), this.datosLineaPedido.getCantidad(), 
 																this.datosLineaPedido.getTarifaCliente(), this.datosLineaPedido.getTarifaLista(), 
@@ -88,7 +88,11 @@ public class DialogoDatosLineaPedido extends Activity
 		//Actulizamos los widget de la pantalla con los datos, para mostrarselos al usuario
 		//En caso de ser un codigo de articulo que indica que es un clon, al usuario solo se le muestra el codigo del articulo del original del clon
 		//por eso se hace el split
-		((TextView)findViewById(R.id.datoLP)).setText(this.datosLineaPedido.getCodArticulo().split(Constantes.CARACTER_OBLIGATORIO_MARCA_CLON_CODIGO_ARTICULO)[0]+" - "+this.datosLineaPedido.getArticulo());
+		if (this.datosLineaPedido.getEsCongelado())
+		{
+			((TextView)findViewById(R.id.datoLP)).setTextColor(this.getResources().getColor(R.color.colorTextoArticuloCongelado));
+		}
+		((TextView)findViewById(R.id.datoLP)).setText(this.datosLineaPedido.getCodArticulo().split(Constantes.CARACTER_OBLIGATORIO_MARCA_CLON_CODIGO_ARTICULO)[0]+" - "+this.datosLineaPedido.getArticulo()+ponerMarcaCongelado(this.datosLineaPedido.getEsCongelado()));
 		
 		if (this.datosLineaPedido.getUltimaFecha().equals(Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO))
 		{
@@ -265,6 +269,25 @@ public class DialogoDatosLineaPedido extends Activity
 		
 		//Para que la pantalla de fondo no se vea
 		//getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	}
+	
+	/**
+	 * Muestra una marca al final de la descripcion del articulo en caso que sea congelado
+	 * 
+	 * @param esCongelado
+	 * 
+	 * @return la marca a poner o cadena vacia en caso de no llevar marca
+	 */
+	private String ponerMarcaCongelado(boolean esCongelado)
+	{
+		String resultado = "";
+		
+		if (esCongelado)
+		{
+			resultado = Constantes.MARCA_CONGELADO;
+		}
+		
+		return resultado;
 	}
 	
 	/**

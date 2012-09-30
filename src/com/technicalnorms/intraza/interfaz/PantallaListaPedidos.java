@@ -61,11 +61,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -1447,6 +1444,7 @@ public class PantallaListaPedidos extends Activity
 			int anioFechaEntregaP = 0;
 			String observacionesP = null;
 			boolean fijarObservacionesP = false;
+			int descuentoEspecialP = 0;
 			//Datos para la linea de pedido
 			int idPrepedidoLP = 0;
 			String codArticuloLP = null;
@@ -1487,6 +1485,8 @@ public class PantallaListaPedidos extends Activity
 				{
 					fijarObservacionesP = false;
 				}
+				
+				descuentoEspecialP = cursorPedido.getInt(TablaPrepedido.POS_CAMPO_DESCUENTO_ESPECIAL);
 					
 				//Ahora obtenemos los datos de las lineas de pedido
 				jsonLineasPedido = new ArrayList<JsonLineaPedido>();
@@ -1537,7 +1537,7 @@ public class PantallaListaPedidos extends Activity
 					} while (cursorLineasPedido.moveToNext());
 				}
 					
-				jsonPedido = new JsonPedido(idPrepedidoP, idClienteP, clienteP, diaFechaPedidoP, mesFechaPedidoP, anioFechaPedidoP, diaFechaEntregaP, mesFechaEntregaP, anioFechaEntregaP, observacionesP, fijarObservacionesP);
+				jsonPedido = new JsonPedido(idPrepedidoP, idClienteP, clienteP, diaFechaPedidoP, mesFechaPedidoP, anioFechaPedidoP, diaFechaEntregaP, mesFechaEntregaP, anioFechaEntregaP, observacionesP, fijarObservacionesP, descuentoEspecialP);
 				jsonPedido.setLineasPedido(jsonLineasPedido);
 			}		
 		
@@ -1698,7 +1698,8 @@ public class PantallaListaPedidos extends Activity
 			
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 			
-			connection.setConnectTimeout(Configuracion.dameTimeoutWebServices(this)*1000);
+			connection.setConnectTimeout(segundosTimeout*1000);
+			connection.setReadTimeout(segundosTimeout*1000);
 
 			connection.setSSLSocketFactory(ctx.getSocketFactory());
 			

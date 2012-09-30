@@ -24,6 +24,7 @@ public class DatosPedido implements Parcelable
 	private float precioTotal = 0;
 	private String observaciones = null;
 	private int fijarObservaciones = 0;
+	private int descuentoEspecial = 0;
 	
 	//Indica si el pedido tiene algun cambio en los datos generales del pedido o en las lineas de pedido sin guardar
 	private int hayDatosPedidoSinGuardar = 0;
@@ -45,8 +46,9 @@ public class DatosPedido implements Parcelable
 	 * @param anioFechaEntrega
 	 * @param observaciones
 	 * @param fijarObservaciones
+	 * @param descuentoEspecial
 	 */
-	public DatosPedido(int idPedido, int idCliente, String cliente, int diaFechaPedido, int mesFechaPedido, int anioFechaPedido, int diaFechaEntrega, int mesFechaEntrega, int anioFechaEntrega, float precioTotal, String observaciones, boolean fijarObservaciones)
+	public DatosPedido(int idPedido, int idCliente, String cliente, int diaFechaPedido, int mesFechaPedido, int anioFechaPedido, int diaFechaEntrega, int mesFechaEntrega, int anioFechaEntrega, float precioTotal, String observaciones, boolean fijarObservaciones, int descuentoEspecial)
 	{
 		this.idPedido = idPedido;
 		this.idCliente = idCliente;
@@ -60,6 +62,7 @@ public class DatosPedido implements Parcelable
 		this.precioTotal = precioTotal;
 		this.observaciones = observaciones;
 		this.setFijarObservaciones(fijarObservaciones);
+		this.descuentoEspecial = descuentoEspecial;
 	}
 	
 	// ***********************
@@ -109,6 +112,10 @@ public class DatosPedido implements Parcelable
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+	
+	public void setDescuentoEspecial(int descuento) {
+		this.descuentoEspecial = descuento;
 	}
 
 	public int getIdPedido()
@@ -171,6 +178,11 @@ public class DatosPedido implements Parcelable
 	public String getObservaciones()
 	{
 		return this.observaciones;
+	}
+	
+	public int getDescuentoEspecial()
+	{
+		return this.descuentoEspecial;
 	}
 	
 	public void setFijarObservaciones(boolean fijar) 
@@ -285,7 +297,8 @@ public class DatosPedido implements Parcelable
 			this.getCliente().equals(dp.getCliente()) &&
 			this.getFechaEntrega().equals(dp.getFechaEntrega()) &&
 			this.getObservaciones().equals(dp.getObservaciones()) &&
-			this.getFijarObservaciones() == dp.getFijarObservaciones())
+			this.getFijarObservaciones() == dp.getFijarObservaciones() &&
+			this.getDescuentoEspecial() == dp.getDescuentoEspecial())
 		{
 			resultado = true;
 		}
@@ -318,6 +331,7 @@ public class DatosPedido implements Parcelable
         out.writeFloat(this.precioTotal);
         out.writeString(this.observaciones);
         out.writeInt(this.fijarObservaciones);
+        out.writeInt(this.descuentoEspecial);
         out.writeInt(this.hayDatosPedidoSinGuardar);
         out.writeInt(this.hayLineasPedido);
     }
@@ -352,6 +366,7 @@ public class DatosPedido implements Parcelable
         this.precioTotal = in.readFloat();
         this.observaciones = in.readString();
         this.fijarObservaciones = in.readInt();
+        this.descuentoEspecial = in.readInt();
         this.hayDatosPedidoSinGuardar = in.readInt();
         this.hayLineasPedido = in.readInt();
     }

@@ -14,7 +14,8 @@ public class DatosLineaPedido implements Parcelable
 {
 	private String codArticulo = null;
 	private String articulo = null;
-	private String medida = Constantes.KILOGRAMOS; 
+	private String medida = Constantes.KILOGRAMOS;
+	private int esCongelado = 0; 
 	private String ultimaFecha = null;
 	private float ultimaCantidad = 0;
 	private float ultimaTarifa = 0;
@@ -37,6 +38,7 @@ public class DatosLineaPedido implements Parcelable
 	 * @param referencia
 	 * @param articulo
 	 * @param medida
+	 * @param esCongelado
 	 * @param ultimaFecha
 	 * @param ultimaCantidad
 	 * @param ultimaTarifa
@@ -47,11 +49,12 @@ public class DatosLineaPedido implements Parcelable
 	 * @param fechaCambioTarifaLista
 	 * @param observaciones
 	 */
-	public DatosLineaPedido(String codArticulo, String articulo, String medida, String ultimaFecha, float ultimaCantidad, float cantidadTotalAnio, float ultimaTarifa, float cantidad, float tarifaCliente, float tarifaLista, String fechaCambioTarifaLista, String observaciones)
+	public DatosLineaPedido(String codArticulo, String articulo, String medida, boolean esCongelado, String ultimaFecha, float ultimaCantidad, float cantidadTotalAnio, float ultimaTarifa, float cantidad, float tarifaCliente, float tarifaLista, String fechaCambioTarifaLista, String observaciones)
 	{
 		this.codArticulo = codArticulo;
 		this.articulo = articulo;
 		this.medida = medida;
+		this.setEsCongelado(esCongelado);
 		this.ultimaFecha = ultimaFecha;
 		this.ultimaCantidad = ultimaCantidad;
 		this.ultimaTarifa = ultimaTarifa;
@@ -89,6 +92,29 @@ public class DatosLineaPedido implements Parcelable
 
 	public void setMedida(String medida) {
 		this.medida = medida;
+	}
+	
+	public boolean getEsCongelado() {
+		if (this.esCongelado==0)
+		{
+			return false;			
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	public void setEsCongelado(boolean esCongelado) 
+	{
+		if (esCongelado)
+		{
+			this.esCongelado = 1;			
+		}
+		else
+		{
+			this.esCongelado = 0;
+		}
 	}
 
 	public String getUltimaFecha() {
@@ -277,6 +303,7 @@ public class DatosLineaPedido implements Parcelable
 		if (this.getCodArticulo().equals(dlp.getCodArticulo()) &&
 			this.getArticulo().equals(dlp.getArticulo()) &&
 			this.getMedida().equals(dlp.getMedida()) &&
+			this.getEsCongelado() == dlp.getEsCongelado() &&
 			this.getUltimaFecha().equals(dlp.getUltimaFecha()) &&
 			this.getUltimaCantidad() == dlp.getUltimaCantidad() &&
 			this.getUltimaTarifa() == dlp.getUltimaTarifa() &&
@@ -310,6 +337,7 @@ public class DatosLineaPedido implements Parcelable
         out.writeString(this.codArticulo);
         out.writeString(this.articulo);
         out.writeString(this.medida);
+        out.writeInt(this.esCongelado);
         out.writeString(this.ultimaFecha);
         out.writeFloat(this.ultimaCantidad);
         out.writeFloat(this.ultimaTarifa);
@@ -346,6 +374,7 @@ public class DatosLineaPedido implements Parcelable
         this.codArticulo = in.readString();
         this.articulo = in.readString();
         this.medida = in.readString();
+        this.esCongelado = in.readInt();
         this.ultimaFecha = in.readString();
         this.ultimaCantidad = in.readFloat();
         this.ultimaTarifa = in.readFloat();

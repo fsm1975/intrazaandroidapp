@@ -49,7 +49,7 @@
         		android:layout_toRightOf="@+id/textoIdP" 		
 				android:layout_marginLeft="30dp"
 				android:textColor="@android:color/white"
-        		android:textSize="@dimen/textSizePedido"/> 		
+        		android:textSize="@dimen/textSizePedido"/>         		
         		
     		<Button
         		android:id="@+id/botonFechaEntregaP"
@@ -86,7 +86,28 @@
         		android:text="OBSERVACIONES"/>
     		
     		<TextView
-        		android:id="@+id/textoOcultarRuterolP"
+        		android:id="@+id/textoDescuentoEspecialP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:gravity="center"       
+        		android:layout_alignBaseline="@+id/botonFechaEntregaP"
+        		android:layout_toRightOf="@+id/botonObservacionesP" 
+        		android:layout_marginLeft="15dp"		
+				android:textColor="@android:color/black"
+        		android:text="DESCUENTO ESPECIAL"/> 
+        		
+    		<ToggleButton
+        		android:id="@+id/botonDescuentoEspecialP"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:layout_toRightOf="@+id/textoDescuentoEspecialP" 		
+        		android:layout_marginLeft="5dp"
+        		android:layout_marginTop="60dp"
+        		android:textOn="ON"
+        		android:textOff="OFF" />
+    		
+    		<TextView
+        		android:id="@+id/textoOcultarRuteroP"
         		android:layout_width="wrap_content"
         		android:layout_height="wrap_content"
         		android:gravity="center"       
@@ -107,7 +128,7 @@
         		android:id="@+id/botonOcultarRuteroP"
         		android:layout_width="wrap_content"
         		android:layout_height="wrap_content"
-        		android:layout_toRightOf="@+id/textoOcultarRuterolP" 		
+        		android:layout_toRightOf="@+id/textoOcultarRuteroP" 		
         		android:layout_marginLeft="5dp"
         		android:layout_marginTop="60dp"
         		android:textOn="ON"

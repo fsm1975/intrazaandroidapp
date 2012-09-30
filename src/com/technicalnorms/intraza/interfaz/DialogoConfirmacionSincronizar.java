@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import com.technicalnorms.intraza.Configuracion;
 import com.technicalnorms.intraza.R;
@@ -54,7 +55,8 @@ public class DialogoConfirmacionSincronizar extends Activity
 		{
 			public void onClick(View v) 
 			{		
-				returnContinuar();
+				boolean usar3G = ((ToggleButton)findViewById(R.id.botonUsar3gDCS)).isChecked();
+				returnContinuar(usar3G);
 			}
 		});
 		
@@ -72,13 +74,16 @@ public class DialogoConfirmacionSincronizar extends Activity
 	/**
 	 * - Devuelve a la activity que lo solicito que el usuario ha pulsado el boton CANCELAR.
 	 * - Finaliza la activity.
+	 * 
+	 * @param usar3G
 	 */
-	private void returnContinuar()
+	private void returnContinuar(boolean usar3G)
 	{
 		Intent intent = null;
 		int resultadoActivity = Activity.RESULT_OK;
 
 		intent = new Intent(this, com.technicalnorms.intraza.InTrazaActivity.class);
+		intent.putExtra("USAR_3G", usar3G);
 
 		setResult(resultadoActivity, intent);
 				

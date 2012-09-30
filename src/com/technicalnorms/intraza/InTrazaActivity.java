@@ -318,7 +318,7 @@ public class InTrazaActivity extends Activity
 				//Cuando el usuario pulsa el boton SINCRONIZAR hacemos la sincronizacion con los datos de InTraza
 				if (resultCode == Activity.RESULT_OK) 
 				{
-					SubdialogoProgresoSincronizacion progreso = new SubdialogoProgresoSincronizacion(this);
+					SubdialogoProgresoSincronizacion progreso = new SubdialogoProgresoSincronizacion(this, data.getBooleanExtra("USAR_3G", false));
 					progreso.execute();
 				}
 								

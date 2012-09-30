@@ -235,13 +235,19 @@ public class PantallaRutero extends Activity
 	{
 		boolean hayError = false;
 		AdaptadorBD db = new AdaptadorBD(this);
+		int descuentoEspecial = 0;
 		
 		db.abrir();
+		
+		if (((ToggleButton)findViewById(R.id.botonDescuentoEspecialP)).isChecked())
+		{
+			descuentoEspecial = Constantes.DESCUENTO_ESPECIAL;
+		}
 		
 		// Guardamos los datos generales del pedido
 		hayError = !db.guardaPrepedido(this.datosPedido.getIdPedido(), this.datosPedido.getIdCliente(), 
 									  this.datosPedido.getFechaEntrega(), this.datosPedido.getFechaPedido(), 
-									  this.datosPedido.getObservaciones(), this.datosPedido.getFijarObservaciones());
+									  this.datosPedido.getObservaciones(), this.datosPedido.getFijarObservaciones(), descuentoEspecial);
 		
 		if (!hayError)
 		{
@@ -514,11 +520,27 @@ public class PantallaRutero extends Activity
 	 */
 	private void cargaDatosPedido()
 	{
+		boolean hayDescuentoEspecial = false;
+		String clienteParaBoton = datosPedido.getCliente();
+		
 		((TextView)findViewById(R.id.textoFechaP)).setText(Constantes.PREFIJO_TEXTO_FECHA_PEDIDO+this.datosPedido.getFechaPedido());
 		((TextView)findViewById(R.id.textoIdP)).setText(Constantes.PREFIJO_TEXTO_ID_PEDIDO+this.datosPedido.getIdPedido());
 		((TextView)findViewById(R.id.textoPrecioTotalP)).setText(Constantes.PREFIJO_TEXTO_PRECIO_TOTAL+Constantes.formatearFloat2Decimales.format(this.datosPedido.getPrecioTotal())+Constantes.EURO);
 		((Button)findViewById(R.id.botonFechaEntregaP)).setText(Constantes.PREFIJO_BOTON_FECHA_ENTREGA+this.datosPedido.getFechaEntrega());
-		((Button)findViewById(R.id.botonClienteP)).setText(Constantes.PREFIJO_BOTON_CLIENTE+datosPedido.getCliente());
+		
+		if (clienteParaBoton.length()>29)
+		{
+			clienteParaBoton = clienteParaBoton.substring(0, 29);
+		}
+			
+		((Button)findViewById(R.id.botonClienteP)).setText(Constantes.PREFIJO_BOTON_CLIENTE+clienteParaBoton);
+		
+		if (this.datosPedido.getDescuentoEspecial()==Constantes.DESCUENTO_ESPECIAL)
+		{
+			hayDescuentoEspecial = true;
+		}
+		
+		((ToggleButton)findViewById(R.id.botonDescuentoEspecialP)).setChecked(hayDescuentoEspecial);
 	}
 	
 	/**
@@ -586,6 +608,7 @@ public class PantallaRutero extends Activity
 		int anioFechaEntregaP = 0;
 		String observacionesP = null;
 		boolean fijarObservacionesP = false;
+		int descuentoEspecial = 0;
 		//Datos para la linea de pedido
 		int idPrepedidoLP = 0;
 		String codArticuloLP = null;
@@ -630,6 +653,8 @@ public class PantallaRutero extends Activity
 				{
 					fijarObservacionesP = false;
 				}
+				
+				descuentoEspecial = cursorPedido.getInt(TablaPrepedido.POS_CAMPO_DESCUENTO_ESPECIAL);
 				
 				//Guardamos en una variable global las observaciones por defecto del pedido, ya que la tenemos que enviar al subdialogo que solicita los datos
 				//del pedido al usuario
@@ -678,7 +703,7 @@ public class PantallaRutero extends Activity
 					} while (cursorLineasPedido.moveToNext());
 				}
 				
-				datosPedido = new DatosPedido(idPrepedidoP, idClienteP, clienteP, diaFechaPedidoP, mesFechaPedidoP, anioFechaPedidoP, diaFechaEntregaP, mesFechaEntregaP, anioFechaEntregaP, (float)0, observacionesP, fijarObservacionesP);
+				datosPedido = new DatosPedido(idPrepedidoP, idClienteP, clienteP, diaFechaPedidoP, mesFechaPedidoP, anioFechaPedidoP, diaFechaEntregaP, mesFechaEntregaP, anioFechaEntregaP, (float)0, observacionesP, fijarObservacionesP, descuentoEspecial);
 
 			} while (cursorPedido.moveToNext());
 		}		
@@ -719,6 +744,13 @@ public class PantallaRutero extends Activity
 					medida = Constantes.UNIDADES;
 				}
 				
+				boolean esCongelado = false;
+				
+				if (cursorRutero.getString(TablaRutero.NUM_CAMPOS+TablaArticulo.POS_CAMPO_ES_CONGELADO).equals("1"))
+				{
+					esCongelado = true;
+				}
+				
 				String ultimaFecha = cursorRutero.getString(TablaRutero.POS_CAMPO_FECHA_ULTIMA_COMPRA);
 				float ultimaCantidad = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_CANTIDAD_ULTIMA_COMPRA));
 				float cantidadTotalAnio = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_CANTIDAD_TOTAL_ANIO));
@@ -732,6 +764,7 @@ public class PantallaRutero extends Activity
 				lineasPedidoRutero.add(new DatosLineaPedido(codArticulo,
 															articulo,
 															medida,
+															esCongelado,
 															ultimaFecha,
 															ultimaCantidad,
 															cantidadTotalAnio,
@@ -781,7 +814,7 @@ public class PantallaRutero extends Activity
 				//para que al menos se muestre la linea de pedido
 				if (datosInicialesRutero==null)
 				{
-					datosInicialesRutero = new DatosLineaPedido(lineasPedidoBD.elementAt(i).getCodArticulo(), "", "", Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)0, (float)0, (float)0, (float)0, null, "");
+					datosInicialesRutero = new DatosLineaPedido(lineasPedidoBD.elementAt(i).getCodArticulo(), "", "", false, Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)0, (float)0, (float)0, (float)0, null, "");
 				}
 				
 				//Lo insertamos en la posicion 0 del vector para que asi las lineas de pedido sin rutero aparezcan las primera en pantalla
@@ -796,6 +829,7 @@ public class PantallaRutero extends Activity
 			datosLineaPedido = new DatosLineaPedido(lineasRutero.elementAt(i).getCodArticulo(),
 													lineasRutero.elementAt(i).getArticulo(),
 													lineasRutero.elementAt(i).getMedida(),
+													lineasRutero.elementAt(i).getEsCongelado(),
 													lineasRutero.elementAt(i).getUltimaFecha(),
 													lineasRutero.elementAt(i).getUltimaCantidad(),
 													lineasRutero.elementAt(i).getCantidadTotalAnio(),
@@ -855,6 +889,7 @@ public class PantallaRutero extends Activity
 				dlp = new DatosLineaPedido(codArticulo,
 										   cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE), 
 										   medida, 
+										   false,
 										   Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 
 										   0, 
 										   (float)0, 
@@ -937,6 +972,7 @@ public class PantallaRutero extends Activity
 			DatosLineaPedido datosLineaIniRutero = new DatosLineaPedido(lineasRutero.elementAt(i).getCodArticulo(),
 																			lineasRutero.elementAt(i).getArticulo(),
 																			lineasRutero.elementAt(i).getMedida(),
+																			lineasRutero.elementAt(i).getEsCongelado(),
 																			lineasRutero.elementAt(i).getUltimaFecha(),
 																			lineasRutero.elementAt(i).getUltimaCantidad(),
 																			lineasRutero.elementAt(i).getCantidadTotalAnio(),
@@ -1024,7 +1060,7 @@ public class PantallaRutero extends Activity
 		filaLP.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
 		filaLP.addView(creaVistaReferencia(lineaRutero.getCodArticulo(), colorFila, colorTextoFila));
-		filaLP.addView(creaVistaArticulo(lineaRutero.getArticulo(), lineaRutero.getFijarArticulo(), colorFila, colorTextoFila));
+		filaLP.addView(creaVistaArticulo(lineaRutero.getArticulo(), lineaRutero.getEsCongelado(), lineaRutero.getFijarArticulo(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaFechaAnterior(lineaRutero.getUltimaFecha(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaCantidadAnterior(lineaRutero.getUltimaCantidad(), lineaRutero.getCantidadTotalAnio(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaTarifaAnterior(lineaRutero.getUltimaTarifa(), lineaRutero.getMedida(), colorFila, colorTextoFila));
@@ -1072,7 +1108,7 @@ public class PantallaRutero extends Activity
 		filaLP.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
 		filaLP.addView(creaVistaReferencia(lineaRutero.getCodArticulo(), colorFila, colorTextoFila));
-		filaLP.addView(creaVistaArticulo(lineaRutero.getArticulo(), lineaRutero.getFijarArticulo(), colorFila, colorTextoFila));
+		filaLP.addView(creaVistaArticulo(lineaRutero.getArticulo(), lineaRutero.getEsCongelado(), lineaRutero.getFijarArticulo(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaFechaAnterior(lineaRutero.getUltimaFecha(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaCantidadAnterior(lineaRutero.getUltimaCantidad(), lineaRutero.getCantidadTotalAnio(), colorFila, colorTextoFila));
 		
@@ -1131,7 +1167,7 @@ public class PantallaRutero extends Activity
 		return datoReferencia;
 	}
 	
-	private View creaVistaArticulo(String articulo, boolean fijarArticulo, int colorFila, int colorTextoFila)
+	private View creaVistaArticulo(String articulo, boolean esCongelado, boolean fijarArticulo, int colorFila, int colorTextoFila)
 	{
 		TextView datoArticulo = new TextView(this);
 		
@@ -1141,7 +1177,15 @@ public class PantallaRutero extends Activity
 		datoArticulo.setWidth(this.getResources().getDimensionPixelSize(R.dimen.widthColArticulo));
 		datoArticulo.setTextSize(this.getResources().getDimensionPixelSize(R.dimen.textSizeFilaDatosTabla));
 		datoArticulo.setBackgroundColor(colorFila);
-		datoArticulo.setTextColor(colorTextoFila);
+		if (esCongelado)
+		{
+			datoArticulo.setTextColor(this.getResources().getColor(R.color.colorTextoArticuloCongelado));
+		}
+		else
+		{
+			datoArticulo.setTextColor(colorTextoFila);			
+		}
+		
 		datoArticulo.setMaxLines(1);
 		//El ancho maximo es de 22 caracteres
 		InputFilter[] filterArray = new InputFilter[1];
@@ -1149,7 +1193,7 @@ public class PantallaRutero extends Activity
 		datoArticulo.setFilters(filterArray);
 		
 		//Ponemos el dato
-		datoArticulo.setText(ponerMarcaFijarArticulo(fijarArticulo)+articulo);
+		datoArticulo.setText(ponerMarcaFijarArticulo(fijarArticulo)+articulo+ponerMarcaCongelado(esCongelado));
 		datoArticulo.setClickable(true);
 		
 		datoArticulo.setOnClickListener(new View.OnClickListener() 
@@ -1496,6 +1540,7 @@ public class PantallaRutero extends Activity
 						DatosLineaPedido datosIniLineaPedidoClon = new DatosLineaPedido(datosIniLineaPedido.getCodArticulo(),
 																						datosIniLineaPedido.getArticulo(),
 																						datosIniLineaPedido.getMedida(),
+																						datosIniLineaPedido.getEsCongelado(),
 																						datosIniLineaPedido.getUltimaFecha(),
 																						datosIniLineaPedido.getUltimaCantidad(),
 																						datosIniLineaPedido.getCantidadTotalAnio(),
@@ -1748,6 +1793,25 @@ public class PantallaRutero extends Activity
 		if (ponerMarca)
 		{
 			resultado = Constantes.MARCA_FIJAR_ARTICULO;
+		}
+		
+		return resultado;
+	}
+	
+	/**
+	 * Muestra una marca al final de la descripcion del articulo en caso que sea congelado
+	 * 
+	 * @param esCongelado
+	 * 
+	 * @return la marca a poner o cadena vacia en caso de no llevar marca
+	 */
+	private String ponerMarcaCongelado(boolean esCongelado)
+	{
+		String resultado = "";
+		
+		if (esCongelado)
+		{
+			resultado = Constantes.MARCA_CONGELADO;
 		}
 		
 		return resultado;

@@ -163,6 +163,7 @@ public class AdaptadorBD
 	 */
 	public void cerrar() 
 	{
+		db.close();
 		DBHelper.close();
 	}
 	
@@ -524,16 +525,17 @@ public class AdaptadorBD
 	 * @param fechaPrepedido
 	 * @param observaciones
 	 * @param fijarObservaciones
+	 * @param descuentoEspecial
 	 * 
 	 * @return true si los datos se han guardado correctamente o false en caso contrario.
 	 */
-	public boolean guardaPrepedido(int idPrepedido, int idCliente, String fechaEntrega, String fechaPrepedido, String observaciones, boolean fijarObservaciones)
+	public boolean guardaPrepedido(int idPrepedido, int idCliente, String fechaEntrega, String fechaPrepedido, String observaciones, boolean fijarObservaciones, int descuentoEspecial)
 	{
-		boolean resultado = actualizarPrepedido(idPrepedido, idCliente, fechaEntrega, fechaPrepedido, observaciones, fijarObservaciones);
+		boolean resultado = actualizarPrepedido(idPrepedido, idCliente, fechaEntrega, fechaPrepedido, observaciones, fijarObservaciones, descuentoEspecial);
 		
 		if (!resultado)
 		{
-			resultado = insertarPrepedido(idPrepedido, idCliente, fechaEntrega, fechaPrepedido, observaciones, fijarObservaciones);
+			resultado = insertarPrepedido(idPrepedido, idCliente, fechaEntrega, fechaPrepedido, observaciones, fijarObservaciones, descuentoEspecial);
 		}
 		
 		return resultado;
@@ -548,10 +550,11 @@ public class AdaptadorBD
 	 * @param fecha prepedid
 	 * @param observaciones
 	 * @param fijarObservaciones
+	 * @param descuentoEspecial
 	 * 
 	 * @return true si ha ido bien, o false en caso de error
 	 */
-	public boolean insertarPrepedido(int idPrepedido, int idCliente, String fechaEntrega, String fechaPrepedido, String observaciones, boolean fijarObservaciones) 
+	public boolean insertarPrepedido(int idPrepedido, int idCliente, String fechaEntrega, String fechaPrepedido, String observaciones, boolean fijarObservaciones, int descuentoEspecial) 
 	{
 		ContentValues valoresIniciales = new ContentValues();
 		
@@ -561,6 +564,7 @@ public class AdaptadorBD
 		valoresIniciales.put(TablaPrepedido.CAMPO_FECHA_PREPEDIDO, fechaPrepedido);
 		valoresIniciales.put(TablaPrepedido.CAMPO_OBSERVACIONES, observaciones);
 		valoresIniciales.put(TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES, fijarObservaciones);
+		valoresIniciales.put(TablaPrepedido.CAMPO_DESCUENTO_ESPECIAL, descuentoEspecial);
 		
 		return db.insert(TablaPrepedido.NOMBRE_TABLA, null, valoresIniciales) != -1;
 	}
@@ -605,7 +609,7 @@ public class AdaptadorBD
 	{
 		return db.query(TablaPrepedido.NOMBRE_TABLA, 
 						new String[] { TablaPrepedido.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedido.CAMPO_ID_CLIENTE, TablaPrepedido.CAMPO_FECHA_ENTREGA,
-									   TablaPrepedido.CAMPO_FECHA_PREPEDIDO, TablaPrepedido.CAMPO_OBSERVACIONES,  TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES }, 
+									   TablaPrepedido.CAMPO_FECHA_PREPEDIDO, TablaPrepedido.CAMPO_OBSERVACIONES,  TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES, TablaPrepedido.CAMPO_DESCUENTO_ESPECIAL }, 
 						null, null, null, null, null);
 	}
 	
@@ -620,7 +624,7 @@ public class AdaptadorBD
 	{
 		return db.query(TablaPrepedido.NOMBRE_TABLA, 
 						new String[] { TablaPrepedido.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedido.CAMPO_ID_CLIENTE, TablaPrepedido.CAMPO_FECHA_ENTREGA,
-									   TablaPrepedido.CAMPO_FECHA_PREPEDIDO, TablaPrepedido.CAMPO_OBSERVACIONES,  TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES }, 
+									   TablaPrepedido.CAMPO_FECHA_PREPEDIDO, TablaPrepedido.CAMPO_OBSERVACIONES,  TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES, TablaPrepedido.CAMPO_DESCUENTO_ESPECIAL }, 
 						TablaPrepedido.CAMPO_ID_CLIENTE + " = " + idCliente,
 						null, null, null, null, null);
 	}	
@@ -637,7 +641,7 @@ public class AdaptadorBD
 	{
 		Cursor mCursor = db.query(true, TablaPrepedido.NOMBRE_TABLA, 
 								  new String[] { TablaPrepedido.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedido.CAMPO_ID_CLIENTE, TablaPrepedido.CAMPO_FECHA_ENTREGA,
-												 TablaPrepedido.CAMPO_FECHA_PREPEDIDO, TablaPrepedido.CAMPO_OBSERVACIONES,  TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES }, 
+												 TablaPrepedido.CAMPO_FECHA_PREPEDIDO, TablaPrepedido.CAMPO_OBSERVACIONES,  TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES, TablaPrepedido.CAMPO_DESCUENTO_ESPECIAL }, 
 				   				  TablaPrepedido.KEY_CAMPO_ID_PREPEDIDO + " = " + idPrepedido,
 								  null, null, null, null, null);
 		if (mCursor != null) 
@@ -698,10 +702,11 @@ public class AdaptadorBD
 	 * @param fecha prepedido
 	 * @param observaciones
 	 * @param fijarObservaciones
+	 * @param descuentoEspecial
 	 * 
 	 * @return true si los datos se han actualizado correctamente, o false en caso contrario
 	 */
-	public boolean actualizarPrepedido(int idPrepedido, int idCliente, String fechaEntrega, String fechaPrepedido, String observaciones, boolean fijarObservaciones) 
+	public boolean actualizarPrepedido(int idPrepedido, int idCliente, String fechaEntrega, String fechaPrepedido, String observaciones, boolean fijarObservaciones, int descuentoEspecial) 
 	{
 		ContentValues args = new ContentValues();
 		
@@ -711,6 +716,7 @@ public class AdaptadorBD
 		args.put(TablaPrepedido.CAMPO_FECHA_PREPEDIDO, fechaPrepedido);
 		args.put(TablaPrepedido.CAMPO_OBSERVACIONES, observaciones);
 		args.put(TablaPrepedido.CAMPO_FIJAR_OBSERVACIONES, fijarObservaciones);
+		args.put(TablaPrepedido.CAMPO_DESCUENTO_ESPECIAL, descuentoEspecial);
 		
 		return db.update(TablaPrepedido.NOMBRE_TABLA, args, TablaPrepedido.KEY_CAMPO_ID_PREPEDIDO + " = " + idPrepedido, null) > 0;
 	}

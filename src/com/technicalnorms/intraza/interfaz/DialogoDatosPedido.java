@@ -152,7 +152,8 @@ public class DialogoDatosPedido extends Activity
 												fechaManiana.getYear()+1900, 
 												0,
 												"",
-												false);
+												false,
+												0);
 			
 		    this.clienteView.addTextChangedListener(new TextWatcher() {  
 		    	
@@ -208,7 +209,8 @@ public class DialogoDatosPedido extends Activity
 													this.datosPedido.getAnioFechaEntrega(),
 													this.datosPedido.getPrecioTotal(),
 													this.datosPedido.getObservaciones(),
-													this.datosPedido.getFijarObservaciones());
+													this.datosPedido.getFijarObservaciones(),
+													this.datosPedido.getDescuentoEspecial());
 			
 		//Tambien recogemos el flag que nos indica si hay cambios y lineas de pedido en el pedido
 		this.datosPedidoOriginal.setHayDatosPedidoSinGuardar(this.datosPedido.hayDatosPedidoSinGuardar());

@@ -15,6 +15,7 @@
 	<color name="colorFilaDatoAnterior">#DDDD00</color>
 	<color name="colorFilaDatoNuevo">#FFFFAA</color>
 	<color name="colorFilaDatoIntroducido">#FFFFFF</color>
+	<color name="colorTextoArticuloCongelado">#66CCFF</color>
 	
 	<!-- Colores para el texto de la tabla de pedidos -->
 	<color name="colorTextoFilaClaroTablaP">#FFFFAA</color>

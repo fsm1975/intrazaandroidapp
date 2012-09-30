@@ -27,7 +27,7 @@ public class Configuracion
 	
 	//Parametro TIMEOUT_WEB_SERVICES_SINCRONIZACION
 	public static final String NOMBRE_PARAMETRO_TIMEOUT_WEB_SERVICES_SINCRONIZACION = "TIMEOUT_WEB_SERVICES_SINCRONIZACION";
-	public static final String VALOR_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "600";
+	public static final String VALOR_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "1800";
 	public static final String DESCRIPCION_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "Timeout en segundos, para la conexion con los Web Service de sincronizacion y envio de pedidos a InTraza";
 	public static final boolean ES_EDITABLE_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = true;
 	
@@ -71,7 +71,13 @@ public class Configuracion
 	public static final String NOMBRE_WS_REST_TOTALES = "/totales";
 	public static final String NOMBRE_WS_REST_ARTICULO = "/articulos";
 	public static final String NOMBRE_WS_REST_CLIENTE = "/clientes";
+	public static final String NOMBRE_WS_REST_RUTERO_TOTAL = "/ruteros_total";
 	public static final String NOMBRE_WS_REST_RUTERO = "/ruteros";
+	public static final String NOMBRE_WS_REST_RUTERO_TARIFA_CLIENTE = "/rutero_tarifa_cliente";
+	public static final String NOMBRE_WS_REST_RUTERO_TARIFA_DEFECTO = "/rutero_tarifa_defecto";
+	public static final String NOMBRE_WS_REST_RUTERO_PESO_TOTAL_ANIO = "/rutero_peso_total_anio";
+	public static final String NOMBRE_WS_REST_RUTERO_DATOS = "/rutero_datos";
+	
 	public static final String NOMBRE_WS_REST_OBSERVACION = "/observaciones";
 	
 	//Para invocar a los WS de envio de informacion a InTraza
@@ -203,9 +209,34 @@ public class Configuracion
 		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_CLIENTE;
 	}
 	
+	public static String dameUriWebServicesSincronizacionRuteroTotal(Context context)
+	{
+		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_TOTAL;
+	}
+	
 	public static String dameUriWebServicesSincronizacionRutero(Context context)
 	{
 		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO;
+	}
+	
+	public static String dameUriWebServicesSincronizacionRuteroTarifaCliente(Context context, int idCliente, String codigoArticulo)
+	{
+		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_TARIFA_CLIENTE+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
+	}
+	
+	public static String dameUriWebServicesSincronizacionRuteroTarifaDefecto(Context context, String codigoArticulo)
+	{
+		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_TARIFA_DEFECTO+"?codigoArticulo="+codigoArticulo;
+	}
+	
+	public static String dameUriWebServicesSincronizacionRuteroPesoTotalAnio(Context context, int idCliente, String codigoArticulo)
+	{
+		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_PESO_TOTAL_ANIO+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
+	}
+	
+	public static String dameUriWebServicesSincronizacionRuteroDatos(Context context, int idCliente, String codigoArticulo)
+	{
+		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_DATOS+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
 	}
 	
 	public static String dameUriWebServicesSincronizacionObservacion(Context context)

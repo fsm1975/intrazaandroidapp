@@ -20,6 +20,7 @@ public class JsonPedido
 	private int anioFechaEntrega = 0;
 	private String observaciones = null;
 	private boolean fijarObservaciones = false;
+	private int descuentoEspecial = 0;
 	private ArrayList<JsonLineaPedido> lineasPedido = null;
 	
 	/**
@@ -36,8 +37,9 @@ public class JsonPedido
 	 * @param anioFechaEntrega
 	 * @param observaciones
 	 * @param fijarObservaciones
+	 * @param descuentoEspecial
 	 */
-	public JsonPedido(int idPedido, int idCliente, String cliente, int diaFechaPedido, int mesFechaPedido, int anioFechaPedido, int diaFechaEntrega, int mesFechaEntrega, int anioFechaEntrega, String observaciones, boolean fijarObservaciones)
+	public JsonPedido(int idPedido, int idCliente, String cliente, int diaFechaPedido, int mesFechaPedido, int anioFechaPedido, int diaFechaEntrega, int mesFechaEntrega, int anioFechaEntrega, String observaciones, boolean fijarObservaciones, int descuentoEspecial)
 	{
 		this.idPedido = idPedido;
 		this.idCliente = idCliente;
@@ -50,6 +52,7 @@ public class JsonPedido
 		this.anioFechaEntrega = anioFechaEntrega;
 		this.observaciones = observaciones;
 		this.fijarObservaciones = fijarObservaciones;
+		this.descuentoEspecial = descuentoEspecial;
 		
 		this.lineasPedido = new ArrayList<JsonLineaPedido>();
 	}
@@ -100,6 +103,10 @@ public class JsonPedido
 	
 	public void setFijarObservaciones(boolean fijar) {
 		this.fijarObservaciones = fijar;
+	}
+	
+	public void setDescuentoEspecial(int descuento) {
+		this.descuentoEspecial = descuento;
 	}
 	
 	public void setLineasPedido(ArrayList<JsonLineaPedido> lineasPedido) {
@@ -158,10 +165,13 @@ public class JsonPedido
 		return this.fijarObservaciones;
 	}
 	
+	public int getDescuentoEspecial()
+	{
+		return this.descuentoEspecial;
+	}
+	
 	public ArrayList<JsonLineaPedido> getLineasPedido()
 	{
 		return this.lineasPedido;
 	}
-	
-	
 }

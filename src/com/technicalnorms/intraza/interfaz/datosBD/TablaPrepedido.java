@@ -25,7 +25,9 @@ public class TablaPrepedido
 	public static final int POS_CAMPO_OBSERVACIONES = 4;
 	public static final String CAMPO_FIJAR_OBSERVACIONES = "fijar_observaciones";
 	public static final int POS_CAMPO_FIJAR_OBSERVACIONES = 5;
-	public static final int NUM_CAMPOS = 6;
+	public static final String CAMPO_DESCUENTO_ESPECIAL = "descuento_especial";
+	public static final int POS_CAMPO_DESCUENTO_ESPECIAL = 6;
+	public static final int NUM_CAMPOS = 7;
 
 	public static final String SQL_CREA_TABLA = "create table "+NOMBRE_TABLA+" \n"+
 												 "( \n"+
@@ -35,6 +37,7 @@ public class TablaPrepedido
 												 CAMPO_FECHA_ENTREGA+" TEXT NOT NULL, \n"+
 												 CAMPO_OBSERVACIONES+" TEXT NULL, \n"+
 												 CAMPO_FIJAR_OBSERVACIONES+" BOOLEAN DEFAULT FALSE, \n"+
+												 CAMPO_DESCUENTO_ESPECIAL+" INTEGER NOT NULL DEFAULT 0, \n"+
 												 "FOREIGN KEY("+CAMPO_ID_CLIENTE+") REFERENCES "+TablaCliente.NOMBRE_TABLA+"("+TablaCliente.KEY_CAMPO_ID_CLIENTE+") \n"+
 												 ");";
 	
