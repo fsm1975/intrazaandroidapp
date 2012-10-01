@@ -83,7 +83,8 @@
         android:inputType="numberDecimal"
 		android:selectAllOnFocus="true"
         android:text="0"
-        android:maxLength="@integer/longitudCantidadLP" />
+        android:maxLength="@integer/longitudCantidadLP" 
+        android:nextFocusDown="@+id/cantidadUdNuevoLP"/>
     
     <TextView
         android:id="@+id/textoCantidadUdNuevoLP"
@@ -106,7 +107,8 @@
         android:inputType="number"
 		android:selectAllOnFocus="true"
         android:text="0"
-        android:maxLength="@integer/longitudCantidadLP" />
+        android:maxLength="@integer/longitudCantidadLP" 
+        android:nextFocusDown="@+id/tarifaNuevoLP"/>
         
     <TextView
         android:id="@+id/textoTarifaNuevoLP"
@@ -128,7 +130,8 @@
         android:layout_toRightOf="@+id/textoTarifaNuevoLP"
         android:inputType="numberDecimal"
 		android:selectAllOnFocus="true"
-        android:maxLength="@integer/longitudPrecioLP" />
+        android:maxLength="@integer/longitudPrecioLP" 
+        android:nextFocusDown="@+id/checkFijarTarifaLP"/>
     
 	<CheckBox
 		android:id="@+id/checkFijarTarifaLP"
@@ -138,7 +141,8 @@
         android:layout_toRightOf="@+id/tarifaNuevoLP"
         android:layout_marginLeft="5dp"
 		android:text="Fijar tarifa"
-		android:textSize="20px" />
+		android:textSize="20px" 
+		android:nextFocusDown="@+id/observacionesLP"/>
         
     <TextView
         android:id="@+id/textoTarifaListaLP"

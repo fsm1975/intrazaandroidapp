@@ -164,7 +164,7 @@ public final class R {
         public static final int cancelarBotonDialogoDNAR=0x7f080053;
         public static final int cancelarBotonDialogoNuevoLP=0x7f080046;
         public static final int cantidadKgNuevoLP=0x7f080038;
-        public static final int cantidadUdNuevoLP=0x7f08003a;
+        public static final int cantidadUdNuevoLP=0x7f080039;
         public static final int checkColumnaEnviar=0x7f080074;
         public static final int checkColumnaSuprimir=0x7f080076;
         public static final int checkFijarArticuloDNAR=0x7f080051;
@@ -205,7 +205,7 @@ public final class R {
         public static final int noBotonDCEP=0x7f08001d;
         public static final int observacionesDCNP=0x7f08005e;
         public static final int observacionesDMOP=0x7f08006b;
-        public static final int observacionesLP=0x7f080040;
+        public static final int observacionesLP=0x7f08003d;
         public static final int parametrosTableC=0x7f08006f;
         public static final int pedidosTableP=0x7f080078;
         public static final int ruteroTableLayout=0x7f08008e;
@@ -224,7 +224,7 @@ public final class R {
         public static final int text=0x7f080090;
         public static final int textoArticuloDNAR=0x7f08004d;
         public static final int textoCantidadKgNuevoLP=0x7f080036;
-        public static final int textoCantidadUdNuevoLP=0x7f080039;
+        public static final int textoCantidadUdNuevoLP=0x7f08003a;
         public static final int textoClienteDCNP=0x7f080055;
         public static final int textoClienteDCP=0x7f08002a;
         public static final int textoDescuentoEspecialP=0x7f080086;
@@ -244,15 +244,15 @@ public final class R {
         public static final int textoMensajeAvisoDatosSinGuardar=0x7f08000c;
         public static final int textoObservacionesDCNP=0x7f08005d;
         public static final int textoObservacionesDMOP=0x7f08006a;
-        public static final int textoObservacionesLP=0x7f08003f;
+        public static final int textoObservacionesLP=0x7f080040;
         public static final int textoOcultarRuteroP=0x7f080088;
-        public static final int textoPrecioTotalLP=0x7f08003e;
+        public static final int textoPrecioTotalLP=0x7f08003f;
         public static final int textoPrecioTotalP=0x7f080083;
         public static final int textoReferenciaDNAR=0x7f08004b;
         public static final int textoScrollMensajeAvisoDCBP=0x7f080014;
         public static final int textoScrollMensajeAvisoDCEP=0x7f08001b;
         public static final int textoSincronizar3gDCS=0x7f080020;
-        public static final int textoTarifaListaLP=0x7f08003d;
+        public static final int textoTarifaListaLP=0x7f08003e;
         public static final int textoTarifaNuevoLP=0x7f080037;
         public static final int tituloAcercaDe=0x7f080001;
         public static final int tituloAvisoDatosSinGuardar=0x7f08000a;

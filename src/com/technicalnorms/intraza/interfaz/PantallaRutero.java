@@ -163,6 +163,18 @@ public class PantallaRutero extends Activity
 				habilitaClickEnActivity(true);
 			}
 		});
+		
+		((ToggleButton)findViewById(R.id.botonDescuentoEspecialP)).setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v) 
+			{	
+				//Si tenemos lineas de pedido, habilitamos el boton
+				if (datosPedido.hayLineasPedido())
+				{
+					habilitaBotonGuardar();
+				}
+			}
+		});
 			
 		((ToggleButton)findViewById(R.id.botonOcultarRuteroP)).setOnClickListener(new OnClickListener()
 		{
