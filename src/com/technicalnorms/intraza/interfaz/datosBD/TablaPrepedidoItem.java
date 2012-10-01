@@ -17,26 +17,29 @@ public class TablaPrepedidoItem
 	public static final int POS_CAMPO_ID_PREPEDIDO = 0;
 	public static final String KEY_CAMPO_CODIGO_ARTICULO = "codigo_art";
 	public static final int POS_CAMPO_CODIGO_ARTICULO = 1;
-	public static final String CAMPO_CANTIDAD = "cantidad";
-	public static final int POS_CAMPO_CANTIDAD = 2;
+	public static final String CAMPO_CANTIDAD_KG = "cantidad_kg";
+	public static final int POS_CAMPO_CANTIDAD_KG = 2;
+	public static final String CAMPO_CANTIDAD_UD = "cantidad_ud";
+	public static final int POS_CAMPO_CANTIDAD_UD = 3;
 	public static final String CAMPO_PRECIO = "precio";
-	public static final int POS_CAMPO_PRECIO = 3;
+	public static final int POS_CAMPO_PRECIO = 4;
 	public static final String CAMPO_OBSERVACIONES = "observaciones";
-	public static final int POS_CAMPO_OBSERVACIONES = 4;
+	public static final int POS_CAMPO_OBSERVACIONES = 5;
 	public static final String CAMPO_FIJAR_PRECIO = "fijar_precio";
-	public static final int POS_CAMPO_FIJAR_PRECIO = 5;
+	public static final int POS_CAMPO_FIJAR_PRECIO = 6;
 	public static final String CAMPO_FIJAR_ARTICULO = "fijar_articulo";
-	public static final int POS_CAMPO_FIJAR_ARTICULO = 6;
+	public static final int POS_CAMPO_FIJAR_ARTICULO = 7;
 	public static final String CAMPO_FIJAR_OBSERVACIONES = "fijar_observaciones";
-	public static final int POS_CAMPO_FIJAR_OBSERVACIONES = 7;
-	public static final int MAX_POS = 7;
-	public static final int NUM_CAMPOS = 8;
+	public static final int POS_CAMPO_FIJAR_OBSERVACIONES = 8;
+	public static final int MAX_POS = 8;
+	public static final int NUM_CAMPOS = 9;
 
 	public static final String SQL_CREA_TABLA = "create table "+NOMBRE_TABLA+" \n"+
 												 "( \n"+												 
 												 KEY_CAMPO_ID_PREPEDIDO+" INTEGER NOT NULL, \n"+
 												 KEY_CAMPO_CODIGO_ARTICULO+" NVARCHAR(10) NOT NULL, \n"+
-												 CAMPO_CANTIDAD+" REAL NOT NULL NOT NULL, \n"+
+												 CAMPO_CANTIDAD_KG+" REAL NOT NULL, \n"+
+												 CAMPO_CANTIDAD_UD+" INTEGER NOT NULL, \n"+
 												 CAMPO_PRECIO+" REAL NOT NULL, \n"+
 												 CAMPO_OBSERVACIONES+" TEXT NULL, \n"+
 												 CAMPO_FIJAR_PRECIO+" BOOLEAN DEFAULT FALSE, \n"+

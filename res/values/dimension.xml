@@ -9,9 +9,9 @@
     <dimen name="widthColFechaAnterior">160px</dimen>
     <dimen name="widthColCantidadAnterior">100px</dimen>
     <dimen name="widthColTarifaAnterior">150px</dimen>
-    <dimen name="widthColCantidad">100px</dimen>
+    <dimen name="widthColCantidadKg">115px</dimen>
+	<dimen name="widthColCantidadUd">115px</dimen>
     <dimen name="widthColTarifa">120px</dimen>
-    <dimen name="widthColPrecio">130px</dimen>
     <dimen name="widthColTarifaLista">140px</dimen>
     
     <!-- Anchos de las columnas de la tabla pedidos -->

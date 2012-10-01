@@ -19,7 +19,8 @@ public class DatosLineaPedido implements Parcelable
 	private String ultimaFecha = null;
 	private float ultimaCantidad = 0;
 	private float ultimaTarifa = 0;
-	private float cantidad = 0;
+	private float cantidadKg = 0;
+	private int cantidadUd = 0;
 	private float cantidadTotalAnio = 0;
 	private float tarifaCliente = 0;
 	private float tarifaLista = 0;
@@ -42,14 +43,15 @@ public class DatosLineaPedido implements Parcelable
 	 * @param ultimaFecha
 	 * @param ultimaCantidad
 	 * @param ultimaTarifa
-	 * @param cantidad
+	 * @param cantidadKg
+	 * @param cantidadUd
 	 * @param cantidadTotalAnio
 	 * @param tarifaCliente
 	 * @param tarifaLista
 	 * @param fechaCambioTarifaLista
 	 * @param observaciones
 	 */
-	public DatosLineaPedido(String codArticulo, String articulo, String medida, boolean esCongelado, String ultimaFecha, float ultimaCantidad, float cantidadTotalAnio, float ultimaTarifa, float cantidad, float tarifaCliente, float tarifaLista, String fechaCambioTarifaLista, String observaciones)
+	public DatosLineaPedido(String codArticulo, String articulo, String medida, boolean esCongelado, String ultimaFecha, float ultimaCantidad, float cantidadTotalAnio, float ultimaTarifa, float cantidadKg, int cantidadUd, float tarifaCliente, float tarifaLista, String fechaCambioTarifaLista, String observaciones)
 	{
 		this.codArticulo = codArticulo;
 		this.articulo = articulo;
@@ -58,7 +60,8 @@ public class DatosLineaPedido implements Parcelable
 		this.ultimaFecha = ultimaFecha;
 		this.ultimaCantidad = ultimaCantidad;
 		this.ultimaTarifa = ultimaTarifa;
-		this.cantidad = cantidad;
+		this.cantidadKg = cantidadKg;
+		this.cantidadUd = cantidadUd;
 		this.cantidadTotalAnio = cantidadTotalAnio;
 		this.tarifaCliente = tarifaCliente;
 		this.tarifaLista = tarifaLista;
@@ -141,12 +144,20 @@ public class DatosLineaPedido implements Parcelable
 		this.ultimaTarifa = ultimaTarifa;
 	}
 
-	public float getCantidad() {
-		return cantidad;
+	public float getCantidadKg() {
+		return cantidadKg;
 	}
 
-	public void setCantidad(float cantidad) {
-		this.cantidad = cantidad;
+	public void setCantidadKg(float cantidad) {
+		this.cantidadKg = cantidad;
+	}
+	
+	public int getCantidadUd() {
+		return cantidadUd;
+	}
+
+	public void setCantidadUd(int cantidad) {
+		this.cantidadUd = cantidad;
 	}
 	
 	public float getCantidadTotalAnio() {
@@ -166,7 +177,18 @@ public class DatosLineaPedido implements Parcelable
 	}
 
 	public float getPrecio() {
-		return this.cantidad * this.tarifaCliente;
+		float precio = 0;
+		
+		if (this.getMedida().equals(Constantes.KILOGRAMOS))
+		{
+			precio = this.cantidadKg * this.tarifaCliente;
+		}
+		else
+		{
+			precio = this.cantidadUd * this.tarifaCliente;			
+		}
+		
+		return precio;
 	}
 
 	public float getTarifaLista() {
@@ -307,7 +329,8 @@ public class DatosLineaPedido implements Parcelable
 			this.getUltimaFecha().equals(dlp.getUltimaFecha()) &&
 			this.getUltimaCantidad() == dlp.getUltimaCantidad() &&
 			this.getUltimaTarifa() == dlp.getUltimaTarifa() &&
-			this.getCantidad() == dlp.getCantidad() &&
+			this.getCantidadKg() == dlp.getCantidadKg() &&
+			this.getCantidadUd() == dlp.getCantidadUd() &&
 			this.getCantidadTotalAnio() == dlp.getCantidadTotalAnio() &&
 			this.getTarifaCliente() == dlp.getTarifaCliente() &&
 			this.getTarifaLista() == dlp.getTarifaLista() &&
@@ -341,7 +364,8 @@ public class DatosLineaPedido implements Parcelable
         out.writeString(this.ultimaFecha);
         out.writeFloat(this.ultimaCantidad);
         out.writeFloat(this.ultimaTarifa);
-        out.writeFloat(this.cantidad);
+        out.writeFloat(this.cantidadKg);
+        out.writeInt(this.cantidadUd);
         out.writeFloat(this.cantidadTotalAnio);
         out.writeFloat(this.tarifaCliente);
         out.writeFloat(this.tarifaLista);
@@ -378,7 +402,8 @@ public class DatosLineaPedido implements Parcelable
         this.ultimaFecha = in.readString();
         this.ultimaCantidad = in.readFloat();
         this.ultimaTarifa = in.readFloat();
-        this.cantidad = in.readFloat();
+        this.cantidadKg = in.readFloat();
+        this.cantidadUd = in.readInt();
         this.cantidadTotalAnio = in.readFloat();
         this.tarifaCliente = in.readFloat();
         this.tarifaLista = in.readFloat();

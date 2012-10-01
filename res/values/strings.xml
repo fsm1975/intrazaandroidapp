@@ -11,10 +11,10 @@
     <string name="colFechaAnterior">ULT. FECHA</string>
     <string name="colCantidadAnterior">CANT./T.AÑO</string>
     <string name="colTarifaAnterior">ULT. TARIFA</string>
-    <string name="colCantidad">CANTIDAD</string>
+    <string name="colCantidadKg">CANT. KG</string>
+    <string name="colCantidadUd">CANT. UD</string>
     <string name="colTarifa">TARIFA</string>
     <string name="colTarifaLista">TARIFA LISTA</string>
-    <string name="colPrecio">PRECIO</string>
     
     <!-- Cadenas para las columnas de la tabla pedidos -->
     <string name="colIdPedido">ID. PEDIDO</string>

@@ -37,7 +37,8 @@ import com.technicalnorms.intraza.R;
 public class DialogoDatosLineaPedido extends Activity
 {
 	// Widgeds que contienen los datos que debe introducir el usuario para la nueva linea de pedido
-	private EditText cantidadNuevoLPEdit = null;
+	private EditText cantidadKgNuevoLPEdit = null;
+	private EditText cantidadUdNuevoLPEdit = null;
 	private EditText tarifaNuevoLPEdit = null;
 	private CheckBox fijarTarifa = null;
 	private CheckBox fijarObservaciones = null;
@@ -79,7 +80,7 @@ public class DialogoDatosLineaPedido extends Activity
 		this.datosLineaPedidoOriginal = new DatosLineaPedido(this.datosLineaPedido.getCodArticulo(), this.datosLineaPedido.getArticulo(), 
 																this.datosLineaPedido.getMedida(), this.datosLineaPedido.getEsCongelado(), this.datosLineaPedido.getUltimaFecha(),
 																this.datosLineaPedido.getUltimaCantidad(), this.datosLineaPedido.getCantidadTotalAnio(),
-																this.datosLineaPedido.getUltimaTarifa(), this.datosLineaPedido.getCantidad(), 
+																this.datosLineaPedido.getUltimaTarifa(), this.datosLineaPedido.getCantidadKg(), this.datosLineaPedido.getCantidadUd(),
 																this.datosLineaPedido.getTarifaCliente(), this.datosLineaPedido.getTarifaLista(), 
 																this.datosLineaPedido.getFechaCambioTarifaLista(), this.datosLineaPedido.getObservaciones());
 		
@@ -108,7 +109,8 @@ public class DialogoDatosLineaPedido extends Activity
 		((TextView)findViewById(R.id.datoTarifaAnteriorLP)).setText("Ultima tarifa: "+Constantes.formatearFloat2Decimales.format(this.datosLineaPedido.getUltimaTarifa())+Constantes.EURO+Constantes.SEPARADOR_MEDIDA_TARIFA+this.datosLineaPedido.getMedida());
 		((TextView)findViewById(R.id.datoTarifaAnteriorLP)).setTextColor(this.getResources().getColor(R.color.colorFilaDatoAnterior));
 		
-		((EditText)findViewById(R.id.cantidadNuevoLP)).setText(Constantes.formatearFloat3Decimales.format(this.datosLineaPedido.getCantidad()));
+		((EditText)findViewById(R.id.cantidadKgNuevoLP)).setText(Constantes.formatearFloat3Decimales.format(this.datosLineaPedido.getCantidadKg()));
+		((EditText)findViewById(R.id.cantidadUdNuevoLP)).setText(new Integer(this.datosLineaPedido.getCantidadUd()).toString());
 		((EditText)findViewById(R.id.tarifaNuevoLP)).setText(Constantes.formatearFloat2Decimales.format(this.datosLineaPedido.getTarifaCliente()));
 		((CheckBox)findViewById(R.id.checkFijarTarifaLP)).setChecked(this.datosLineaPedido.getFijarTarifa());
 		((TextView)findViewById(R.id.textoTarifaListaLP)).setText("Tarifa lista:  "+ponerMarcaCambioTarifaListaReciente(this.datosLineaPedido.getFechaCambioTarifaLista())+Constantes.formatearFloat2Decimales.format(this.datosLineaPedido.getTarifaLista())+Constantes.EURO+Constantes.SEPARADOR_MEDIDA_TARIFA+this.datosLineaPedido.getMedida());
@@ -117,7 +119,8 @@ public class DialogoDatosLineaPedido extends Activity
 		((CheckBox)findViewById(R.id.checkFijarObservacionesLP)).setChecked(this.datosLineaPedido.getFijarObservaciones());
 		
 		//Obtenemos la referencia a los widgets para obtener los datos del usuario
-		cantidadNuevoLPEdit = (EditText)findViewById(R.id.cantidadNuevoLP);
+		cantidadKgNuevoLPEdit = (EditText)findViewById(R.id.cantidadKgNuevoLP);
+		cantidadUdNuevoLPEdit = (EditText)findViewById(R.id.cantidadUdNuevoLP);
 		tarifaNuevoLPEdit = (EditText)findViewById(R.id.tarifaNuevoLP);
 		fijarTarifa = (CheckBox)findViewById(R.id.checkFijarTarifaLP);
 		observacionesLPEdit = (EditText)findViewById(R.id.observacionesLP);
@@ -128,21 +131,35 @@ public class DialogoDatosLineaPedido extends Activity
 		creaCheckBoxObservacionesBD();
 		
 		//Si tenemos datos anteriores en la linea de pedido habilitamos el boton eliminar y clonar
-		if (this.datosLineaPedido.getCantidad()>0)
+		if (this.datosLineaPedido.getCantidadKg()>0 || this.datosLineaPedido.getCantidadUd()>0)
 		{
 			((Button)findViewById(R.id.eliminarBotonDialogoNuevoLP)).setEnabled(true);
 			((Button)findViewById(R.id.clonarBotonDialogoNuevoLP)).setEnabled(true);
 		}
 		
 		//Definimos evento del EditText que recoge la cantidad de la linea de pedido, cuando pierde el foco, para recalcular el precio total
-		cantidadNuevoLPEdit.setOnFocusChangeListener(new OnFocusChangeListener()
+		cantidadKgNuevoLPEdit.setOnFocusChangeListener(new OnFocusChangeListener()
 		{
 			@Override
 			public void onFocusChange(View v, boolean hasFocus)
 			{
 				if (!hasFocus)
 				{
-					datosLineaPedido.setCantidad(Float.parseFloat(cantidadNuevoLPEdit.getText().toString().replace(',', '.')));
+					datosLineaPedido.setCantidadKg(Float.parseFloat(cantidadKgNuevoLPEdit.getText().toString().replace(',', '.')));
+					precioTotalLPView.setText(Constantes.CADENA_PREFIJO_PRECIO_TOTAL+Constantes.formatearFloat2Decimales.format(datosLineaPedido.getPrecio())+Constantes.EURO);
+				}
+			}
+		});
+		
+		//Definimos evento del EditText que recoge la cantidad de la linea de pedido, cuando pierde el foco, para recalcular el precio total
+		cantidadUdNuevoLPEdit.setOnFocusChangeListener(new OnFocusChangeListener()
+		{
+			@Override
+			public void onFocusChange(View v, boolean hasFocus)
+			{
+				if (!hasFocus)
+				{
+					datosLineaPedido.setCantidadUd(Integer.parseInt(cantidadUdNuevoLPEdit.getText().toString()));
 					precioTotalLPView.setText(Constantes.CADENA_PREFIJO_PRECIO_TOTAL+Constantes.formatearFloat2Decimales.format(datosLineaPedido.getPrecio())+Constantes.EURO);
 				}
 			}
@@ -161,6 +178,18 @@ public class DialogoDatosLineaPedido extends Activity
 				}
 			}
 		});
+		
+		//Segun la medida del articulo, se pone el foco en el EditText de Kg o Ud y cambiamos el TextView de color para indicar que es la medida por defecto al usuario
+		if (datosLineaPedido.getMedida().equals(Constantes.KILOGRAMOS))
+		{
+			this.cantidadKgNuevoLPEdit.requestFocus();
+			((TextView)findViewById(R.id.textoCantidadKgNuevoLP)).setTextColor(this.getResources().getColor(R.color.colorMedidaArticuloPorDefecto));
+		}
+		else
+		{
+			this.cantidadUdNuevoLPEdit.requestFocus();
+			((TextView)findViewById(R.id.textoCantidadUdNuevoLP)).setTextColor(this.getResources().getColor(R.color.colorMedidaArticuloPorDefecto));
+		}
 		
 		//*******
 		//BOTONES
@@ -336,14 +365,15 @@ public class DialogoDatosLineaPedido extends Activity
 			public void onClick(View v) 
 			{	
 				//Primero guardamos y recalculamos los datos
-				datosLineaPedido.setCantidad(Float.parseFloat(cantidadNuevoLPEdit.getText().toString().replace(',', '.')));
+				datosLineaPedido.setCantidadKg(Float.parseFloat(cantidadKgNuevoLPEdit.getText().toString().replace(',', '.')));
+				datosLineaPedido.setCantidadUd(Integer.parseInt(cantidadUdNuevoLPEdit.getText().toString()));
 				datosLineaPedido.setTarifaCliente(Float.parseFloat(tarifaNuevoLPEdit.getText().toString().replace(',', '.')));
 				datosLineaPedido.setFijarTarifa(fijarTarifa.isChecked());
 				datosLineaPedido.setObservaciones(observacionesLPEdit.getText().toString().trim());
 				datosLineaPedido.setFijarObservaciones(fijarObservaciones.isChecked());
 				
 				//No se puede aceptar los datos si la cantidad es 0
-				if (datosLineaPedido.getCantidad()==0)
+				if (datosLineaPedido.getCantidadKg()==0 && datosLineaPedido.getCantidadUd()==0)
 				{
 					toastMensajeError(Constantes.AVISO_DATOS_NUEVO_LP_CANTIDAD_0);
 				}

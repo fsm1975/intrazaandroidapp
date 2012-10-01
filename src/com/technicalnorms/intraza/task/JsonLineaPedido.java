@@ -10,7 +10,8 @@ public class JsonLineaPedido
 	private int idPrepedido = 0;
 	private String codArticulo = null;
 	private String nombreArticulo = null;
-	private float cantidad = 0;
+	private float cantidadKg = 0;
+	private int cantidadUd = 0;
 	private float precio = 0;
 	private String observaciones = null;
 	boolean fijarPrecio = false;
@@ -23,19 +24,21 @@ public class JsonLineaPedido
 	 * @param idPrepedido
 	 * @param codArticulo
 	 * @param nombreArticulo
-	 * @param cantidad
+	 * @param cantidadKg
+	 * @param cantidadUd
 	 * @param precio
 	 * @param observaciones
 	 * @param fijarPrecio
 	 * @param fijarArticulo
 	 * @param fijarObservaciones
 	 */
-	public JsonLineaPedido(int idPrepedido, String codArticulo, String nombreArticulo, float cantidad, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
+	public JsonLineaPedido(int idPrepedido, String codArticulo, String nombreArticulo, float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
 	{
 		this.idPrepedido = idPrepedido;
 		this.codArticulo = codArticulo;
 		this.nombreArticulo = nombreArticulo;
-		this.cantidad = cantidad;
+		this.cantidadKg = cantidadKg;
+		this.cantidadUd = cantidadUd;
 		this.precio = precio;
 		this.observaciones = observaciones;
 		this.fijarPrecio = fijarPrecio;
@@ -71,12 +74,20 @@ public class JsonLineaPedido
 		this.nombreArticulo = nombreArticulo;
 	}
 
-	public float getCantidad() {
-		return cantidad;
+	public float getCantidadKg() {
+		return cantidadKg;
 	}
 
-	public void setCantidad(float cantidad) {
-		this.cantidad = cantidad;
+	public void setCantidadKg(float cantidad) {
+		this.cantidadKg = cantidad;
+	}
+	
+	public float getCantidadUd() {
+		return cantidadUd;
+	}
+
+	public void setCantidadUd(int cantidad) {
+		this.cantidadUd = cantidad;
 	}
 
 	public float getPrecio() {

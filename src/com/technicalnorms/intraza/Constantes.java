@@ -16,9 +16,9 @@ public class Constantes
 	public static final int COLUMNA_FECHA_ULTIMO_LP = 3;
 	public static final int COLUMNA_CANTIDAD_ULTIMO_LP = 4;
 	public static final int COLUMNA_TARIFA_ULTIMO_LP = 5;
-	public static final int COLUMNA_CANTIDAD_NUEVO_LP = 6;
-	public static final int COLUMNA_TARIFA_NUEVO_LP = 7;
-	public static final int COLUMNA_PRECIO_TOTAL_LP = 8;
+	public static final int COLUMNA_CANTIDAD_NUEVO_KG_LP = 6;
+	public static final int COLUMNA_CANTIDAD_NUEVO_UD_LP = 7;
+	public static final int COLUMNA_TARIFA_NUEVO_LP = 8;
 	public static final int COLUMNA_TARIFA_LISTA_LP = 9;
 	public static final int COLUMNA_DATOS_LP = 10;
 	public static final int COLUMNA_DATOS_INICIALES_LP = 11;

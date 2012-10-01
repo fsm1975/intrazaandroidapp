@@ -63,43 +63,56 @@
         android:textSize="20px" />
     
     <TextView
-        android:id="@+id/textoCantidadNuevoLP"
+        android:id="@+id/textoCantidadKgNuevoLP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/infoDatosNuevoLP"
-        android:layout_marginLeft="65dp"
+        android:layout_alignRight="@+id/textoTarifaNuevoLP"
         android:layout_marginTop="15dp"
-        android:text="Cantidad:"
+        android:text="Kg:"
         android:textColor="@android:color/white"
         android:textSize="20px" />
 
     <EditText
-        android:id="@+id/cantidadNuevoLP"
+        android:id="@+id/cantidadKgNuevoLP"
         android:layout_width="120px"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textoCantidadNuevoLP"
+        android:layout_alignBaseline="@+id/textoCantidadKgNuevoLP"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/textoCantidadNuevoLP"
+        android:layout_toRightOf="@+id/textoCantidadKgNuevoLP"
         android:inputType="numberDecimal"
 		android:selectAllOnFocus="true"
         android:text="0"
         android:maxLength="@integer/longitudCantidadLP" />
     
-	<TextView
-        android:id="@+id/textoPrecioTotalLP"
+    <TextView
+        android:id="@+id/textoCantidadUdNuevoLP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textoCantidadNuevoLP"
-        android:layout_toRightOf="@+id/cantidadNuevoLP"
+  	    android:layout_alignBaseline="@+id/cantidadKgNuevoLP"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/cantidadKgNuevoLP"
+        android:text="Ud:"
         android:textColor="@android:color/white"
         android:textSize="20px" />
-    
+
+    <EditText
+        android:id="@+id/cantidadUdNuevoLP"
+        android:layout_width="120px"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textoCantidadUdNuevoLP"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/textoCantidadUdNuevoLP"
+        android:inputType="number"
+		android:selectAllOnFocus="true"
+        android:text="0"
+        android:maxLength="@integer/longitudCantidadLP" />
+        
     <TextView
         android:id="@+id/textoTarifaNuevoLP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textoCantidadNuevoLP"
+        android:layout_below="@+id/textoCantidadKgNuevoLP"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:text="Tarifa cliente:"
@@ -134,6 +147,16 @@
 		android:layout_below="@+id/textoTarifaNuevoLP"
         android:layout_marginLeft="53dp"
         android:layout_marginTop="15dp"
+        android:textColor="@android:color/white"
+        android:textSize="20px" />
+    
+	<TextView
+        android:id="@+id/textoPrecioTotalLP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textoTarifaListaLP"
+        android:layout_toRightOf="@+id/textoTarifaListaLP"
+        android:layout_marginLeft="30dp"
         android:textColor="@android:color/white"
         android:textSize="20px" />
     

@@ -732,7 +732,8 @@ public class AdaptadorBD
 	 * 
 	 * @param idPrepedido
 	 * @param codArticulo
-	 * @param cantidad
+	 * @param cantidadKg
+	 * @param cantidadUd
 	 * @param precio
 	 * @param observaciones
 	 * @param fijarPrecio
@@ -742,13 +743,13 @@ public class AdaptadorBD
 	 * @return true si se ha guardado correctamente y false en caso contrario.
 	 */
 	public boolean guardaPrepedidoItem(int idPrepedido, String codArticulo,
-										float cantidad, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
+										float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
 	{
-		boolean resultado = actualizarPrepedidoItem(idPrepedido, codArticulo, cantidad, precio, observaciones, fijarPrecio, fijarArticulo, fijarObservaciones);
+		boolean resultado = actualizarPrepedidoItem(idPrepedido, codArticulo, cantidadKg, cantidadUd, precio, observaciones, fijarPrecio, fijarArticulo, fijarObservaciones);
 		
 		if (!resultado)
 		{
-			resultado = insertarPrepedidoItem(idPrepedido, codArticulo, cantidad, precio, observaciones, fijarPrecio, fijarArticulo, fijarObservaciones);
+			resultado = insertarPrepedidoItem(idPrepedido, codArticulo, cantidadKg, cantidadUd, precio, observaciones, fijarPrecio, fijarArticulo, fijarObservaciones);
 		}
 		
 		return resultado;
@@ -760,7 +761,8 @@ public class AdaptadorBD
 	 * 
 	 * @param id prepedido
 	 * @param codigo articulo
-	 * @param cantidad
+	 * @param cantidadKg
+	 * @param cantidadUd
 	 * @param precio
 	 * @param observaciones
 	 * @param fijar tarifa
@@ -770,13 +772,14 @@ public class AdaptadorBD
 	 * @return true si ha ido bien, o false en caso de error
 	 */
 	public boolean insertarPrepedidoItem(int idPrepedido, String codArticulo,
-										 float cantidad, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
+										 float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
 	{
 		ContentValues valoresIniciales = new ContentValues();
 		
 		valoresIniciales.put(TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, idPrepedido);
 		valoresIniciales.put(TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO, codArticulo);
-		valoresIniciales.put(TablaPrepedidoItem.CAMPO_CANTIDAD, cantidad);
+		valoresIniciales.put(TablaPrepedidoItem.CAMPO_CANTIDAD_KG, cantidadKg);
+		valoresIniciales.put(TablaPrepedidoItem.CAMPO_CANTIDAD_UD, cantidadUd);
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_PRECIO, precio);
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_OBSERVACIONES, observaciones);
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, fijarPrecio);
@@ -832,7 +835,7 @@ public class AdaptadorBD
 	{
 		return db.query(TablaPrepedidoItem.NOMBRE_TABLA, 
 						new String[] { TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO,
-									   TablaPrepedidoItem.CAMPO_CANTIDAD, TablaPrepedidoItem.CAMPO_PRECIO,
+									   TablaPrepedidoItem.CAMPO_CANTIDAD_KG, TablaPrepedidoItem.CAMPO_CANTIDAD_UD, TablaPrepedidoItem.CAMPO_PRECIO,
 									   TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
 						null, null, null, null, null);
 	}
@@ -848,7 +851,7 @@ public class AdaptadorBD
 	{
 		return db.query(TablaPrepedidoItem.NOMBRE_TABLA, 
 						new String[] { TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO,
-									   TablaPrepedidoItem.CAMPO_CANTIDAD, TablaPrepedidoItem.CAMPO_PRECIO,
+									   TablaPrepedidoItem.CAMPO_CANTIDAD_KG, TablaPrepedidoItem.CAMPO_CANTIDAD_UD, TablaPrepedidoItem.CAMPO_PRECIO,
 									   TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
 						TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO + " = " + idPrepedido,
 						null, null, null, null);
@@ -867,7 +870,7 @@ public class AdaptadorBD
 	{
 		Cursor mCursor = db.query(true, TablaPrepedidoItem.NOMBRE_TABLA, 
 								  new String[] { TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO,
-												 TablaPrepedidoItem.CAMPO_CANTIDAD, TablaPrepedidoItem.CAMPO_PRECIO,
+												 TablaPrepedidoItem.CAMPO_CANTIDAD_KG, TablaPrepedidoItem.CAMPO_CANTIDAD_UD, TablaPrepedidoItem.CAMPO_PRECIO,
 												 TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
 												 TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO + " = " + idPrepedido + " and " + TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO + " like '" + codArticulo + "'",
 								  null, null, null, null, null);
@@ -884,7 +887,8 @@ public class AdaptadorBD
 	 * 
 	 * @param id prepedido
 	 * @param codigo articulo
-	 * @param cantidad
+	 * @param cantidadKg
+	 * @param cantidadUd
 	 * @param precio
 	 * @param observaciones
 	 * @param fijar tarifa
@@ -894,13 +898,14 @@ public class AdaptadorBD
 	 * @return true si los datos se han actualizado correctamente, o false en caso contrario
 	 */
 	public boolean actualizarPrepedidoItem(int idPrepedido, String codArticulo,
-										   float cantidad, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
+										   float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
 	{
 		ContentValues args = new ContentValues();
 		
 		args.put(TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, idPrepedido);
 		args.put(TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO, codArticulo);
-		args.put(TablaPrepedidoItem.CAMPO_CANTIDAD, cantidad);
+		args.put(TablaPrepedidoItem.CAMPO_CANTIDAD_KG, cantidadKg);
+		args.put(TablaPrepedidoItem.CAMPO_CANTIDAD_UD, cantidadUd);
 		args.put(TablaPrepedidoItem.CAMPO_PRECIO, precio);
 		args.put(TablaPrepedidoItem.CAMPO_OBSERVACIONES, observaciones);
 		args.put(TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, fijarPrecio);

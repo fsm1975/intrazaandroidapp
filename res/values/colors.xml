@@ -31,6 +31,9 @@
 	<color name="colorObservacionesPedidoCliente">#999999</color>
 	<color name="colorTextoObservacionesPedidoCliente">#FFCCAA</color>
 	
+	<!-- Color con que se marca la medida del articulo por defecto en la ventana de DATOS LINEA DE PEDIDO -->
+	<color name="colorMedidaArticuloPorDefecto">#FF9900</color>
+	
     <!-- *** ALERT INTRODUCCION DATOs NUEVO PEDIDO *** -->
     
     <color name="colorFondoDatoArticuloLP">#668844</color>

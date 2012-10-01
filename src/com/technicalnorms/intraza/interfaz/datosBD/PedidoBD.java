@@ -183,7 +183,14 @@ public class PedidoBD
 		
 		for (int i=0; i<this.lineasPedido.size(); i++)
 		{
-			precioTotal += this.lineasPedido.elementAt(i).getCantidad() * this.lineasPedido.elementAt(i).getPrecio(); 
+			if (this.lineasPedido.elementAt(i).esMedidaEnKg())
+			{
+				precioTotal += this.lineasPedido.elementAt(i).getCantidadKg() * this.lineasPedido.elementAt(i).getPrecio();
+			}
+			else
+			{
+				precioTotal += this.lineasPedido.elementAt(i).getCantidadUd() * this.lineasPedido.elementAt(i).getPrecio();				
+			}
 		}
 		
 		return precioTotal;

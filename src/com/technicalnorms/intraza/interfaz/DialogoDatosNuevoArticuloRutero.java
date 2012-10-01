@@ -199,13 +199,21 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 				public void onClick(View v) 
 				{		
 					float tarifaDefecto = 0;
+					String nombreArticulo = null;
 					
 					//Comprobamos si el articulo seleccionado es valido
 					if (esArticuloValido(articuloView.getText().toString()))
 					{
 						tarifaDefecto = consultaTarifaDefectoArticuloEnBD(referenciaView.getText().toString()); 
+						nombreArticulo = articuloView.getText().toString();
+						
+						//Si le hemos puesto el sufijo que indica congelado para informar al comercial, se lo quitamos
+						if (nombreArticulo.endsWith(Constantes.MARCA_CONGELADO))
+						{
+							nombreArticulo = nombreArticulo.substring(0, nombreArticulo.length()-Constantes.MARCA_CONGELADO.length());
+						}
 								
-						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), articuloView.getText().toString(), consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 0, (float)0, (float)0, (float)0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
+						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), nombreArticulo, consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)0, (float)0, 0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
 					
 						//Chequeamos si hay que fijar el articulo en la BD de intraza, para los futuros ruteros
 						if (fijarArticulo.isChecked())
@@ -405,7 +413,16 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 			{								
 				datosArticulo = new String[2];
 				datosArticulo[0] = cursorArticulos.getString(TablaArticulo.POS_KEY_CAMPO_CODIGO);
-				datosArticulo[1] = cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE);		
+				
+				//Si esta congelado le añadimos una cadena al final del nombre para que el comercial lo identifique
+				if (cursorArticulos.getInt(TablaArticulo.POS_CAMPO_ES_CONGELADO)==1)
+				{
+					datosArticulo[1] = cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE)+Constantes.MARCA_CONGELADO;
+				}
+				else
+				{
+					datosArticulo[1] = cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE);
+				}
 				
 				//Si el articulo no esta en la pantalla de rutero, damos la posibilidad de que sea incluido
 				if (!estaArticuloYaEnPantallaRutero(datosArticulo[0]))

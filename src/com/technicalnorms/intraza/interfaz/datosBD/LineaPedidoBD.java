@@ -9,7 +9,10 @@ public class LineaPedidoBD
 {
 	private int idPrepedido = 0;
 	private String codArticulo = null;
-	private float cantidad = 0;
+	private boolean esMedidaEnKg = false;
+	private boolean esCongelado = false;
+	private float cantidadKg = 0;
+	private int cantidadUd = 0;
 	private float precio = 0;
 	private String observaciones = null;
 	boolean fijarPrecio = false;
@@ -21,18 +24,24 @@ public class LineaPedidoBD
 	 * 
 	 * @param idPrepedido
 	 * @param codArticulo
-	 * @param cantidad
+	 * @param medidaEnKg
+	 * @param esCongelado
+	 * @param cantidadKg
+	 * @param cantidadUd
 	 * @param precio
 	 * @param observaciones
 	 * @param fijarPrecio
 	 * @param fijarArticulo
 	 * @param fijarObservaciones
 	 */
-	public LineaPedidoBD(int idPrepedido, String codArticulo, float cantidad, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
+	public LineaPedidoBD(int idPrepedido, String codArticulo, boolean esMedidaEnKg, boolean esCongelado, float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
 	{
 		this.idPrepedido = idPrepedido;
 		this.codArticulo = codArticulo;
-		this.cantidad = cantidad;
+		this.esMedidaEnKg = esMedidaEnKg;
+		this.esCongelado = esCongelado;
+		this.cantidadKg = cantidadKg;
+		this.cantidadUd = cantidadUd;
 		this.precio = precio;
 		this.observaciones = observaciones;
 		this.fijarPrecio = fijarPrecio;
@@ -59,13 +68,37 @@ public class LineaPedidoBD
 	public void setCodArticulo(String codArticulo) {
 		this.codArticulo = codArticulo;
 	}
-
-	public float getCantidad() {
-		return cantidad;
+	
+	public boolean esMedidaEnKg() {
+		return esMedidaEnKg;
 	}
 
-	public void setCantidad(float cantidad) {
-		this.cantidad = cantidad;
+	public void setEsMedidaEnKg(boolean esMedidaEnKg) {
+		this.esMedidaEnKg = esMedidaEnKg;
+	}
+	
+	public boolean esCongelado() {
+		return esCongelado;
+	}
+
+	public void setEsCongelado(boolean esCongelado) {
+		this.esCongelado = esCongelado;
+	}
+
+	public float getCantidadKg() {
+		return cantidadKg;
+	}
+
+	public void setCantidadKg(float cantidad) {
+		this.cantidadKg = cantidad;
+	}
+	
+	public int getCantidadUd() {
+		return cantidadUd;
+	}
+
+	public void setCantidadUd(int cantidad) {
+		this.cantidadUd = cantidad;
 	}
 
 	public float getPrecio() {

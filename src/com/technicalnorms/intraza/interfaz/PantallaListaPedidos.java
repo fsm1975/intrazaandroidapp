@@ -282,6 +282,7 @@ public class PantallaListaPedidos extends Activity
 		AdaptadorBD db = new AdaptadorBD(this);
 		Cursor cursorPedidos = null;
 		Cursor cursorLineasPedido = null;
+		Cursor cursorArticulo = null;
 		//Datos para pedido
 		int idPrepedidoP = 0;
 		int idClienteP = 0;
@@ -297,7 +298,10 @@ public class PantallaListaPedidos extends Activity
 		//Datos para la linea de pedido
 		int idPrepedidoLP = 0;
 		String codArticuloLP = null;
-		float cantidadLP = 0; 
+		boolean esMedidaKgLP = false;
+		boolean esCongeladoLP = false;
+		float cantidadKgLP = 0;
+		int cantidadUdLP = 0;
 		float tarifaClienteLP = 0; 
 		String observacionesLP = null;
 		boolean fijarTarifaLP = false;
@@ -366,7 +370,8 @@ public class PantallaListaPedidos extends Activity
 					{
 						idPrepedidoLP = cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_ID_PREPEDIDO);
 						codArticuloLP = cursorLineasPedido.getString(TablaPrepedidoItem.POS_CAMPO_CODIGO_ARTICULO);
-						cantidadLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_CANTIDAD); 
+						cantidadKgLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_CANTIDAD_KG);
+						cantidadUdLP = cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_CANTIDAD_UD);
 						tarifaClienteLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_PRECIO);
 						observacionesLP = cursorLineasPedido.getString(TablaPrepedidoItem.POS_CAMPO_OBSERVACIONES);
 						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_FIJAR_PRECIO) == 1)
@@ -396,7 +401,29 @@ public class PantallaListaPedidos extends Activity
 							fijarObservacionesLP = false;
 						}
 						
-						lineasPedido.add(new LineaPedidoBD(idPrepedidoLP, codArticuloLP, cantidadLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
+						//Hacemos una consulta al articulo para obtener su medida por defecto
+						cursorArticulo = db.obtenerArticulo(codArticuloLP);
+						
+						if (cursorArticulo.getInt(TablaArticulo.POS_CAMPO_ES_KG) == 1)
+						{
+							esMedidaKgLP = true;
+						}
+						else
+						{
+							esMedidaKgLP = false;
+						}
+						
+						//Comprobamos si el articulo es congelado
+						if (cursorArticulo.getInt(TablaArticulo.POS_CAMPO_ES_CONGELADO) == 1)
+						{
+							esCongeladoLP = true;
+						}
+						else
+						{
+							esCongeladoLP = false;
+						}
+						
+						lineasPedido.add(new LineaPedidoBD(idPrepedidoLP, codArticuloLP, esMedidaKgLP, esCongeladoLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
 					} while (cursorLineasPedido.moveToNext());
 				}
 				
@@ -1448,7 +1475,8 @@ public class PantallaListaPedidos extends Activity
 			//Datos para la linea de pedido
 			int idPrepedidoLP = 0;
 			String codArticuloLP = null;
-			float cantidadLP = 0; 
+			float cantidadKgLP = 0;
+			int cantidadUdLP = 0;
 			float tarifaClienteLP = 0; 
 			String observacionesLP = null;
 			boolean fijarTarifaLP = false;
@@ -1498,7 +1526,8 @@ public class PantallaListaPedidos extends Activity
 					{
 						idPrepedidoLP = cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_ID_PREPEDIDO);
 						codArticuloLP = cursorLineasPedido.getString(TablaPrepedidoItem.POS_CAMPO_CODIGO_ARTICULO);
-						cantidadLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_CANTIDAD); 
+						cantidadKgLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_CANTIDAD_KG);
+						cantidadUdLP = cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_CANTIDAD_UD);
 						tarifaClienteLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_PRECIO);
 						observacionesLP = cursorLineasPedido.getString(TablaPrepedidoItem.POS_CAMPO_OBSERVACIONES);
 						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_FIJAR_PRECIO) == 1)
@@ -1533,7 +1562,7 @@ public class PantallaListaPedidos extends Activity
 						cursorArticulo.moveToFirst();
 						nombreArticuloLP = cursorArticulo.getString(TablaArticulo.POS_CAMPO_NOMBRE);			
 						
-						jsonLineasPedido.add(new JsonLineaPedido(idPrepedidoLP, codArticuloLP, nombreArticuloLP, cantidadLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
+						jsonLineasPedido.add(new JsonLineaPedido(idPrepedidoLP, codArticuloLP, nombreArticuloLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
 					} while (cursorLineasPedido.moveToNext());
 				}
 					
