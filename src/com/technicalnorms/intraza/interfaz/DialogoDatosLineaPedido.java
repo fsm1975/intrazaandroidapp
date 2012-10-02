@@ -145,6 +145,11 @@ public class DialogoDatosLineaPedido extends Activity
 			{
 				if (!hasFocus)
 				{
+					if (cantidadKgNuevoLPEdit.getText().toString().length()==0 || cantidadKgNuevoLPEdit.getText().toString().equals("-"))
+					{
+						cantidadKgNuevoLPEdit.setText("0");
+					}
+						
 					datosLineaPedido.setCantidadKg(Float.parseFloat(cantidadKgNuevoLPEdit.getText().toString().replace(',', '.')));
 					precioTotalLPView.setText(Constantes.CADENA_PREFIJO_PRECIO_TOTAL+Constantes.formatearFloat2Decimales.format(datosLineaPedido.getPrecio())+Constantes.EURO);
 				}
@@ -159,6 +164,11 @@ public class DialogoDatosLineaPedido extends Activity
 			{
 				if (!hasFocus)
 				{
+					if (cantidadUdNuevoLPEdit.getText().toString().length()==0 || cantidadUdNuevoLPEdit.getText().toString().equals("-"))
+					{
+						cantidadUdNuevoLPEdit.setText("0");
+					}
+					
 					datosLineaPedido.setCantidadUd(Integer.parseInt(cantidadUdNuevoLPEdit.getText().toString()));
 					precioTotalLPView.setText(Constantes.CADENA_PREFIJO_PRECIO_TOTAL+Constantes.formatearFloat2Decimales.format(datosLineaPedido.getPrecio())+Constantes.EURO);
 				}
@@ -173,6 +183,11 @@ public class DialogoDatosLineaPedido extends Activity
 			{
 				if (!hasFocus)
 				{
+					if (tarifaNuevoLPEdit.getText().toString().length()==0)
+					{
+						tarifaNuevoLPEdit.setText("0");
+					}
+					
 					datosLineaPedido.setTarifaCliente(Float.parseFloat(tarifaNuevoLPEdit.getText().toString().replace(',', '.')));
 					precioTotalLPView.setText(Constantes.CADENA_PREFIJO_PRECIO_TOTAL+Constantes.formatearFloat2Decimales.format(datosLineaPedido.getPrecio())+Constantes.EURO);
 				}
@@ -364,6 +379,21 @@ public class DialogoDatosLineaPedido extends Activity
 		{
 			public void onClick(View v) 
 			{	
+				if (cantidadKgNuevoLPEdit.getText().toString().length()==0 || cantidadKgNuevoLPEdit.getText().toString().equals("-"))
+				{
+					cantidadKgNuevoLPEdit.setText("0");
+				}
+				
+				if (cantidadUdNuevoLPEdit.getText().toString().length()==0 || cantidadUdNuevoLPEdit.getText().toString().equals("-"))
+				{
+					cantidadUdNuevoLPEdit.setText("0");
+				}
+				
+				if (tarifaNuevoLPEdit.getText().toString().length()==0)
+				{
+					tarifaNuevoLPEdit.setText("0");
+				}
+				
 				//Primero guardamos y recalculamos los datos
 				datosLineaPedido.setCantidadKg(Float.parseFloat(cantidadKgNuevoLPEdit.getText().toString().replace(',', '.')));
 				datosLineaPedido.setCantidadUd(Integer.parseInt(cantidadUdNuevoLPEdit.getText().toString()));

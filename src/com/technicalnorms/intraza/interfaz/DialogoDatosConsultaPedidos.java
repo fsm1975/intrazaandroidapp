@@ -41,14 +41,12 @@ public class DialogoDatosConsultaPedidos extends Activity
 	//Almacena los datos de la consulta
 	private DatosConsultaPedidos datosConsultaPedidos = null;
 	
-	//Widgeds que contienen los datos que debe introducir el usuario para el nuevo pedido
+	//Widgeds que contienen los datos que debe introducir el usuario
 	private AutoCompleteTextView clienteView = null;
-	private AutoCompleteTextView idPedidoView = null;
 	private Spinner spinnerCliente = null;
 	
-	//Almacena los clientes e idPedidos que hay en la BD y que por tanto puede indicar el usuario
+	//Almacena los clientes que hay en la BD y que por tanto puede indicar el usuario
 	private ArrayList<String> clienteArrayList = null;
-	private ArrayList<String> idPedidoArrayList = null;
 	
 	//Indica si el subdialo se invoco desde la activity principal es decir, desde el menu principal de la aplicacion
 	private boolean invocacionDesdeActiviyPrincipal = false;
@@ -82,7 +80,6 @@ public class DialogoDatosConsultaPedidos extends Activity
 		
 		//Inicializarmos los arrayList a utlizar en el ArrayAdapter
 		inicializaDatosClientesBD();
-		inicializaIdPedidosBD();
 		
 		//Se obtienen los datos para los TextView AutoComplete y Spinner	    
 	    adapter = new ArrayAdapter<String>(this, R.layout.list_item, this.clienteArrayList);
@@ -134,10 +131,6 @@ public class DialogoDatosConsultaPedidos extends Activity
 	    	}  
 	    });
 	    
-		this.idPedidoView = (AutoCompleteTextView)findViewById(R.id.idPedidoDCP);
-		adapter = new ArrayAdapter<String>(this, R.layout.list_item, this.idPedidoArrayList);
-	    this.idPedidoView.setAdapter(adapter);
-	    
 		//*******
 		//BOTONES
 		//*******
@@ -170,19 +163,8 @@ public class DialogoDatosConsultaPedidos extends Activity
 				{
 					toastMensajeError(Constantes.AVISO_DATOS_DCP_CLIENTE_NO_VALIDO);
 				}
-				//Comprobamos que el id. pedido seleccionado es valido
-				else if (!idPedidoView.getText().toString().trim().equals("") && !esIdPedidoValido(idPedidoView.getText().toString().trim()))
-				{
-					toastMensajeError(Constantes.AVISO_DATOS_DCP_ID_PEDIDO_NO_VALIDO);
-				}
 				else
 				{
-					if (!idPedidoView.getText().toString().trim().equals(""))
-					{
-						idPedido = Integer.parseInt(idPedidoView.getText().toString().trim());
-						
-					}
-					
 					if (vectorDatosClientes.elementAt(posClienteSeleccionado)!=null)
 					{
 						idCliente = Integer.parseInt(vectorDatosClientes.elementAt(posClienteSeleccionado)[0]);
@@ -291,40 +273,7 @@ public class DialogoDatosConsultaPedidos extends Activity
 		
 		return this.clienteArrayList;
 	}
-	
-	/**
-	 * Devuelve un objeto Set<String> con los id. pedidos de la BD
-	 * 
-	 * @return ArrayList con la lista de id. pedidos
-	 */
-	private ArrayList<String> inicializaIdPedidosBD()
-	{
-		this.idPedidoArrayList = new ArrayList<String>();
-				
-		AdaptadorBD db = new AdaptadorBD(this);
-		Cursor cursorPedidos = null;
-
-		//Consultamos todos los prepedidos y metemos cada uno de ellos en el ArrayList
-		db.abrir();	
 		
-		cursorPedidos = db.obtenerTodosLosPrepedidos();
-		
-		if (cursorPedidos.moveToFirst())
-		{			
-			do 
-			{				
-				this.idPedidoArrayList.add(cursorPedidos.getString(TablaPrepedido.POS_KEY_CAMPO_ID_PREPEDIDO));				
-			} while (cursorPedidos.moveToNext());
-		}
-		
-		//Ordenamos el array list
-		Collections.sort(this.idPedidoArrayList);
-		
-		db.cerrar();
-		
-		return this.idPedidoArrayList;
-	}
-	
 	/**
 	 * Comprueba si el cliente pasado como parametro, es uno de los clientes de la lista.
 	 * 
@@ -335,18 +284,7 @@ public class DialogoDatosConsultaPedidos extends Activity
 	{
 		return this.clienteArrayList.contains(cliente);
 	}
-	
-	/**
-	 * Comprueba si el id. pedido pasado como parametro, es uno de los id. pedidos de la lista.
-	 * 
-	 * @param id. pedido a comprobar si pertenece a la lista.
-	 * @return true si el id. pedido pertenece a la lista de pedidos o false en caso contrario.
-	 */
-	private boolean esIdPedidoValido(String cliente)
-	{
-		return this.idPedidoArrayList.contains(cliente);
-	}
-	
+		
 	/**
 	 * - Devuelve a la activity que lo solicito los datos de consulta para el nuevo pedido, introducidos por el usuario.
 	 * - Indica que le ejecución de la activity ha sido OK.

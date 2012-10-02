@@ -18,7 +18,7 @@
 			android:background="@color/colorFondoDatoArticuloLP"
 			android:textColor="@android:color/white"
 			android:textSize="30px" 
-			android:text="Introduzca los datos de los pedidos a consultar"/>
+			android:text="DATOS PARA LA CONSULTA DE PEDIDOS"/>
     </RelativeLayout>
     
     <TextView
@@ -30,46 +30,24 @@
         android:layout_below="@+id/DCP"
         android:textColor="@android:color/white"
         android:textSize="20px" 
-        android:text="Introduzca uno de los siguentes datos:"/>
-      	
-    <TextView
-        android:id="@+id/textoIdPedidoDCP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/infoDCP"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/infoDCP"
-        android:text="Identificador"
-        android:textColor="@android:color/white"
-        android:textSize="20px" />
-    
-	<AutoCompleteTextView android:id="@+id/idPedidoDCP"
-		android:layout_width="200dp"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@+id/textoIdPedidoDCP"
-		android:layout_below="@+id/textoIdPedidoDCP"
-		android:inputType="number" 
-		android:singleLine="true"
-		android:selectAllOnFocus="true"/>
-	
+        android:text="Introduzca el cliente, cuyos pedidos desea consultar:"/>
+		
 	<TextView
         android:id="@+id/textoClienteDCP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/clienteDCP"
-		android:layout_toRightOf="@+id/textoIdPedidoDCP"
-        android:layout_alignBaseline="@+id/textoIdPedidoDCP"               
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/infoDCP"              
         android:text="Cliente"
         android:textColor="@android:color/white"
         android:textSize="20px" />
     
 	<AutoCompleteTextView android:id="@+id/clienteDCP"
-		android:layout_width="400dp"
+		android:layout_width="500dp"
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/textoClienteDCP"
-		android:layout_toRightOf="@+id/idPedidoDCP"
-		android:layout_alignBaseline="@+id/idPedidoDCP"
-		android:layout_marginLeft="40dp"
+		android:layout_alignLeft="@+id/textoClienteDCP"
 		android:singleLine="true"
 		android:selectAllOnFocus="true"/>	
 		
@@ -78,7 +56,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_toRightOf="@+id/clienteDCP"
-		android:layout_alignBaseline="@+id/idPedidoDCP"
+		android:layout_alignBaseline="@+id/clienteDCP"
 		android:textSize="20px"
 		android:text=" ... " />
 		
@@ -93,7 +71,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/idPedidoDCP"
+        android:layout_below="@+id/clienteDCP"
         android:layout_marginTop="20dp"
         android:background="@android:drawable/bottom_bar"
         android:orientation="horizontal"

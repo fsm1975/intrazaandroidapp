@@ -718,7 +718,8 @@ public class PantallaRutero extends Activity
 						}
 						
 						//Hacemos una consulta al articulo para obtener su medida por defecto
-						cursorArticulo = db.obtenerArticulo(codArticuloLP);
+						//Por si esta clonado, le quitamos la marca
+						cursorArticulo = db.obtenerArticulo(codArticuloLP.split(Constantes.CARACTER_OBLIGATORIO_MARCA_CLON_CODIGO_ARTICULO)[0]);
 						
 						if (cursorArticulo.getInt(TablaArticulo.POS_CAMPO_ES_KG) == 1)
 						{
@@ -738,7 +739,6 @@ public class PantallaRutero extends Activity
 						{
 							esCongeladoLP = false;
 						}
-
 						
 						lineasPedidoBD.add(new LineaPedidoBD(idPrepedidoLP, codArticuloLP, esMedidaKgLP, esCongeladoLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
 					} while (cursorLineasPedido.moveToNext());
