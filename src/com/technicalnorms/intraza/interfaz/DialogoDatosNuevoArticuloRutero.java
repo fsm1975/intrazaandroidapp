@@ -213,7 +213,7 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 							nombreArticulo = nombreArticulo.substring(0, nombreArticulo.length()-Constantes.MARCA_CONGELADO.length());
 						}
 								
-						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), nombreArticulo, consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)0, (float)0, 0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
+						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), nombreArticulo, consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)-1, (float)0, 0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
 					
 						//Chequeamos si hay que fijar el articulo en la BD de intraza, para los futuros ruteros
 						if (fijarArticulo.isChecked())

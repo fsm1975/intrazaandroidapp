@@ -99,7 +99,7 @@ public class Constantes
 	public static final String MENSAJE_DATOS_NUEVO_LP_CLONAR_ACEPTADOS = "¡Datos articulo clonado aceptados para el pedido!";
 	public static final String MENSAJE_DATOS_INCLUIR_SELECCIONES = "¡Selecciones incluidas en las observaciones!";
 	public static final String MENSAJE_DATOS_QUITAR_SELECCIONES = "¡Se han puesto las observaciones por defecto!";
-	public static final String AVISO_DATOS_NUEVO_LP_CANTIDAD_0 = "¡LA CANTIDAD NO PUEDE SER 0!";
+	public static final String AVISO_DATOS_NUEVO_LP_CANTIDAD_0 = "¡DEBE INTRODUCIR UNA CANTIDAD!";
 	public static final String AVISO_DATOS_NUEVO_LP_TARIFA_CLIENTE_0 = "¡LA TARIFA CLIENTE NO PUEDE SER 0!";
 	//public static final String MENSAJE_PANTALLA_CARGAR_RUTERO = "Cargando rutero ...";
 	//public static final String MENSAJE_PANTALLA_RUTERO_CARGADO = "¡Rutero cargado!";

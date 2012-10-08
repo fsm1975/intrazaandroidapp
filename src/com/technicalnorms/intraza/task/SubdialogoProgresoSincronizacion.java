@@ -180,7 +180,16 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 	 */
 	private void registrosTotalesParaSincronizar() throws Exception
 	{
-		JSONObject jsonTotales = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionTotalRegistros(this.contexto)));
+		JSONObject jsonTotales = null;
+		
+		if (esSincronizacion3G)
+		{
+			jsonTotales = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionTotalRegistros3G(this.contexto)));
+		}
+		else
+		{
+			jsonTotales = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionTotalRegistrosWIFI(this.contexto)));
+		}
 		
 		//Chequeamos que la ejecucion fue correcta
 		if (jsonTotales.getInt("totalArticulos")==-1)
@@ -209,11 +218,19 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		AdaptadorBD db = new AdaptadorBD(this.contexto);
 		float incrementoActual = 0;
 		int incrementoTotal = 0;
+		JSONArray jsonArrayArticulos = null;
 		
 		db.abrir();
 		
 		//1 - Obtenemos los datos de los articulos de intraza
-		JSONArray jsonArrayArticulos = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionArticulo(this.contexto)));
+		if (esSincronizacion3G)
+		{
+			jsonArrayArticulos = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionArticulo3G(this.contexto)));
+		}
+		else
+		{
+			jsonArrayArticulos = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionArticuloWIFI(this.contexto)));
+		}
 		
 		if (jsonArrayArticulos.length()>0)
 		{
@@ -272,11 +289,19 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		AdaptadorBD db = new AdaptadorBD(this.contexto);
 		float incrementoActual = 0;
 		int incrementoTotal = 0;
+		JSONArray jsonArrayClientes = null;
 		
 		db.abrir();
 		
 		//1 - Obtenemos los datos de los clientes de intraza
-		JSONArray jsonArrayClientes = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionCliente(this.contexto)));
+		if (esSincronizacion3G)
+		{
+			jsonArrayClientes = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionCliente3G(this.contexto)));
+		}
+		else
+		{
+			jsonArrayClientes = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionClienteWIFI(this.contexto)));
+		}
 		
 		if (jsonArrayClientes.length()>0)
 		{
@@ -339,7 +364,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
             db.abrir();
            
             //1 - Obtenemos los datos de los ruteros de intraza
-            JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTotal(this.contexto)));
+            JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTotalWIFI(this.contexto)));
            
             if (jsonArrayRuteros.length()>0)
             {
@@ -409,7 +434,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		db.abrir();
 		
 		//1 - Obtenemos los datos de los ruteros de intraza
-		JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRutero(this.contexto)));
+		JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRutero3G(this.contexto)));
 		
 		if (jsonArrayRuteros.length()>0)
 		{
@@ -423,7 +448,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 				JSONObject jsonRutero = jsonArrayRuteros.getJSONObject(i);
 				
 				//*** OBTENEMOS LA TARIFA CLIENTE DE LA LINEA DE RUTERO
-				JSONObject jsonResultadoTC = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTarifaCliente(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
+				JSONObject jsonResultadoTC = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTarifaCliente3G(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
 				
 				//Si no hay tarifa cliente tenemos que obtener la tarifa defecto
 				if (jsonResultadoTC.getInt("codigoError") == 0 && jsonResultadoTC.getDouble("dato")!=-1)
@@ -432,7 +457,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 				}	
 				else
 				{
-					JSONObject jsonResultadoTD = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTarifaDefecto(this.contexto, jsonRutero.getString("codigoArticulo"))));
+					JSONObject jsonResultadoTD = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroTarifaDefecto3G(this.contexto, jsonRutero.getString("codigoArticulo"))));
 					
 					//Si no hay tarifa cliente tenemos que obtener la tarifa defecto
 					if (jsonResultadoTD.getInt("codigoError") == 0 && jsonResultadoTD.getDouble("dato")!=-1)
@@ -448,7 +473,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 				}
 				
 				//*** OBTENEMOS EL PESO TOTAL ANUAL DE LA LINEA DE RUTERO
-				JSONObject jsonResultadoPTA = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroPesoTotalAnio(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
+				JSONObject jsonResultadoPTA = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroPesoTotalAnio3G(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
 				
 				if (jsonResultadoPTA.getInt("codigoError") == 0)
 				{
@@ -517,7 +542,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		db.abrir();
 		
 		//1 - Obtenemos los datos de los ruteros de intraza
-		JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRutero(this.contexto)));
+		JSONArray jsonArrayRuteros = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRutero3G(this.contexto)));
 		
 		if (jsonArrayRuteros.length()>0)
 		{
@@ -531,7 +556,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 				JSONObject jsonRutero = jsonArrayRuteros.getJSONObject(i);
 				
 				//*** OBTENEMOS LOS DATOS DE LA LINEA DE RUTERO
-				JSONObject jsonResultadoDR = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroDatos(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
+				JSONObject jsonResultadoDR = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionRuteroDatos3G(this.contexto, jsonRutero.getInt("idCliente"), jsonRutero.getString("codigoArticulo"))));
 				
 				if (jsonResultadoDR.getInt("codigoError") == 0)
 				{
@@ -591,11 +616,19 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		AdaptadorBD db = new AdaptadorBD(this.contexto);
 		float incrementoActual = 0;
 		int incrementoTotal = 0;
+		JSONArray jsonArrayObservaciones = null;
 		
 		db.abrir();
 		
 		//1 - Obtenemos los datos de las observaciones de intraza
-		JSONArray jsonArrayObservaciones = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionObservacion(this.contexto)));
+		if (esSincronizacion3G)
+		{
+			jsonArrayObservaciones = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionObservacion3G(this.contexto)));
+		}
+		else
+		{
+			jsonArrayObservaciones = new JSONArray(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesSincronizacionObservacionWIFI(this.contexto)));
+		}
 		
 		if (jsonArrayObservaciones.length()>0)
 		{

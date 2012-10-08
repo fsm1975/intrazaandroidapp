@@ -31,11 +31,17 @@ public class Configuracion
 	public static final String DESCRIPCION_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = "Timeout en segundos, para la conexion con los Web Service de sincronizacion y envio de pedidos a InTraza";
 	public static final boolean ES_EDITABLE_PARAMETRO_TIMEOUT_WEB_SERVICE_SINCRONIZACION = true;
 	
-	//Parametro URI_WEB_SERVICES_SINCRONIZACION
-	public static final String NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "URI_WEB_SERVICES_SINCRONIZACION";
-	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "https://213.0.78.111:8069/InTrazaWeb/rest/sincroniza";
-	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = "URI de solicitud de los Web Service para la sincronizacion y envio de pedido a InTraza";
-	public static final boolean ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION = true;
+	//Parametro URI_WEB_SERVICES_SINCRONIZACION_3G
+	public static final String NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G = "URI_WEB_SERVICES_SINCRONIZACION_3G";
+	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G = "https://213.0.78.111:8069/InTrazaWeb/rest/sincroniza";
+	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G = "URI de solicitud de los Web Service para la sincronizacion y envio de pedidos a InTraza a traves de 3G";
+	public static final boolean ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G= true;
+	
+	//Parametro URI_WEB_SERVICES_SINCRONIZACION_WIFI
+	public static final String NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI = "URI_WEB_SERVICES_SINCRONIZACION_WIFI";
+	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI = "https://10.14.1.190:8069/InTrazaWeb/rest/sincroniza";
+	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI = "URI de solicitud de los Web Service para la sincronizacion a InTraza a traves de WIFI";
+	public static final boolean ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI= true;
 	
 	//Parametro PERMITIR_PRECIO_0
 	public static final String NOMBRE_PARAMETRO_PERMITIR_PRECIO_0 = "PERMITIR_PRECIO_0";
@@ -155,15 +161,15 @@ public class Configuracion
 		return timeout;
 	}
 	
-	public static String dameUriWebServicesSincronizacion(Context context)
+	public static String dameUriWebServicesSincronizacion3G(Context context)
 	{
-		String uri = VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION;
+		String uri = VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G;
 		AdaptadorBD db = new AdaptadorBD(context);
 		Cursor cursorParametro = null;
 		
 		db.abrir();
 		
-		cursorParametro = db.obtenerParametroConfiguracion(NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);	
+		cursorParametro = db.obtenerParametroConfiguracion(NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G);	
 		
 		//Si tenemos resultado de la consulta...
 		if (cursorParametro.moveToFirst())
@@ -176,77 +182,105 @@ public class Configuracion
 		return uri;
 	}
 	
-	/**
-	 * Pone la URI de los Web Service REST de sincronizacion
-	 * 
-	 * @param context
-	 */
-	public static void ponUriWebServicesSincronizacion(Context context, String uri)
+	public static String dameUriWebServicesSincronizacionWIFI(Context context)
 	{
+		String uri = VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI;
 		AdaptadorBD db = new AdaptadorBD(context);
+		Cursor cursorParametro = null;
 		
 		db.abrir();
 		
-		db.actualizarParametroConfiguracion(NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION, uri, DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION, ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
+		cursorParametro = db.obtenerParametroConfiguracion(NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI);	
+		
+		//Si tenemos resultado de la consulta...
+		if (cursorParametro.moveToFirst())
+		{	
+			uri = cursorParametro.getString(TablaConfiguracion.POS_CAMPO_VALOR);
+		}		
 		
 		db.cerrar();
 		
-		return;
+		return uri;
 	}
 	
-	public static String dameUriWebServicesSincronizacionTotalRegistros(Context context)
+	public static String dameUriWebServicesSincronizacionTotalRegistros3G(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_TOTALES;
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_TOTALES;
 	}
 	
-	public static String dameUriWebServicesSincronizacionArticulo(Context context)
+	public static String dameUriWebServicesSincronizacionTotalRegistrosWIFI(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_ARTICULO;
+		return dameUriWebServicesSincronizacionWIFI(context)+NOMBRE_WS_REST_TOTALES;
 	}
 	
-	public static String dameUriWebServicesSincronizacionCliente(Context context)
+	public static String dameUriWebServicesSincronizacionArticulo3G(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_CLIENTE;
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_ARTICULO;
 	}
 	
-	public static String dameUriWebServicesSincronizacionRuteroTotal(Context context)
+	public static String dameUriWebServicesSincronizacionArticuloWIFI(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_TOTAL;
+		return dameUriWebServicesSincronizacionWIFI(context)+NOMBRE_WS_REST_ARTICULO;
 	}
 	
-	public static String dameUriWebServicesSincronizacionRutero(Context context)
+	public static String dameUriWebServicesSincronizacionCliente3G(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO;
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_CLIENTE;
 	}
 	
-	public static String dameUriWebServicesSincronizacionRuteroTarifaCliente(Context context, int idCliente, String codigoArticulo)
+	public static String dameUriWebServicesSincronizacionClienteWIFI(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_TARIFA_CLIENTE+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
+		return dameUriWebServicesSincronizacionWIFI(context)+NOMBRE_WS_REST_CLIENTE;
 	}
 	
-	public static String dameUriWebServicesSincronizacionRuteroTarifaDefecto(Context context, String codigoArticulo)
+	public static String dameUriWebServicesSincronizacionRuteroTotalWIFI(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_TARIFA_DEFECTO+"?codigoArticulo="+codigoArticulo;
+		return dameUriWebServicesSincronizacionWIFI(context)+NOMBRE_WS_REST_RUTERO_TOTAL;
 	}
 	
-	public static String dameUriWebServicesSincronizacionRuteroPesoTotalAnio(Context context, int idCliente, String codigoArticulo)
+	public static String dameUriWebServicesSincronizacionRutero3G(Context context)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_PESO_TOTAL_ANIO+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_RUTERO;
 	}
 	
-	public static String dameUriWebServicesSincronizacionRuteroDatos(Context context, int idCliente, String codigoArticulo)
+	public static String dameUriWebServicesSincronizacionRuteroTarifaCliente3G(Context context, int idCliente, String codigoArticulo)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_RUTERO_DATOS+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_RUTERO_TARIFA_CLIENTE+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
 	}
 	
-	public static String dameUriWebServicesSincronizacionObservacion(Context context)
+	public static String dameUriWebServicesSincronizacionRuteroTarifaDefecto3G(Context context, String codigoArticulo)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_OBSERVACION;
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_RUTERO_TARIFA_DEFECTO+"?codigoArticulo="+codigoArticulo;
 	}
 	
-	public static String dameUriWebServicesEnvioPrepedido(Context context)
+	public static String dameUriWebServicesSincronizacionRuteroPesoTotalAnio3G(Context context, int idCliente, String codigoArticulo)
 	{
-		return dameUriWebServicesSincronizacion(context)+NOMBRE_WS_REST_PREPEDIDO;
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_RUTERO_PESO_TOTAL_ANIO+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
+	}
+	
+	public static String dameUriWebServicesSincronizacionRuteroDatos3G(Context context, int idCliente, String codigoArticulo)
+	{
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_RUTERO_DATOS+"?idCliente="+idCliente+"&codigoArticulo="+codigoArticulo;
+	}
+	
+	public static String dameUriWebServicesSincronizacionObservacion3G(Context context)
+	{
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_OBSERVACION;
+	}
+	
+	public static String dameUriWebServicesSincronizacionObservacionWIFI(Context context)
+	{
+		return dameUriWebServicesSincronizacionWIFI(context)+NOMBRE_WS_REST_OBSERVACION;
+	}
+	
+	public static String dameUriWebServicesEnvioPrepedido3G(Context context)
+	{
+		return dameUriWebServicesSincronizacion3G(context)+NOMBRE_WS_REST_PREPEDIDO;
+	}
+	
+	public static String dameUriWebServicesEnvioPrepedidoWIFI(Context context)
+	{
+		return dameUriWebServicesSincronizacionWIFI(context)+NOMBRE_WS_REST_PREPEDIDO;
 	}
 	
 	/**

@@ -17,7 +17,7 @@ public class DatosLineaPedido implements Parcelable
 	private String medida = Constantes.KILOGRAMOS;
 	private int esCongelado = 0; 
 	private String ultimaFecha = null;
-	private float ultimaCantidad = 0;
+	private float ultimaCantidad = -1;
 	private float ultimaTarifa = 0;
 	private float cantidadKg = 0;
 	private int cantidadUd = 0;

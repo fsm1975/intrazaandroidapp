@@ -69,10 +69,17 @@ public class AdaptadorBD
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			
-				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
-				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
-				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
-				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION);
+				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G);
+				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
+				
+				valoresIniciales = new ContentValues();			
+				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 				
 				valoresIniciales = new ContentValues();			

@@ -11,7 +11,7 @@ public class LineaPedidoBD
 	private String codArticulo = null;
 	private boolean esMedidaEnKg = false;
 	private boolean esCongelado = false;
-	private float cantidadKg = 0;
+	private float cantidadKg = -1;
 	private int cantidadUd = 0;
 	private float precio = 0;
 	private String observaciones = null;

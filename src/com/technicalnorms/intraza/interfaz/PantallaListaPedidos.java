@@ -300,7 +300,7 @@ public class PantallaListaPedidos extends Activity
 		String codArticuloLP = null;
 		boolean esMedidaKgLP = false;
 		boolean esCongeladoLP = false;
-		float cantidadKgLP = 0;
+		float cantidadKgLP = -1;
 		int cantidadUdLP = 0;
 		float tarifaClienteLP = 0; 
 		String observacionesLP = null;
@@ -502,8 +502,11 @@ public class PantallaListaPedidos extends Activity
 					//Recuperamos los IDs de los pedidos a enviar a intraza
 					String[] idPedidos = data.getExtras().getStringArray("ARRAY_ID_PEDIDOS");
 					
+					//Recuperamos si se quiere enviar por WIFI
+					boolean usarWIFI = data.getExtras().getBoolean("USAR_WIFI", false);
+					
 					//Enviamos los pedidos a intraza
-					TareaEnviaPrepedidos enviaPrepedidos = new TareaEnviaPrepedidos(this, idPedidos);
+					TareaEnviaPrepedidos enviaPrepedidos = new TareaEnviaPrepedidos(this, idPedidos, usarWIFI);
 					enviaPrepedidos.execute();
 										
 					//Deschequeamos el checkBox de la cabecera enviar
@@ -1292,12 +1295,16 @@ public class PantallaListaPedidos extends Activity
 		private boolean hayErrorEnvioPrepedido = false;
 		
 		//Almacena el identificador de los prepedidos que ha sido enviado correctamente a intraza
-		ArrayList<String> listaPrepedidosEnviados = new ArrayList<String>();
+		private ArrayList<String> listaPrepedidosEnviados = new ArrayList<String>();
 		
-		public TareaEnviaPrepedidos(Context contexto, String[] idPedidos) 
+		//Indica si se va ha utilizar WIFI en lugar de 3G para enviar el pedido
+		private boolean usarWIFI = false;
+		
+		public TareaEnviaPrepedidos(Context contexto, String[] idPedidos, boolean usarWIFI) 
 		{
 			this.contexto = contexto;
 			this.idPedidos = idPedidos;
+			this.usarWIFI = usarWIFI;
 			
 			this.dialog = new ProgressDialog(contexto);
 	    }
@@ -1397,6 +1404,7 @@ public class PantallaListaPedidos extends Activity
 			JsonPedido jsonPedido = null;
 			float incrementoParcial = 0;
 			int incrementoTotal = 0;
+			JSONObject jsonResultado = null;
 			
 			db.abrir();
 			
@@ -1417,7 +1425,14 @@ public class PantallaListaPedidos extends Activity
 				jsonPedido = creaObjetoJsonPedido(cursorPedidos, cursorLineasPedido, db);
 			
 				//Invocamos al WS para que introducir los datos del pedido en InTraza
-				JSONObject jsonResultado = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesEnvioPrepedido(this.contexto), jsonPedido));
+				if (usarWIFI)
+				{
+					jsonResultado = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesEnvioPrepedidoWIFI(this.contexto), jsonPedido));
+				}
+				else
+				{
+					jsonResultado = new JSONObject(invocaWebServiceHttps(Configuracion.dameTimeoutWebServices(this.contexto), Configuracion.dameUriWebServicesEnvioPrepedido3G(this.contexto), jsonPedido));
+				}
 			
 				//Comprobamos si el envio fue correo
 				if (jsonResultado.getInt("codigoError") != 0)

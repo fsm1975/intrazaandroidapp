@@ -145,9 +145,9 @@ public class DialogoDatosLineaPedido extends Activity
 			{
 				if (!hasFocus)
 				{
-					if (cantidadKgNuevoLPEdit.getText().toString().length()==0 || cantidadKgNuevoLPEdit.getText().toString().equals("-"))
+					if (cantidadKgNuevoLPEdit.getText().toString().length()==0 || cantidadKgNuevoLPEdit.getText().toString().equals("-") || cantidadKgNuevoLPEdit.getText().toString().equals("0") || cantidadKgNuevoLPEdit.getText().toString().equals("-0"))
 					{
-						cantidadKgNuevoLPEdit.setText("0");
+						cantidadKgNuevoLPEdit.setText("-1");
 					}
 						
 					datosLineaPedido.setCantidadKg(Float.parseFloat(cantidadKgNuevoLPEdit.getText().toString().replace(',', '.')));
@@ -164,7 +164,7 @@ public class DialogoDatosLineaPedido extends Activity
 			{
 				if (!hasFocus)
 				{
-					if (cantidadUdNuevoLPEdit.getText().toString().length()==0 || cantidadUdNuevoLPEdit.getText().toString().equals("-"))
+					if (cantidadUdNuevoLPEdit.getText().toString().length()==0 || cantidadUdNuevoLPEdit.getText().toString().equals("-") || cantidadUdNuevoLPEdit.getText().toString().equals("-0"))
 					{
 						cantidadUdNuevoLPEdit.setText("0");
 					}
@@ -379,16 +379,17 @@ public class DialogoDatosLineaPedido extends Activity
 		{
 			public void onClick(View v) 
 			{	
-				if (cantidadKgNuevoLPEdit.getText().toString().length()==0 || cantidadKgNuevoLPEdit.getText().toString().equals("-"))
+				if (cantidadKgNuevoLPEdit.getText().toString().length()==0 || cantidadKgNuevoLPEdit.getText().toString().equals("-") || cantidadKgNuevoLPEdit.getText().toString().equals("0") || cantidadKgNuevoLPEdit.getText().toString().equals("-0"))
 				{
-					cantidadKgNuevoLPEdit.setText("0");
+					cantidadKgNuevoLPEdit.setText("-1");
 				}
 				
-				if (cantidadUdNuevoLPEdit.getText().toString().length()==0 || cantidadUdNuevoLPEdit.getText().toString().equals("-"))
+				if (cantidadUdNuevoLPEdit.getText().toString().length()==0 || cantidadUdNuevoLPEdit.getText().toString().equals("-") || cantidadUdNuevoLPEdit.getText().toString().equals("-0"))
 				{
 					cantidadUdNuevoLPEdit.setText("0");
 				}
 				
+				//La tarifa solo adminte numeros positivos
 				if (tarifaNuevoLPEdit.getText().toString().length()==0)
 				{
 					tarifaNuevoLPEdit.setText("0");
@@ -402,8 +403,8 @@ public class DialogoDatosLineaPedido extends Activity
 				datosLineaPedido.setObservaciones(observacionesLPEdit.getText().toString().trim());
 				datosLineaPedido.setFijarObservaciones(fijarObservaciones.isChecked());
 				
-				//No se puede aceptar los datos si la cantidad es 0
-				if (datosLineaPedido.getCantidadKg()==0 && datosLineaPedido.getCantidadUd()==0)
+				//No se puede aceptar los datos si la cantidad es 0, por defecto la cantidad en KG es -1
+				if (datosLineaPedido.getCantidadKg()==-1 && datosLineaPedido.getCantidadUd()==0)
 				{
 					toastMensajeError(Constantes.AVISO_DATOS_NUEVO_LP_CANTIDAD_0);
 				}

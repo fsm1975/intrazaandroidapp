@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.technicalnorms.intraza.R;
 
@@ -88,9 +89,12 @@ public class DialogoConfirmacionEnviarPedidos extends Activity
 		Bundle bundle = null;
 		int resultadoActivity = Activity.RESULT_OK;
 
-		//Enviamos los id de los pedidos a enviar a la activity principal
+		boolean usarWIFI = ((ToggleButton)findViewById(R.id.botonUsarWifiDCEP)).isChecked();
+		
+		//Enviamos los id de los pedidos a enviar y si se usa WIFI en lugar de 3G, a la activity principal
 		bundle = new Bundle();
 		bundle.putStringArray("ARRAY_ID_PEDIDOS", this.idPedidos);
+		bundle.putBoolean("USAR_WIFI", usarWIFI);
 		intent = new Intent(this, com.technicalnorms.intraza.interfaz.PantallaListaPedidos.class);
 		intent.putExtras(bundle);
 

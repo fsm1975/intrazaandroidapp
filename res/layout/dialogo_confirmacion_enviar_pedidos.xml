@@ -22,12 +22,33 @@
     </RelativeLayout>
     
     <TextView
+        android:id="@+id/textoSincronizarWifiDCEP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tituloDCEP"
+        android:textColor="@android:color/white"
+        android:textSize="20px"
+        android:text="Sincronizar para WIFI: "/> 
+    
+	<ToggleButton
+		android:id="@+id/botonUsarWifiDCEP"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="235dp"
+		android:layout_marginTop="25dp"
+        android:layout_below="@+id/tituloDCEP"
+		android:textOn="ON"
+		android:textOff="OFF" />
+    
+    <TextView
         android:id="@+id/textoMensajeAvisoDCEP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/tituloDCEP"
+        android:layout_alignLeft="@+id/textoSincronizarWifiDCEP"
+        android:layout_below="@+id/textoSincronizarWifiDCEP"
         android:textColor="@android:color/white"
         android:textSize="20px" 
         android:text="¿Desea enviar a 'InTraza' los siguientes pedidos?" />

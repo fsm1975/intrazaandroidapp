@@ -628,7 +628,7 @@ public class PantallaRutero extends Activity
 		String codArticuloLP = null;
 		boolean esMedidaKgLP = false;
 		boolean esCongeladoLP = false;
-		float cantidadKgLP = 0;
+		float cantidadKgLP = -1;
 		int cantidadUdLP = 0;
 		float tarifaClienteLP = 0; 
 		String observacionesLP = null;
@@ -796,7 +796,7 @@ public class PantallaRutero extends Activity
 				float ultimaCantidad = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_CANTIDAD_ULTIMA_COMPRA));
 				float cantidadTotalAnio = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_CANTIDAD_TOTAL_ANIO));
 				float ultimaTarifa = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_TARIFA_ULTIMA_COMPRA));
-				float cantidadKg = 0;
+				float cantidadKg = -1;
 				int cantidadUd = 0;
 				float tarifaCliente = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_TARIFA_CLIENTE));
 				float tarifaLista = Float.parseFloat(cursorRutero.getString(TablaRutero.NUM_CAMPOS+TablaArticulo.POS_CAMPO_TARIFA_DEFECTO));
@@ -857,7 +857,7 @@ public class PantallaRutero extends Activity
 				//para que al menos se muestre la linea de pedido
 				if (datosInicialesRutero==null)
 				{
-					datosInicialesRutero = new DatosLineaPedido(lineasPedidoBD.elementAt(i).getCodArticulo(), "", "", false, Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)0, (float)0, 0, (float)0, (float)0, null, "");
+					datosInicialesRutero = new DatosLineaPedido(lineasPedidoBD.elementAt(i).getCodArticulo(), "", "", false, Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)-1, (float)0, 0, (float)0, (float)0, null, "");
 				}
 				
 				//Lo insertamos en la posicion 0 del vector para que asi las lineas de pedido sin rutero aparezcan las primera en pantalla
@@ -947,7 +947,7 @@ public class PantallaRutero extends Activity
 										   Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 
 										   (float)0, 
 										   (float)0, 
-										   (float)0,
+										   (float)-1,
 										   (float)0, 
 										   0,
 										   (float)0, 
@@ -1122,7 +1122,7 @@ public class PantallaRutero extends Activity
 		filaLP.addView(creaVistaTarifaAnterior(lineaRutero.getUltimaTarifa(), lineaRutero.getMedida(), colorFila, colorTextoFila));
 		
 		//Comprobamos si tenemos datos de la linea de pedido
-		if (lineaRutero.getCantidadKg()!=0 || lineaRutero.getCantidadUd()!=0)
+		if (lineaRutero.getCantidadKg()!=-1 || lineaRutero.getCantidadUd()!=0)
 		{
 			filaLP.addView(creaVistaCantidadKg(lineaRutero.getCantidadKg(), lineaRutero.getCantidadUd(), colorFila, this.getResources().getColor(R.color.colorFilaDatoIntroducido)));
 			filaLP.addView(creaVistaCantidadUd(lineaRutero.getCantidadUd(), lineaRutero.getCantidadKg(), colorFila, this.getResources().getColor(R.color.colorFilaDatoIntroducido)));
@@ -1173,7 +1173,7 @@ public class PantallaRutero extends Activity
 		filaLP.addView(creaVistaTarifaAnterior(lineaRutero.getUltimaTarifa(), lineaRutero.getMedida(), colorFila, colorTextoFila));
 		
 		//Comprobamos si tenemos datos de la linea de pedido
-		if (lineaRutero.getCantidadKg()!=0 || lineaRutero.getCantidadUd()!=0)
+		if (lineaRutero.getCantidadKg()!=-1 || lineaRutero.getCantidadUd()!=0)
 		{
 			filaLP.addView(creaVistaCantidadKg(lineaRutero.getCantidadKg(), lineaRutero.getCantidadUd(), colorFila, this.getResources().getColor(R.color.colorFilaDatoIntroducido)));
 			filaLP.addView(creaVistaCantidadUd(lineaRutero.getCantidadUd(), lineaRutero.getCantidadKg(), colorFila, this.getResources().getColor(R.color.colorFilaDatoIntroducido)));
@@ -1354,7 +1354,7 @@ public class PantallaRutero extends Activity
 		datoCantidad.setTextColor(colorTextoFila);
 		datoCantidad.setMaxLines(1);
 		
-		if (cantidadKg!=0)
+		if (cantidadKg!=-1)
 		{
 			datoCantidad.setText(Constantes.formatearFloat3Decimales.format(cantidadKg));
 		}
@@ -1408,7 +1408,7 @@ public class PantallaRutero extends Activity
 		}
 		else
 		{
-			if (cantidadKg!=0)
+			if (cantidadKg!=-1)
 			{
 				datoCantidad.setText("0");
 			}
