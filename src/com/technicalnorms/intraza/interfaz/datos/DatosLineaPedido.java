@@ -181,7 +181,10 @@ public class DatosLineaPedido implements Parcelable
 		
 		if (this.getMedida().equals(Constantes.KILOGRAMOS))
 		{
-			precio = this.cantidadKg * this.tarifaCliente;
+			if (this.cantidadKg!=-1)
+			{
+				precio = this.cantidadKg * this.tarifaCliente;
+			}
 		}
 		else
 		{

@@ -271,7 +271,7 @@ public class PantallaRutero extends Activity
 				if (datosLineaPedido.hayCambiosSinGuardar())
 				{
 					//Si la linea de pedido tiene cantidad 0 es porque teniamos cambios de la linea de pedido que hay que borrar de la BD
-					if (datosLineaPedido.getCantidadKg()==0 && datosLineaPedido.getCantidadUd()==0)
+					if (datosLineaPedido.getCantidadKg()==-1 && datosLineaPedido.getCantidadUd()==0)
 					{
 						//En esta caso no controlamos que haya error, ya que si el usuario borra una linea de pedido que no estaba previamente en 
 						//la BD se produciria un error
@@ -372,7 +372,7 @@ public class PantallaRutero extends Activity
 		{
 			DatosLineaPedido datosLineaPedido = (DatosLineaPedido)this.viewsTablaRutero.get(((i) * 100) + Constantes.COLUMNA_DATOS_LP);
 			
-			if (datosLineaPedido.getCantidadKg()!=0 || datosLineaPedido.getCantidadUd()!=0)
+			if (datosLineaPedido.getCantidadKg()!=-1 || datosLineaPedido.getCantidadUd()!=0)
 			{
 				lineasRuteroPedido.addElement(datosLineaPedido);
 				lineasIniRuteroPedido.addElement((DatosLineaPedido)this.viewsTablaRutero.get(((i) * 100) + Constantes.COLUMNA_DATOS_INICIALES_LP));
@@ -409,7 +409,7 @@ public class PantallaRutero extends Activity
 				DatosLineaPedido datosLineaPedido = (DatosLineaPedido)this.viewsTablaRutero.get(((i) * 100) + Constantes.COLUMNA_DATOS_LP);
 			
 				//Si la referencia del articulo es la misma, y tiene datos en la linea de pedido los cogemos
-				if (this.lineasPedido.elementAt(j).getCodArticulo().equals(datosLineaPedido.getCodArticulo()) && (datosLineaPedido.getCantidadKg()!=0 || datosLineaPedido.getCantidadUd()!=0))
+				if (this.lineasPedido.elementAt(j).getCodArticulo().equals(datosLineaPedido.getCodArticulo()) && (datosLineaPedido.getCantidadKg()!=-1 || datosLineaPedido.getCantidadUd()!=0))
 				{
 					lineasRuteroPedido.addElement(datosLineaPedido);
 					lineasIniRuteroPedido.addElement((DatosLineaPedido)this.viewsTablaRutero.get(((i) * 100) + Constantes.COLUMNA_DATOS_INICIALES_LP));
@@ -1362,7 +1362,7 @@ public class PantallaRutero extends Activity
 		{
 			if (cantidadUd!=0)
 			{
-				datoCantidad.setText("0");
+				datoCantidad.setText("-1");
 			}
 			else
 			{
@@ -1826,7 +1826,7 @@ public class PantallaRutero extends Activity
 		//Recorremos el rutero para comprobar si hay alguna linea de pedido con datos, en el momento que encontremos una salimos
 		for (int i=1; i<=this.viewsTablaRutero.size()/Constantes.COLUMNAS_TOTALES_LP; i++)
 		{
-			if (((DatosLineaPedido)this.viewsTablaRutero.get(((i) * 100) + Constantes.COLUMNA_DATOS_LP)).getCantidadKg()!=0 ||
+			if (((DatosLineaPedido)this.viewsTablaRutero.get(((i) * 100) + Constantes.COLUMNA_DATOS_LP)).getCantidadKg()!=-1 ||
 				((DatosLineaPedido)this.viewsTablaRutero.get(((i) * 100) + Constantes.COLUMNA_DATOS_LP)).getCantidadUd()!=0)
 			{
 				resultado = true;
