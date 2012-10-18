@@ -1541,7 +1541,8 @@ public class PantallaListaPedidos extends Activity
 					do 
 					{
 						idPrepedidoLP = cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_ID_PREPEDIDO);
-						codArticuloLP = cursorLineasPedido.getString(TablaPrepedidoItem.POS_CAMPO_CODIGO_ARTICULO);
+						//Por si esta clonado, le quitamos la marca
+						codArticuloLP = cursorLineasPedido.getString(TablaPrepedidoItem.POS_CAMPO_CODIGO_ARTICULO).split(Constantes.CARACTER_OBLIGATORIO_MARCA_CLON_CODIGO_ARTICULO)[0];
 						cantidadKgLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_CANTIDAD_KG);
 						cantidadUdLP = cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_CANTIDAD_UD);
 						tarifaClienteLP = cursorLineasPedido.getFloat(TablaPrepedidoItem.POS_CAMPO_PRECIO);
@@ -1574,7 +1575,8 @@ public class PantallaListaPedidos extends Activity
 						}
 						
 						//Obtenemos el nombre del articulo
-						cursorArticulo = db.obtenerArticulo(codArticuloLP);
+						//Por si esta clonado, le quitamos la marca
+						cursorArticulo = db.obtenerArticulo(codArticuloLP.split(Constantes.CARACTER_OBLIGATORIO_MARCA_CLON_CODIGO_ARTICULO)[0]);
 						cursorArticulo.moveToFirst();
 						nombreArticuloLP = cursorArticulo.getString(TablaArticulo.POS_CAMPO_NOMBRE);			
 						

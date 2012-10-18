@@ -213,7 +213,7 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 							nombreArticulo = nombreArticulo.substring(0, nombreArticulo.length()-Constantes.MARCA_CONGELADO.length());
 						}
 								
-						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), nombreArticulo, consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)-1, (float)0, 0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
+						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), nombreArticulo, consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)-1, (float)0, (float)0, (float)-1, 0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
 					
 						//Chequeamos si hay que fijar el articulo en la BD de intraza, para los futuros ruteros
 						if (fijarArticulo.isChecked())
@@ -412,16 +412,16 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 			do 
 			{								
 				datosArticulo = new String[2];
-				datosArticulo[0] = cursorArticulos.getString(TablaArticulo.POS_KEY_CAMPO_CODIGO);
+				datosArticulo[0] = cursorArticulos.getString(TablaArticulo.POS_KEY_CAMPO_CODIGO).trim();
 				
 				//Si esta congelado le añadimos una cadena al final del nombre para que el comercial lo identifique
 				if (cursorArticulos.getInt(TablaArticulo.POS_CAMPO_ES_CONGELADO)==1)
 				{
-					datosArticulo[1] = cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE)+Constantes.MARCA_CONGELADO;
+					datosArticulo[1] = cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE).trim()+Constantes.MARCA_CONGELADO;
 				}
 				else
 				{
-					datosArticulo[1] = cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE);
+					datosArticulo[1] = cursorArticulos.getString(TablaArticulo.POS_CAMPO_NOMBRE).trim();
 				}
 				
 				//Si el articulo no esta en la pantalla de rutero, damos la posibilidad de que sea incluido

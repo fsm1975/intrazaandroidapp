@@ -601,9 +601,9 @@ public class DialogoDatosPedido extends Activity
 				this.clienteArrayList.add(cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE));
 				
 				datosCliente = new String[3];
-				datosCliente[0] = cursorClientes.getString(TablaCliente.POS_KEY_CAMPO_ID_CLIENTE);
-				datosCliente[1] = cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE);
-				datosCliente[2] = cursorClientes.getString(TablaCliente.POS_CAMPO_OBSERVACIONES_PREPEDIDO);
+				datosCliente[0] = cursorClientes.getString(TablaCliente.POS_KEY_CAMPO_ID_CLIENTE).trim();
+				datosCliente[1] = cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE).trim();
+				datosCliente[2] = cursorClientes.getString(TablaCliente.POS_CAMPO_OBSERVACIONES_PREPEDIDO).trim();
 				this.vectorDatosClientes.add(datosCliente);
 				
 			} while (cursorClientes.moveToNext());

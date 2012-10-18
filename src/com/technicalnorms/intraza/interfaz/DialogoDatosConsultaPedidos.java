@@ -259,11 +259,11 @@ public class DialogoDatosConsultaPedidos extends Activity
 			
 			do 
 			{				
-				this.clienteArrayList.add(cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE));		
+				this.clienteArrayList.add(cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE).trim());		
 				
 				datosCliente = new String[2];
-				datosCliente[0] = cursorClientes.getString(TablaCliente.POS_KEY_CAMPO_ID_CLIENTE);
-				datosCliente[1] = cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE);
+				datosCliente[0] = cursorClientes.getString(TablaCliente.POS_KEY_CAMPO_ID_CLIENTE).trim();
+				datosCliente[1] = cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE).trim();
 				this.vectorDatosClientes.add(datosCliente);
 				
 			} while (cursorClientes.moveToNext());
