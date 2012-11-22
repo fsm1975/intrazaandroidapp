@@ -565,9 +565,18 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 	 * @param articulo a comprobar si pertenece a la lista.
 	 * @return true si el articulo pertenece a la lista de articulos o false en caso contrario.
 	 */
-	private boolean esArticuloValido(String cliente)
+	private boolean esArticuloValido(String articulo)
 	{
-		return this.articuloArrayList.contains(cliente);
+		boolean resultado = false;
+		
+		//Comprobamos si el articulo es valido siempre que contenga una cadena, sino sera invalido, este caso se puede dar si el usuario ha metido
+		//una referencia de articulo no valida
+		if (articulo.trim().length()>0)
+		{
+			resultado = this.articuloArrayList.contains(articulo);
+		}
+		
+		return resultado;
 	}
 		
 	/**
