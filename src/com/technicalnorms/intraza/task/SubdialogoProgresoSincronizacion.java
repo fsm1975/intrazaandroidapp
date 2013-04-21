@@ -776,7 +776,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 
 			connection.setSSLSocketFactory(ctx.getSocketFactory());
 			//	connection.setRequestMethod("POST");
-			connection.setDoOutput(true);
+			//connection.setDoOutput(true);
 			connection.setHostnameVerifier(new HostnameVerifier()
 				{
 					
