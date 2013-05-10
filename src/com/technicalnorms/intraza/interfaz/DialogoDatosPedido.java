@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technicalnorms.intraza.Constantes;
+import com.technicalnorms.intraza.interfaz.datos.DatosDialogoMensaje;
 import com.technicalnorms.intraza.interfaz.datos.DatosPedido;
 import com.technicalnorms.intraza.interfaz.datosBD.AdaptadorBD;
 import com.technicalnorms.intraza.interfaz.datosBD.TablaCliente;
@@ -44,6 +46,9 @@ import com.technicalnorms.intraza.R;
  */
 public class DialogoDatosPedido extends Activity
 {	
+	//Codigos de los subdialogos que se usan en la Activity
+	private static final int DIALOGO_MENSAJE_INFO_TELEFONO = 0;
+	
 	//Almacena los datos del pedido
 	private DatosPedido datosPedido = null;
 	
@@ -66,12 +71,16 @@ public class DialogoDatosPedido extends Activity
 	//Almacena las observaciones por defecto
 	String observacionesDefecto = null;
 	
+	//Almacena la informacion de telefono
+	Button abreInfoTelefonoBtn = null;
+	String telefono = null;
+	
 	//Indica si el subdialo se invoco desde la activity principal es decir, desde el menu principal de la aplicacion
 	private boolean invocacionDesdeActiviyPrincipal = false;
 	
 	//Almacena en cada posición un array de String de 3 elementos, guardaremos en la posicion 0 el id del cliente, en la 1 el nombre del cliente
-	//y en la posicion 2 las observaciones por defecto, el orden corresponde al de clienteArrayList, asi cuando el usuario selecciona un cliente 
-	//del ArrayList, tenemos sus datos y nos evitamos una consulta a la BD
+	//en la posicion 2 las observaciones por defecto y en la posicion 3 el telefono del cliente, el orden corresponde al de clienteArrayList, asi 
+	//cuando el usuario selecciona un cliente del ArrayList, tenemos sus datos y nos evitamos una consulta a la BD
 	private Vector<String[]> vectorDatosClientes = null;
 	
 	//Indica si se ha iniciado el evento del spinner, para no inicializarlo 2 veces
@@ -89,6 +98,7 @@ public class DialogoDatosPedido extends Activity
 		Button lunesBtn = null;
 		ArrayAdapter<String> adapter = null;
 		Date fechaManiana = null;
+		boolean hayInfoTelefono = false;
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
@@ -97,6 +107,8 @@ public class DialogoDatosPedido extends Activity
 		
 		//Inicializamos los miembros
 		this.vectorDatosClientes = new Vector<String[]>();
+		
+		abreInfoTelefonoBtn = (Button)findViewById(R.id.botonInfoTelefonoDCNP);
 		
 		//Obtenemos la fecha de maniana, obtenemos la fecha de maniana para inicializar la fecha de entrega y pedido, 
 		//ya que un pedido se solicita con fecha del dia siguiente a cuando se crea en la tablet
@@ -169,9 +181,15 @@ public class DialogoDatosPedido extends Activity
 		    		{
 		    			observacionesEdit.setText(datosCliente[2]);
 		    			observacionesDefecto = datosCliente[2];
+						telefono = datosCliente[3];
+						abreInfoTelefonoBtn.setEnabled(true);
 		    			
 		    			//Al poner las observaciones por defecto, no tiene sentido que este chequeado el fijarlas
 						fijarObservaciones.setChecked(false);
+		    		}
+		    		else
+		    		{
+		    			abreInfoTelefonoBtn.setEnabled(false);
 		    		}
 		    	}  
 		    	  
@@ -189,7 +207,10 @@ public class DialogoDatosPedido extends Activity
 			((TextView)findViewById(R.id.textoInfoDCNP)).setText(Constantes.MENSAJE_TITULO_DIALOGO_MODIFICA_PEDIDO);
 			
 			//Obtenemos de los datos del cliente inicializados de la BD las observaciones por defecto
-			this.observacionesDefecto = dameDatosClientePorId(new Integer(this.datosPedido.getIdCliente()).toString())[2];
+			String[] datosCliente = dameDatosClientePorId(new Integer(this.datosPedido.getIdCliente()).toString());
+			this.observacionesDefecto = datosCliente[2];
+			this.telefono = datosCliente[3];
+			hayInfoTelefono = true;
 			
 			//Se deshabilita el widget que recoge el cliente ya que este dato no se puede modificar
 			this.clienteView.setEnabled(false);
@@ -424,6 +445,8 @@ public class DialogoDatosPedido extends Activity
 							clienteView.dismissDropDown();
 							observacionesEdit.setText(vectorDatosClientes.elementAt(pos)[2]);
 							observacionesDefecto = vectorDatosClientes.elementAt(pos)[2];
+							telefono = vectorDatosClientes.elementAt(pos)[3];
+							abreInfoTelefonoBtn.setEnabled(true);
 							
 							//Al poner las observaciones por defecto, no tiene sentido que este chequeado el fijarlas
 							fijarObservaciones.setChecked(false);
@@ -436,6 +459,19 @@ public class DialogoDatosPedido extends Activity
 					});
 				}
 			    spinnerCliente.performClick();
+			}
+		});
+		
+		if (!hayInfoTelefono)
+		{
+			abreInfoTelefonoBtn.setEnabled(false);
+		}
+		abreInfoTelefonoBtn.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v) 
+			{		
+				//muestraInfoTelefono(telefono);
+				subdialogoMensajeInfoTelefono(telefono);
 			}
 		});
 		
@@ -483,6 +519,31 @@ public class DialogoDatosPedido extends Activity
 			}
 		});
 	}	
+	
+	private void muestraInfoTelefono(String telefono)
+	{
+		AlertDialog.Builder popup=new AlertDialog.Builder(this);
+		popup.setTitle(Constantes.TITULO_ALERT_ERROR_NO_SINCRONIZAR_PEDIDOS_PENDIENTES);
+		popup.setMessage(Constantes.MENSAJE_ALERT_ERROR_NO_SINCRONIZAR_PEDIDOS_PENDIENTES);
+		popup.setPositiveButton("ACEPTAR", null);
+		popup.show();
+	}
+	
+	/**
+	 * Muestra un mensaje al usuario con la informacion del telefono del cliente seleccionado
+	 */
+	private void subdialogoMensajeInfoTelefono(String telefono)
+	{
+		Intent intent = null;
+		DatosDialogoMensaje datosMensaje = null;
+		
+		datosMensaje = new DatosDialogoMensaje("com.technicalnorms.intraza.interfaz.DialogoDatosPedidos", Constantes.TITULO_INFO_TELEFONO, Constantes.INFORMACION_INFO_TELEFONO+telefono);
+				
+		intent = new Intent(this, com.technicalnorms.intraza.interfaz.DialogoMensaje.class);
+		intent.putExtra("DATOS_MENSAJE", datosMensaje);
+			
+		startActivityForResult(intent, DIALOGO_MENSAJE_INFO_TELEFONO);
+	}
 	
 	/**
 	 * Crea la lista de chekBox, obteniendo las datos de la lista de la BD
@@ -582,10 +643,11 @@ public class DialogoDatosPedido extends Activity
 		
 		//Primero lo inicializamos a vacio
 		this.clienteArrayList.add("");
-		datosCliente = new String[3];
+		datosCliente = new String[4];
 		datosCliente[0] = "";
 		datosCliente[1] = "";
 		datosCliente[2] = "";
+		datosCliente[3] = "";
 		this.vectorDatosClientes.add(datosCliente);
 		
 
@@ -600,10 +662,11 @@ public class DialogoDatosPedido extends Activity
 			{				
 				this.clienteArrayList.add(cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE));
 				
-				datosCliente = new String[3];
+				datosCliente = new String[4];
 				datosCliente[0] = cursorClientes.getString(TablaCliente.POS_KEY_CAMPO_ID_CLIENTE).trim();
 				datosCliente[1] = cursorClientes.getString(TablaCliente.POS_CAMPO_NOMBRE_CLIENTE).trim();
 				datosCliente[2] = cursorClientes.getString(TablaCliente.POS_CAMPO_OBSERVACIONES_PREPEDIDO).trim();
+				datosCliente[3] = cursorClientes.getString(TablaCliente.POS_CAMPO_TELEFONO).trim();
 				this.vectorDatosClientes.add(datosCliente);
 				
 			} while (cursorClientes.moveToNext());

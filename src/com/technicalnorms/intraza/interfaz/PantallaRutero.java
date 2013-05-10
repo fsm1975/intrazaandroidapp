@@ -66,6 +66,9 @@ public class PantallaRutero extends Activity
 	//Almacena los datos de las lineas de pedido que hay en la BD, se usa para una modificiacion de pedido
 	private Vector<LineaPedidoBD> lineasPedidoBD = null;
 	
+	//Almacena los datos de las lineas de pedido que el usuario ha querido suprimir
+	private Vector<DatosLineaPedido> lineasPedidoSuprimir = null;
+	
 	//Almacena las observaciones por defecto para el pedido configuradas en intraza
 	private String observacionesDefectoPedido = null;
 	
@@ -81,6 +84,7 @@ public class PantallaRutero extends Activity
 		
 		//Inicializamos las variables miembro necesarias
 		this.lineasPedido = new Vector<DatosLineaPedido>();
+		this.lineasPedidoSuprimir = new Vector<DatosLineaPedido>();
 		this.viewsTablaRutero = new Hashtable<Integer, Object>();
 		this.tablaRutero = (TableLayout)findViewById(R.id.ruteroTableLayout);
 		
@@ -263,6 +267,17 @@ public class PantallaRutero extends Activity
 		
 		if (!hayError)
 		{
+			// Recorremos las lineas de pedido que se hayan suprimido para borrarlas
+			for (int i=0; i<this.lineasPedidoSuprimir.size(); i++)
+			{
+				//En esta caso no controlamos que haya error, ya que si el usuario borra una linea de pedido que no estaba previamente en 
+				//la BD se produciria un error
+				db.borrarPrepedidoItem(this.datosPedido.getIdPedido(), this.lineasPedidoSuprimir.elementAt(i).getCodArticulo());
+			}
+			
+			//Limpiamos el vector que almacena las lineas de pedido a borrar
+			this.lineasPedidoSuprimir = new Vector<DatosLineaPedido>();
+			
 			// Recorremos las lineas de pedido para guardar en la BD aquellas que tengan algun cambio pendiente de guardar
 			for (int i=1; i<=this.viewsTablaRutero.size()/Constantes.COLUMNAS_TOTALES_LP; i++)
 			{	
@@ -270,20 +285,25 @@ public class PantallaRutero extends Activity
 				
 				if (datosLineaPedido.hayCambiosSinGuardar())
 				{
-					//Si la linea de pedido tiene cantidad 0 es porque teniamos cambios de la linea de pedido que hay que borrar de la BD
-					if (datosLineaPedido.getCantidadKg()==-1 && datosLineaPedido.getCantidadUd()==0)
-					{
-						//En esta caso no controlamos que haya error, ya que si el usuario borra una linea de pedido que no estaba previamente en 
-						//la BD se produciria un error
-						db.borrarPrepedidoItem(this.datosPedido.getIdPedido(), datosLineaPedido.getCodArticulo());
-					}
-					else
-					{
-						hayError = !db.guardaPrepedidoItem(this.datosPedido.getIdPedido(), datosLineaPedido.getCodArticulo(),
-														   datosLineaPedido.getCantidadKg(), datosLineaPedido.getCantidadUd(), 
-														   datosLineaPedido.getTarifaCliente(), datosLineaPedido.getObservaciones(), 
-														   datosLineaPedido.getFijarTarifa(), datosLineaPedido.getFijarArticulo(), datosLineaPedido.getFijarObservaciones());
-					}
+//					//Si la linea de pedido tiene cantidad 0 es porque teniamos cambios de la linea de pedido que hay que borrar de la BD
+//					if (datosLineaPedido.getCantidadKg()==-1 && datosLineaPedido.getCantidadUd()==0)
+//					{
+//						//En esta caso no controlamos que haya error, ya que si el usuario borra una linea de pedido que no estaba previamente en 
+//						//la BD se produciria un error
+//						db.borrarPrepedidoItem(this.datosPedido.getIdPedido(), datosLineaPedido.getCodArticulo());
+//					}
+//					else
+//					{
+//						hayError = !db.guardaPrepedidoItem(this.datosPedido.getIdPedido(), datosLineaPedido.getCodArticulo(),
+//														   datosLineaPedido.getCantidadKg(), datosLineaPedido.getCantidadUd(), 
+//														   datosLineaPedido.getTarifaCliente(), datosLineaPedido.getObservaciones(), 
+//														   datosLineaPedido.getFijarTarifa(), datosLineaPedido.getSuprimirTarifa(), datosLineaPedido.getFijarArticulo(), datosLineaPedido.getFijarObservaciones());
+//					}
+					
+					hayError = !db.guardaPrepedidoItem(this.datosPedido.getIdPedido(), datosLineaPedido.getCodArticulo(),
+														datosLineaPedido.getCantidadKg(), datosLineaPedido.getCantidadUd(), 
+														datosLineaPedido.getTarifaCliente(), datosLineaPedido.getObservaciones(), 
+														datosLineaPedido.getFijarTarifa(), datosLineaPedido.getSuprimirTarifa(), datosLineaPedido.getFijarArticulo(), datosLineaPedido.getFijarObservaciones());
 				
 					if (!hayError)
 					{
@@ -633,6 +653,7 @@ public class PantallaRutero extends Activity
 		float tarifaClienteLP = 0; 
 		String observacionesLP = null;
 		boolean fijarTarifaLP = false;
+		boolean suprimirTarifaLP = false;
 		boolean fijarArticuloLP = false;
 		boolean fijarObservacionesLP = false;
 		
@@ -700,6 +721,14 @@ public class PantallaRutero extends Activity
 						{
 							fijarTarifaLP = false;
 						}
+						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_SUPRIMIR_PRECIO) == 1)
+						{
+							suprimirTarifaLP = true;
+						}
+						else
+						{
+							suprimirTarifaLP = false;
+						}
 						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_FIJAR_ARTICULO) == 1)
 						{
 							fijarArticuloLP = true;
@@ -740,7 +769,7 @@ public class PantallaRutero extends Activity
 							esCongeladoLP = false;
 						}
 						
-						lineasPedidoBD.add(new LineaPedidoBD(idPrepedidoLP, codArticuloLP, esMedidaKgLP, esCongeladoLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
+						lineasPedidoBD.add(new LineaPedidoBD(idPrepedidoLP, codArticuloLP, esMedidaKgLP, esCongeladoLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, suprimirTarifaLP, fijarArticuloLP, fijarObservacionesLP));
 					} while (cursorLineasPedido.moveToNext());
 				}
 				
@@ -769,7 +798,7 @@ public class PantallaRutero extends Activity
 		//Obtenemos las lineas de rutero del cliente
 		db.abrir();	
 		
-		cursorRutero = db.obtenerTodosLosRuterosDelClienteConArticulo(idCliente);
+		cursorRutero = db.obtenerTodosLosRuterosDelClienteConArticulo(idCliente, Configuracion.dameCodigoStatusLineasRuteroOcultas(this));
 		
 		//Recorremos el cursor con las lineas de pedido de la BD para formar las lineas de pedido del rutero a mostrar en pantalla
 		if (cursorRutero.moveToFirst())
@@ -793,7 +822,9 @@ public class PantallaRutero extends Activity
 				}
 				
 				String ultimaFecha = cursorRutero.getString(TablaRutero.POS_CAMPO_FECHA_ULTIMA_COMPRA);
+				int ultimaUnidades = Integer.parseInt(cursorRutero.getString(TablaRutero.POS_CAMPO_UNIDADES_ULTIMA_COMPRA));
 				float ultimaCantidad = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_CANTIDAD_ULTIMA_COMPRA));
+				int unidadesTotalAnio = Integer.parseInt(cursorRutero.getString(TablaRutero.POS_CAMPO_UNIDADES_TOTAL_ANIO));
 				float cantidadTotalAnio = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_CANTIDAD_TOTAL_ANIO));
 				float ultimaTarifa = Float.parseFloat(cursorRutero.getString(TablaRutero.POS_CAMPO_TARIFA_ULTIMA_COMPRA));
 				float cantidadKg = -1;
@@ -808,7 +839,9 @@ public class PantallaRutero extends Activity
 															medida,
 															esCongelado,
 															ultimaFecha,
+															ultimaUnidades,
 															ultimaCantidad,
+															unidadesTotalAnio,
 															cantidadTotalAnio,
 															ultimaTarifa,
 															cantidadKg,
@@ -857,7 +890,7 @@ public class PantallaRutero extends Activity
 				//para que al menos se muestre la linea de pedido
 				if (datosInicialesRutero==null)
 				{
-					datosInicialesRutero = new DatosLineaPedido(lineasPedidoBD.elementAt(i).getCodArticulo(), "", "", false, Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)0, (float)0, (float)-1, (float)0, 0, (float)0, (float)0, null, "");
+					datosInicialesRutero = new DatosLineaPedido(lineasPedidoBD.elementAt(i).getCodArticulo(), "", "", false, Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 0, (float)0, 0, (float)0, (float)-1, (float)0, 0, (float)0, (float)0, null, "");
 				}
 				
 				//Lo insertamos en la posicion 0 del vector para que asi las lineas de pedido sin rutero aparezcan las primera en pantalla
@@ -874,7 +907,9 @@ public class PantallaRutero extends Activity
 													lineasRutero.elementAt(i).getMedida(),
 													lineasRutero.elementAt(i).getEsCongelado(),
 													lineasRutero.elementAt(i).getUltimaFecha(),
+													lineasRutero.elementAt(i).getUltimaUnidades(),
 													lineasRutero.elementAt(i).getUltimaCantidad(),
+													lineasRutero.elementAt(i).getUnidadesTotalAnio(),
 													lineasRutero.elementAt(i).getCantidadTotalAnio(),
 													lineasRutero.elementAt(i).getUltimaTarifa(),
 													lineasRutero.elementAt(i).getCantidadKg(),
@@ -903,6 +938,7 @@ public class PantallaRutero extends Activity
 				datosLineaPedido.setTarifaCliente(lineaPedidoBD.getPrecio());
 				datosLineaPedido.setObservaciones(lineaPedidoBD.getObservaciones());
 				datosLineaPedido.setFijarTarifa(lineaPedidoBD.getFijarPrecio());
+				datosLineaPedido.setSuprimirTarifa(lineaPedidoBD.getSuprimirPrecio());
 				datosLineaPedido.setFijarArticulo(lineaPedidoBD.getFijarArticulo());
 				datosLineaPedido.setFijarObservaciones(lineaPedidoBD.getFijarObservaciones());
 			}
@@ -945,7 +981,9 @@ public class PantallaRutero extends Activity
 										   medida, 
 										   false,
 										   Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 
-										   (float)0, 
+										   0,
+										   (float)0,
+										   0,
 										   (float)0, 
 										   (float)-1,
 										   (float)0, 
@@ -1029,7 +1067,9 @@ public class PantallaRutero extends Activity
 																			lineasRutero.elementAt(i).getMedida(),
 																			lineasRutero.elementAt(i).getEsCongelado(),
 																			lineasRutero.elementAt(i).getUltimaFecha(),
+																			lineasRutero.elementAt(i).getUltimaUnidades(),
 																			lineasRutero.elementAt(i).getUltimaCantidad(),
+																			lineasRutero.elementAt(i).getUnidadesTotalAnio(),
 																			lineasRutero.elementAt(i).getCantidadTotalAnio(),
 																			lineasRutero.elementAt(i).getUltimaTarifa(),
 																			lineasRutero.elementAt(i).getCantidadKg(),
@@ -1114,11 +1154,12 @@ public class PantallaRutero extends Activity
 		TableRow filaLP = new TableRow(this);   
 		
 		filaLP.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		filaLP.setBackgroundColor(colorFila);
 
 		filaLP.addView(creaVistaReferencia(lineaRutero.getCodArticulo(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaArticulo(lineaRutero.getArticulo(), lineaRutero.getEsCongelado(), lineaRutero.getFijarArticulo(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaFechaAnterior(lineaRutero.getUltimaFecha(), colorFila, colorTextoFila));
-		filaLP.addView(creaVistaCantidadAnterior(lineaRutero.getUltimaCantidad(), lineaRutero.getCantidadTotalAnio(), colorFila, colorTextoFila));
+		filaLP.addView(creaVistaCantidadAnterior(lineaRutero.getUltimaUnidades(), lineaRutero.getUltimaCantidad(), lineaRutero.getUnidadesTotalAnio(), lineaRutero.getCantidadTotalAnio(), lineaRutero.getMedida(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaTarifaAnterior(lineaRutero.getUltimaTarifa(), lineaRutero.getMedida(), colorFila, colorTextoFila));
 		
 		//Comprobamos si tenemos datos de la linea de pedido
@@ -1163,11 +1204,12 @@ public class PantallaRutero extends Activity
 		TableRow filaLP = new TableRow(this);   
 		
 		filaLP.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		filaLP.setBackgroundColor(colorFila);
 
 		filaLP.addView(creaVistaReferencia(lineaRutero.getCodArticulo(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaArticulo(lineaRutero.getArticulo(), lineaRutero.getEsCongelado(), lineaRutero.getFijarArticulo(), colorFila, colorTextoFila));
 		filaLP.addView(creaVistaFechaAnterior(lineaRutero.getUltimaFecha(), colorFila, colorTextoFila));
-		filaLP.addView(creaVistaCantidadAnterior(lineaRutero.getUltimaCantidad(), lineaRutero.getCantidadTotalAnio(), colorFila, colorTextoFila));
+		filaLP.addView(creaVistaCantidadAnterior(lineaRutero.getUltimaUnidades(), lineaRutero.getUltimaCantidad(), lineaRutero.getUnidadesTotalAnio(), lineaRutero.getCantidadTotalAnio(), lineaRutero.getMedida(), colorFila, colorTextoFila));
 		
 		//Obtenemos el dato de la tarifa anterior		
 		filaLP.addView(creaVistaTarifaAnterior(lineaRutero.getUltimaTarifa(), lineaRutero.getMedida(), colorFila, colorTextoFila));
@@ -1289,14 +1331,14 @@ public class PantallaRutero extends Activity
 		return datoFechaAnterior;
 	}
 	
-	private View creaVistaCantidadAnterior(float cantidad, float cantidadTotalAnio, int colorFila, int colorTextoFila)
+	private View creaVistaCantidadAnterior(int unidades, float cantidad, int unidadesTotalAnio, float cantidadTotalAnio, String medida, int colorFila, int colorTextoFila)
 	{
 		TextView datoCantidadAnterior = new TextView(this);
 		String cantidadTotalFormateada = null;
+		String unidadesTotalFormateada = null;
 		
 		datoCantidadAnterior.setId(dameIdViewNuevo(Constantes.COLUMNA_CANTIDAD_ULTIMO_LP));
 		datoCantidadAnterior.setGravity(Gravity.CENTER);
-		datoCantidadAnterior.setHeight(this.getResources().getDimensionPixelSize(R.dimen.heightFilaDatosTabla));
 		datoCantidadAnterior.setWidth(this.getResources().getDimensionPixelSize(R.dimen.widthColCantidadAnterior));
 		datoCantidadAnterior.setTextSize(this.getResources().getDimensionPixelSize(R.dimen.textSizeFilaDatosTabla));
 		datoCantidadAnterior.setBackgroundColor(colorFila);
@@ -1312,8 +1354,33 @@ public class PantallaRutero extends Activity
 			cantidadTotalFormateada = Constantes.formatearFloat2Decimales.format(cantidadTotalAnio);
 		}
 		
-		datoCantidadAnterior.setText(Constantes.formatearFloat3Decimales.format(cantidad)+Constantes.SEPARADOR_CANTIDAD_TOTAL_ANIO+cantidadTotalFormateada);
-		datoCantidadAnterior.setMaxLines(1);
+		if (unidadesTotalAnio>1000)
+		{	
+			unidadesTotalFormateada = Constantes.formatearFloat2Decimales.format(unidadesTotalAnio/1000)+Constantes.MARCA_TONELADAS;
+		}
+		else
+		{
+			unidadesTotalFormateada = Constantes.formatearFloat2Decimales.format(unidadesTotalAnio);
+		}
+		
+		//Cuando son unidades tambien se quiere mostrar el peso en Kg
+		if (medida.equalsIgnoreCase(Constantes.KILOGRAMOS))
+		{
+			datoCantidadAnterior.setMaxLines(1);
+			datoCantidadAnterior.setHeight(this.getResources().getDimensionPixelSize(R.dimen.heightFilaDatosTabla));
+			datoCantidadAnterior.setText(Constantes.formatearFloat3Decimales.format(cantidad)+Constantes.SEPARADOR_CANTIDAD_TOTAL_ANIO+cantidadTotalFormateada);
+		}
+		else
+		{
+//			datoCantidadAnterior.setMaxLines(2);
+//			datoCantidadAnterior.setHeight(this.getResources().getDimensionPixelSize(R.dimen.heightFilaDatosTabla)*2);
+//			datoCantidadAnterior.setText(unidades+"/"+unidadesTotalFormateada+"\n"+
+//										"("+Constantes.formatearFloat3Decimales.format(cantidad)+"/"+cantidadTotalFormateada+")"+Constantes.KILOGRAMOS);
+			
+			datoCantidadAnterior.setMaxLines(1);
+			datoCantidadAnterior.setHeight(this.getResources().getDimensionPixelSize(R.dimen.heightFilaDatosTabla));
+			datoCantidadAnterior.setText(unidades+Constantes.SEPARADOR_CANTIDAD_TOTAL_ANIO+unidadesTotalFormateada);
+		}
 		
 		//Guardamos la nueva vista para asi poder consultarla posteriormente
 		this.viewsTablaRutero.put(datoCantidadAnterior.getId(), datoCantidadAnterior);
@@ -1615,7 +1682,9 @@ public class PantallaRutero extends Activity
 																						datosIniLineaPedido.getMedida(),
 																						datosIniLineaPedido.getEsCongelado(),
 																						datosIniLineaPedido.getUltimaFecha(),
+																						datosIniLineaPedido.getUltimaUnidades(),
 																						datosIniLineaPedido.getUltimaCantidad(),
+																						datosIniLineaPedido.getUnidadesTotalAnio(),
 																						datosIniLineaPedido.getCantidadTotalAnio(),
 																						datosIniLineaPedido.getUltimaTarifa(),
 																						datosIniLineaPedido.getCantidadKg(),
@@ -1669,7 +1738,11 @@ public class PantallaRutero extends Activity
 					DatosLineaPedido datosIniLineaPedido = dameDatosLineaPedidoRuteroEnView(this.viewLineaRutero, Constantes.COLUMNA_DATOS_INICIALES_LP);
 					
 					//Indicamos que hay un cambio sin guardar ya que el registro de la linea de pedido, se debe borrar de la BD
-					datosIniLineaPedido.setHayCambiosSinGuardar(true);
+					//datosIniLineaPedido.setHayCambiosSinGuardar(true);
+					
+					//Almacenamos en el vector que indica las lineas de pedido a suprimir
+					//Si la linea de pedido tiene cantidad 0 es porque teniamos cambios de la linea de pedido que hay que borrar de la BD
+					this.lineasPedidoSuprimir.add(datosIniLineaPedido);
 					
 					guardaDatosLineaPedidoRuteroEnView(this.viewLineaRutero, Constantes.COLUMNA_DATOS_LP, datosIniLineaPedido);
 					

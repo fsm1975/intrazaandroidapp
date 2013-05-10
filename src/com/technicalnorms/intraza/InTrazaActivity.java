@@ -105,9 +105,9 @@ public class InTrazaActivity extends Activity
 		muestraMensaje("Resultado insert articulo 3 "+db.insertarArticulo("2222222223", "Muslos de pollo", false, true, (float)8.10, "22-05-2012"));
 		muestraMensaje("Resultado insert articulo 4 "+db.insertarArticulo("2222222224", "Jamon Iberico", false, false, (float)8.10, "22-05-2012"));
 		
-		muestraMensaje("Resultado insert cliente 1 "+db.insertarCliente(1, "Mercadona", "Observaciones Mercadona"));
-		muestraMensaje("Resultado insert cliente 2 "+db.insertarCliente(2, "Carrefour", "Observaciones Carrefour"));
-		muestraMensaje("Resultado insert cliente 3 "+db.insertarCliente(3, "Restaurante Perez", "Observaciones Perez"));
+		muestraMensaje("Resultado insert cliente 1 "+db.insertarCliente(1, "Mercadona", "Observaciones Mercadona", "567889944"));
+		muestraMensaje("Resultado insert cliente 2 "+db.insertarCliente(2, "Carrefour", "Observaciones Carrefour", "915556677"));
+		muestraMensaje("Resultado insert cliente 3 "+db.insertarCliente(3, "Restaurante Perez", "Observaciones Perez", "916743322"));
 
 		//muestraMensaje("Resultado insert prepedido 1 "+db.insertarPrepedido(1, 1, "2012-06-02", "2012-06-20", "Observaciones prepedido 1"));
 		//muestraMensaje("Resultado insert prepedido 2 "+db.insertarPrepedido(2, 2, "2012-06-25", "2012-07-12", "Observaciones prepedido 2"));
@@ -115,11 +115,11 @@ public class InTrazaActivity extends Activity
 		//muestraMensaje("Resultado insert prepedido item 1 "+db.insertarPrepedidoItem(1, 1, "1111111111", true, (float)45.323, (float)4.6, "Observaciones prepedido item 1", false, false));
 		//muestraMensaje("Resultado insert prepedido item 2 "+db.insertarPrepedidoItem(2, 1, "2222222221", true, (float)123.350, (float)6.7, "Observaciones prepedido item 2", true, true));
 		
-		muestraMensaje("Resultado insert Rutero 1 "+db.insertarRutero("1111111111", 1, "22-05-2012", (float)232.456, (float)444, (float)8.25, (float)8.10, "Observaciones rutero 1"));
-		muestraMensaje("Resultado insert Rutero 2 "+db.insertarRutero("2222222221", 1, "12-05-2012", (float)32, (float)444, (float)4.25, (float)3.10, "Observaciones rutero 2"));
+		muestraMensaje("Resultado insert Rutero 1 "+db.insertarRutero("1111111111", 1, "22-05-2012", 0, (float)232.456, 0, (float)444, (float)8.25, (float)8.10, "Observaciones rutero 1", 3));
+		muestraMensaje("Resultado insert Rutero 2 "+db.insertarRutero("2222222221", 1, "12-05-2012", 0, (float)32, 0, (float)444, (float)4.25, (float)3.10, "Observaciones rutero 2", 3));
 		
-		muestraMensaje("Resultado insert Rutero 3 "+db.insertarRutero("1111111111", 2, "22-05-2012", (float)232.456, (float)444, (float)8.25, (float)8.10, "Observaciones rutero 1"));
-		muestraMensaje("Resultado insert Rutero 4 "+db.insertarRutero("2222222221", 2, "12-05-2012", (float)32, (float)444, (float)4.25, (float)3.10, "Observaciones rutero 2"));
+		muestraMensaje("Resultado insert Rutero 3 "+db.insertarRutero("1111111111", 2, "22-05-2012", 0, (float)232.456, 0, (float)444, (float)8.25, (float)8.10, "Observaciones rutero 1", 3));
+		muestraMensaje("Resultado insert Rutero 4 "+db.insertarRutero("2222222221", 2, "12-05-2012", 0, (float)32, 0, (float)444, (float)4.25, (float)3.10, "Observaciones rutero 2", 3));
 
 		muestraMensaje("Resultado insert observacion 1 "+db.insertarObservacion(1, TablaObservacion.TIPO_PREPEDIDO, "En paquetes de 10."));
 		muestraMensaje("Resultado insert observacion 2 "+db.insertarObservacion(2, TablaObservacion.TIPO_PREPEDIDO, "En paquetes de 50."));

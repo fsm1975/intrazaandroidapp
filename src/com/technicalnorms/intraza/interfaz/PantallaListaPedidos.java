@@ -305,6 +305,7 @@ public class PantallaListaPedidos extends Activity
 		float tarifaClienteLP = 0; 
 		String observacionesLP = null;
 		boolean fijarTarifaLP = false;
+		boolean suprimirTarifaLP = false;
 		boolean fijarArticuloLP = false;
 		boolean fijarObservacionesLP = false;
 		
@@ -383,6 +384,15 @@ public class PantallaListaPedidos extends Activity
 							fijarTarifaLP = false;
 						}
 						
+						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_SUPRIMIR_PRECIO) == 1)
+						{
+							suprimirTarifaLP = true;
+						}
+						else
+						{
+							suprimirTarifaLP = false;
+						}
+						
 						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_FIJAR_ARTICULO) == 1)
 						{
 							fijarArticuloLP = true;
@@ -424,7 +434,7 @@ public class PantallaListaPedidos extends Activity
 							esCongeladoLP = false;
 						}
 						
-						lineasPedido.add(new LineaPedidoBD(idPrepedidoLP, codArticuloLP, esMedidaKgLP, esCongeladoLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
+						lineasPedido.add(new LineaPedidoBD(idPrepedidoLP, codArticuloLP, esMedidaKgLP, esCongeladoLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, suprimirTarifaLP, fijarArticuloLP, fijarObservacionesLP));
 					} while (cursorLineasPedido.moveToNext());
 				}
 				
@@ -450,7 +460,7 @@ public class PantallaListaPedidos extends Activity
 		Intent intent = null;
 		DatosDialogoMensaje datosMensaje = null;
 		
-		datosMensaje = new DatosDialogoMensaje("com.zingenieros.intraza.interfaz.PantallaListaPedidos", Constantes.TITULO_SIN_PEDIDOS_CONSULTA, Constantes.INFORMACION_SIN_PEDIDOS_CONSULTA);
+		datosMensaje = new DatosDialogoMensaje("com.technicalnorms.intraza.interfaz.PantallaListaPedidos", Constantes.TITULO_SIN_PEDIDOS_CONSULTA, Constantes.INFORMACION_SIN_PEDIDOS_CONSULTA);
 				
 		intent = new Intent(this, com.technicalnorms.intraza.interfaz.DialogoMensaje.class);
 		intent.putExtra("DATOS_MENSAJE", datosMensaje);
@@ -1496,6 +1506,7 @@ public class PantallaListaPedidos extends Activity
 			float tarifaClienteLP = 0; 
 			String observacionesLP = null;
 			boolean fijarTarifaLP = false;
+			boolean suprimirTarifaLP = false;
 			boolean fijarArticuloLP = false;
 			boolean fijarObservacionesLP = false;
 			Cursor cursorArticulo = null;
@@ -1555,6 +1566,15 @@ public class PantallaListaPedidos extends Activity
 						{
 							fijarTarifaLP = false;
 						}
+						
+						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_SUPRIMIR_PRECIO) == 1)
+						{
+							suprimirTarifaLP = true;
+						}
+						else
+						{
+							suprimirTarifaLP = false;
+						}
 							
 						if (cursorLineasPedido.getInt(TablaPrepedidoItem.POS_CAMPO_FIJAR_ARTICULO) == 1)
 						{
@@ -1580,7 +1600,7 @@ public class PantallaListaPedidos extends Activity
 						cursorArticulo.moveToFirst();
 						nombreArticuloLP = cursorArticulo.getString(TablaArticulo.POS_CAMPO_NOMBRE);			
 						
-						jsonLineasPedido.add(new JsonLineaPedido(idPrepedidoLP, codArticuloLP, nombreArticuloLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, fijarArticuloLP, fijarObservacionesLP));
+						jsonLineasPedido.add(new JsonLineaPedido(idPrepedidoLP, codArticuloLP, nombreArticuloLP, cantidadKgLP, cantidadUdLP, tarifaClienteLP, observacionesLP, fijarTarifaLP, suprimirTarifaLP, fijarArticuloLP, fijarObservacionesLP));
 					} while (cursorLineasPedido.moveToNext());
 				}
 					

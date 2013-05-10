@@ -17,16 +17,19 @@ public class DatosLineaPedido implements Parcelable
 	private String medida = Constantes.KILOGRAMOS;
 	private int esCongelado = 0; 
 	private String ultimaFecha = null;
+	private int ultimaUnidades = -1;
 	private float ultimaCantidad = -1;
 	private float ultimaTarifa = 0;
 	private float cantidadKg = 0;
 	private int cantidadUd = 0;
+	private int unidadesTotalAnio = 0;
 	private float cantidadTotalAnio = 0;
 	private float tarifaCliente = 0;
 	private float tarifaLista = 0;
 	private String fechaCambioTarifaLista = null;
 	private String observaciones = null;
 	private int fijarTarifa = 0;
+	private int suprimirTarifa = 0;
 	private int fijarArticulo = 0;
 	private int fijarObservaciones = 0;
 	
@@ -41,27 +44,31 @@ public class DatosLineaPedido implements Parcelable
 	 * @param medida
 	 * @param esCongelado
 	 * @param ultimaFecha
+	 * @param ultimaUnidades
 	 * @param ultimaCantidad
 	 * @param ultimaTarifa
 	 * @param cantidadKg
 	 * @param cantidadUd
+	 * @param unidadesTotalAnio
 	 * @param cantidadTotalAnio
 	 * @param tarifaCliente
 	 * @param tarifaLista
 	 * @param fechaCambioTarifaLista
 	 * @param observaciones
 	 */
-	public DatosLineaPedido(String codArticulo, String articulo, String medida, boolean esCongelado, String ultimaFecha, float ultimaCantidad, float cantidadTotalAnio, float ultimaTarifa, float cantidadKg, int cantidadUd, float tarifaCliente, float tarifaLista, String fechaCambioTarifaLista, String observaciones)
+	public DatosLineaPedido(String codArticulo, String articulo, String medida, boolean esCongelado, String ultimaFecha, int ultimaUnidades, float ultimaCantidad, int unidadesTotalAnio, float cantidadTotalAnio, float ultimaTarifa, float cantidadKg, int cantidadUd, float tarifaCliente, float tarifaLista, String fechaCambioTarifaLista, String observaciones)
 	{
 		this.codArticulo = codArticulo;
 		this.articulo = articulo;
 		this.medida = medida;
 		this.setEsCongelado(esCongelado);
 		this.ultimaFecha = ultimaFecha;
+		this.ultimaUnidades = ultimaUnidades;
 		this.ultimaCantidad = ultimaCantidad;
 		this.ultimaTarifa = ultimaTarifa;
 		this.cantidadKg = cantidadKg;
 		this.cantidadUd = cantidadUd;
+		this.unidadesTotalAnio = unidadesTotalAnio;
 		this.cantidadTotalAnio = cantidadTotalAnio;
 		this.tarifaCliente = tarifaCliente;
 		this.tarifaLista = tarifaLista;
@@ -127,6 +134,14 @@ public class DatosLineaPedido implements Parcelable
 	public void setUltimaFecha(String ultimaFecha) {
 		this.ultimaFecha = ultimaFecha;
 	}
+	
+	public int getUltimaUnidades() {
+		return ultimaUnidades;
+	}
+
+	public void setUltimaUnidades(int ultimaUnidades) {
+		this.ultimaUnidades = ultimaUnidades;
+	}
 
 	public float getUltimaCantidad() {
 		return ultimaCantidad;
@@ -158,6 +173,14 @@ public class DatosLineaPedido implements Parcelable
 
 	public void setCantidadUd(int cantidad) {
 		this.cantidadUd = cantidad;
+	}
+	
+	public int getUnidadesTotalAnio() {
+		return unidadesTotalAnio;
+	}
+
+	public void setUnidadesTotalAnio(int unidadesTotalAnio) {
+		this.unidadesTotalAnio = unidadesTotalAnio;
 	}
 	
 	public float getCantidadTotalAnio() {
@@ -228,6 +251,17 @@ public class DatosLineaPedido implements Parcelable
 			return true;
 		}
 	}
+	
+	public boolean getSuprimirTarifa() {
+		if (this.suprimirTarifa==0)
+		{
+			return false;			
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 	public void setFijarTarifa(boolean fijar) 
 	{
@@ -238,6 +272,18 @@ public class DatosLineaPedido implements Parcelable
 		else
 		{
 			this.fijarTarifa = 0;
+		}
+	}
+	
+	public void setSuprimirTarifa(boolean suprimir) 
+	{
+		if (suprimir)
+		{
+			this.suprimirTarifa = 1;			
+		}
+		else
+		{
+			this.suprimirTarifa = 0;
 		}
 	}
 	
@@ -330,15 +376,18 @@ public class DatosLineaPedido implements Parcelable
 			this.getMedida().equals(dlp.getMedida()) &&
 			this.getEsCongelado() == dlp.getEsCongelado() &&
 			this.getUltimaFecha().equals(dlp.getUltimaFecha()) &&
+			this.getUltimaUnidades() == dlp.getUltimaUnidades() &&
 			this.getUltimaCantidad() == dlp.getUltimaCantidad() &&
 			this.getUltimaTarifa() == dlp.getUltimaTarifa() &&
 			this.getCantidadKg() == dlp.getCantidadKg() &&
 			this.getCantidadUd() == dlp.getCantidadUd() &&
+			this.getUnidadesTotalAnio() == dlp.getUnidadesTotalAnio() &&
 			this.getCantidadTotalAnio() == dlp.getCantidadTotalAnio() &&
 			this.getTarifaCliente() == dlp.getTarifaCliente() &&
 			this.getTarifaLista() == dlp.getTarifaLista() &&
 			this.getObservaciones().equals(dlp.getObservaciones()) &&
 			this.getFijarTarifa() == dlp.getFijarTarifa() &&
+			this.getSuprimirTarifa() == dlp.getSuprimirTarifa() &&
 			this.getFijarObservaciones() == dlp.getFijarObservaciones())
 		{
 			resultado = true;
@@ -365,16 +414,19 @@ public class DatosLineaPedido implements Parcelable
         out.writeString(this.medida);
         out.writeInt(this.esCongelado);
         out.writeString(this.ultimaFecha);
+        out.writeInt(this.ultimaUnidades);
         out.writeFloat(this.ultimaCantidad);
         out.writeFloat(this.ultimaTarifa);
         out.writeFloat(this.cantidadKg);
         out.writeInt(this.cantidadUd);
+        out.writeInt(this.unidadesTotalAnio);
         out.writeFloat(this.cantidadTotalAnio);
         out.writeFloat(this.tarifaCliente);
         out.writeFloat(this.tarifaLista);
         out.writeString(this.fechaCambioTarifaLista);
         out.writeString(this.observaciones);
         out.writeInt(this.fijarTarifa);
+        out.writeInt(this.suprimirTarifa);
         out.writeInt(this.fijarArticulo);
         out.writeInt(this.fijarObservaciones);
         out.writeInt(this.hayCambiosSinGuardar);
@@ -403,16 +455,19 @@ public class DatosLineaPedido implements Parcelable
         this.medida = in.readString();
         this.esCongelado = in.readInt();
         this.ultimaFecha = in.readString();
+        this.ultimaUnidades = in.readInt();
         this.ultimaCantidad = in.readFloat();
         this.ultimaTarifa = in.readFloat();
         this.cantidadKg = in.readFloat();
         this.cantidadUd = in.readInt();
+        this.unidadesTotalAnio = in.readInt();
         this.cantidadTotalAnio = in.readFloat();
         this.tarifaCliente = in.readFloat();
         this.tarifaLista = in.readFloat();
         this.fechaCambioTarifaLista = in.readString();
         this.observaciones = in.readString();
         this.fijarTarifa = in.readInt();
+        this.suprimirTarifa = in.readInt();
         this.fijarArticulo = in.readInt();
         this.fijarObservaciones = in.readInt();
         this.hayCambiosSinGuardar = in.readInt();

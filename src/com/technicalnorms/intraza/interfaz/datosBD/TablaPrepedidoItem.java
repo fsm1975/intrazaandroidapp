@@ -27,12 +27,14 @@ public class TablaPrepedidoItem
 	public static final int POS_CAMPO_OBSERVACIONES = 5;
 	public static final String CAMPO_FIJAR_PRECIO = "fijar_precio";
 	public static final int POS_CAMPO_FIJAR_PRECIO = 6;
+	public static final String CAMPO_SUPRIMIR_PRECIO = "suprimir_precio";
+	public static final int POS_CAMPO_SUPRIMIR_PRECIO = 7;
 	public static final String CAMPO_FIJAR_ARTICULO = "fijar_articulo";
-	public static final int POS_CAMPO_FIJAR_ARTICULO = 7;
+	public static final int POS_CAMPO_FIJAR_ARTICULO = 8;
 	public static final String CAMPO_FIJAR_OBSERVACIONES = "fijar_observaciones";
-	public static final int POS_CAMPO_FIJAR_OBSERVACIONES = 8;
-	public static final int MAX_POS = 8;
-	public static final int NUM_CAMPOS = 9;
+	public static final int POS_CAMPO_FIJAR_OBSERVACIONES = 9;
+	public static final int MAX_POS = 9;
+	public static final int NUM_CAMPOS = 10;
 
 	public static final String SQL_CREA_TABLA = "create table "+NOMBRE_TABLA+" \n"+
 												 "( \n"+												 
@@ -43,6 +45,7 @@ public class TablaPrepedidoItem
 												 CAMPO_PRECIO+" REAL NOT NULL, \n"+
 												 CAMPO_OBSERVACIONES+" TEXT NULL, \n"+
 												 CAMPO_FIJAR_PRECIO+" BOOLEAN DEFAULT FALSE, \n"+
+												 CAMPO_SUPRIMIR_PRECIO+" BOOLEAN DEFAULT FALSE, \n"+
 												 CAMPO_FIJAR_ARTICULO+" BOOLEAN DEFAULT TRUE, \n"+
 												 CAMPO_FIJAR_OBSERVACIONES+" BOOLEAN DEFAULT FALSE, \n"+
 												 "PRIMARY KEY ("+KEY_CAMPO_ID_PREPEDIDO+", "+KEY_CAMPO_CODIGO_ARTICULO+"), \n"+

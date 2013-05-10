@@ -128,6 +128,8 @@ public class Constantes
 	public static final String INFORMACION_SIN_PEDIDOS_CONSULTA = "No se ha obtenido ningún pedido en la consulta.";
 	public static final String TITULO_SIN_ARTICULOS_NUEVOS = "SIN ARTICULOS NUEVOS";
 	public static final String INFORMACION_SIN_ARTICULOS_NUEVOS = "Todos los articulos existentes, ya se encuentran en el rutero del cliente.";
+	public static final String TITULO_INFO_TELEFONO= "TELEFONO CLIENTE";
+	public static final String INFORMACION_INFO_TELEFONO = "";
 	
 	//Mensajes para AlertDialog en sincronizacion correcta
 	public static final String TITULO_ALERT_SINCRONIZACION_CORRECTA = "SINCRONIZACIÓN DE DATOS INTRAZA CORRECTA";

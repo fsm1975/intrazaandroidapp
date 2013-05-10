@@ -41,6 +41,7 @@ public class DialogoDatosLineaPedido extends Activity
 	private EditText cantidadUdNuevoLPEdit = null;
 	private EditText tarifaNuevoLPEdit = null;
 	private CheckBox fijarTarifa = null;
+	private CheckBox suprimirTarifa = null;
 	private CheckBox fijarObservaciones = null;
 	private EditText observacionesLPEdit = null;
 	
@@ -79,12 +80,13 @@ public class DialogoDatosLineaPedido extends Activity
 		//Tenemos que crear una nueva instancia del objeto, ya que sino se referencia al mismo objeto
 		this.datosLineaPedidoOriginal = new DatosLineaPedido(this.datosLineaPedido.getCodArticulo(), this.datosLineaPedido.getArticulo(), 
 																this.datosLineaPedido.getMedida(), this.datosLineaPedido.getEsCongelado(), this.datosLineaPedido.getUltimaFecha(),
-																this.datosLineaPedido.getUltimaCantidad(), this.datosLineaPedido.getCantidadTotalAnio(),
+																this.datosLineaPedido.getUltimaUnidades(), this.datosLineaPedido.getUltimaCantidad(), this.datosLineaPedido.getUnidadesTotalAnio(), this.datosLineaPedido.getCantidadTotalAnio(),
 																this.datosLineaPedido.getUltimaTarifa(), this.datosLineaPedido.getCantidadKg(), this.datosLineaPedido.getCantidadUd(),
 																this.datosLineaPedido.getTarifaCliente(), this.datosLineaPedido.getTarifaLista(), 
 																this.datosLineaPedido.getFechaCambioTarifaLista(), this.datosLineaPedido.getObservaciones());
 		
 		this.datosLineaPedidoOriginal.setFijarTarifa(this.datosLineaPedido.getFijarTarifa());
+		this.datosLineaPedidoOriginal.setSuprimirTarifa(this.datosLineaPedido.getSuprimirTarifa());
 		
 		//Actulizamos los widget de la pantalla con los datos, para mostrarselos al usuario
 		//En caso de ser un codigo de articulo que indica que es un clon, al usuario solo se le muestra el codigo del articulo del original del clon
@@ -113,6 +115,7 @@ public class DialogoDatosLineaPedido extends Activity
 		((EditText)findViewById(R.id.cantidadUdNuevoLP)).setText(new Integer(this.datosLineaPedido.getCantidadUd()).toString());
 		((EditText)findViewById(R.id.tarifaNuevoLP)).setText(Constantes.formatearFloat2Decimales.format(this.datosLineaPedido.getTarifaCliente()));
 		((CheckBox)findViewById(R.id.checkFijarTarifaLP)).setChecked(this.datosLineaPedido.getFijarTarifa());
+		((CheckBox)findViewById(R.id.checkSuprimirTarifaLP)).setChecked(this.datosLineaPedido.getSuprimirTarifa());
 		((TextView)findViewById(R.id.textoTarifaListaLP)).setText("Tarifa lista:  "+ponerMarcaCambioTarifaListaReciente(this.datosLineaPedido.getFechaCambioTarifaLista())+Constantes.formatearFloat2Decimales.format(this.datosLineaPedido.getTarifaLista())+Constantes.EURO+Constantes.SEPARADOR_MEDIDA_TARIFA+this.datosLineaPedido.getMedida());
 		((TextView)findViewById(R.id.textoPrecioTotalLP)).setText(Constantes.CADENA_PREFIJO_PRECIO_TOTAL+Constantes.formatearFloat2Decimales.format(this.datosLineaPedido.getPrecio())+Constantes.EURO);
 		((EditText)findViewById(R.id.observacionesLP)).setText(this.datosLineaPedido.getObservaciones());
@@ -123,6 +126,7 @@ public class DialogoDatosLineaPedido extends Activity
 		cantidadUdNuevoLPEdit = (EditText)findViewById(R.id.cantidadUdNuevoLP);
 		tarifaNuevoLPEdit = (EditText)findViewById(R.id.tarifaNuevoLP);
 		fijarTarifa = (CheckBox)findViewById(R.id.checkFijarTarifaLP);
+		suprimirTarifa = (CheckBox)findViewById(R.id.checkSuprimirTarifaLP);
 		observacionesLPEdit = (EditText)findViewById(R.id.observacionesLP);
 		fijarObservaciones = (CheckBox)findViewById(R.id.checkFijarObservacionesLP);
 		precioTotalLPView = (TextView)findViewById(R.id.textoPrecioTotalLP);
@@ -307,6 +311,38 @@ public class DialogoDatosLineaPedido extends Activity
 			}
 		});
 		
+		fijarTarifa.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v) 
+			{
+				if (fijarTarifa.isChecked())
+				{
+					suprimirTarifa.setChecked(false);
+					suprimirTarifa.setEnabled(false);
+				}
+				else
+				{
+					suprimirTarifa.setEnabled(true);
+				}
+			}
+		});
+		
+		suprimirTarifa.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v) 
+			{
+				if (suprimirTarifa.isChecked())
+				{
+					fijarTarifa.setChecked(false);
+					fijarTarifa.setEnabled(false);
+				}
+				else
+				{
+					fijarTarifa.setEnabled(true);
+				}
+			}
+		});
+		
 		clonarBtn = (Button)findViewById(R.id.clonarBotonDialogoNuevoLP);
 		clonarBtn.setOnClickListener(dameOnClickListenerReturnDatos(true, this));
 
@@ -400,6 +436,7 @@ public class DialogoDatosLineaPedido extends Activity
 				datosLineaPedido.setCantidadUd(Integer.parseInt(cantidadUdNuevoLPEdit.getText().toString()));
 				datosLineaPedido.setTarifaCliente(Float.parseFloat(tarifaNuevoLPEdit.getText().toString().replace(',', '.')));
 				datosLineaPedido.setFijarTarifa(fijarTarifa.isChecked());
+				datosLineaPedido.setSuprimirTarifa(suprimirTarifa.isChecked());
 				datosLineaPedido.setObservaciones(observacionesLPEdit.getText().toString().trim());
 				datosLineaPedido.setFijarObservaciones(fijarObservaciones.isChecked());
 				

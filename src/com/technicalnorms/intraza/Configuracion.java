@@ -33,13 +33,13 @@ public class Configuracion
 	
 	//Parametro URI_WEB_SERVICES_SINCRONIZACION_3G
 	public static final String NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G = "URI_WEB_SERVICES_SINCRONIZACION_3G";
-	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G = "https://213.0.78.111:8069/InTrazaWeb/rest/sincroniza";
+	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G = "https://213.0.78.111:8088/InTrazaWeb/rest/sincroniza";
 	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G = "URI de solicitud de los Web Service para la sincronizacion y envio de pedidos a InTraza a traves de 3G";
 	public static final boolean ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_3G= true;
 	
 	//Parametro URI_WEB_SERVICES_SINCRONIZACION_WIFI
 	public static final String NOMBRE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI = "URI_WEB_SERVICES_SINCRONIZACION_WIFI";
-	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI = "https://10.14.1.190:8069/InTrazaWeb/rest/sincroniza";
+	public static final String VALOR_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI = "https://10.14.1.190:8088/InTrazaWeb/rest/sincroniza";
 	public static final String DESCRIPCION_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI = "URI de solicitud de los Web Service para la sincronizacion a InTraza a traves de WIFI";
 	public static final boolean ES_EDITABLE_PARAMETRO_URI_WEB_SERVICES_SINCRONIZACION_WIFI= true;
 	
@@ -72,6 +72,12 @@ public class Configuracion
 	public static final String VALOR_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES = "NO";
 	public static final String DESCRIPCION_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES = "Indica si se permite la sintronizacion con InTraza, cuando hay pedidos pendientes de enviar.";
 	public static final boolean ES_EDITABLE_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES = true;
+	
+	//Parametro CODIGO_STATUS_LINEA_RUTERO_OCULTA
+	public static final String NOMBRE_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA = "CODIGO_STATUS_LINEA_RUTERO_OCULTA";
+	public static final String VALOR_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA = "6";
+	public static final String DESCRIPCION_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA = "Indica el codigo de status de rutero, para las lineas de rutero ocultas.";
+	public static final boolean ES_EDITABLE_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA = true;
 	
 	//Para invocar a los WS de sincronizacion con InTraza
 	public static final String NOMBRE_WS_REST_TOTALES = "/totales";
@@ -416,6 +422,33 @@ public class Configuracion
 		db.cerrar();
 		
 		return estaPermitido;
+	}
+	
+	/**
+	 * Devuelve si el codigo usado para indicar las lineas de rutero ocultas
+	 * 
+	 * @param context
+	 * @return codigo de linea de rutero oculta
+	 */
+	public static int dameCodigoStatusLineasRuteroOcultas(Context context)
+	{
+		int status = 6;
+		AdaptadorBD db = new AdaptadorBD(context);
+		Cursor cursorParametro = null;
+		
+		db.abrir();
+		
+		cursorParametro = db.obtenerParametroConfiguracion(NOMBRE_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA);	
+		
+		//Si tenemos resultado de la consulta...
+		if (cursorParametro.moveToFirst())
+		{	
+			status = Integer.parseInt(cursorParametro.getString(TablaConfiguracion.POS_CAMPO_VALOR));
+		}		
+		
+		db.cerrar();
+		
+		return status;
 	}
 	
 }

@@ -314,7 +314,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 			{
 				JSONObject jsonCliente = jsonArrayClientes.getJSONObject(i);
 			
-				db.insertarCliente(jsonCliente.getInt("idCliente"), jsonCliente.getString("nombreCliente"), jsonCliente.getString("pedidoObs"));
+				db.insertarCliente(jsonCliente.getInt("idCliente"), jsonCliente.getString("nombreCliente"), jsonCliente.getString("pedidoObs"), jsonCliente.getString("telefono"));
 				
 				if ((new Float(incrementoActual)).intValue()<1)
 				{
@@ -378,8 +378,8 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
                             JSONObject jsonRutero = jsonArrayRuteros.getJSONObject(i);
                    
                             db.insertarRutero(jsonRutero.getString("codigoArticulo"), jsonRutero.getInt("idCliente"),
-                                                              jsonRutero.getString("fechaPedido"), jsonRutero.getDouble("peso"), jsonRutero.getDouble("pesoTotalAnio"),
-                                                              jsonRutero.getDouble("precio"), jsonRutero.getDouble("precioCliente"), jsonRutero.getString("observacionesItem"));
+                                                              jsonRutero.getString("fechaPedido"), jsonRutero.getInt("unidades"), jsonRutero.getDouble("peso"), jsonRutero.getInt("unidadesTotalAnio"), jsonRutero.getDouble("pesoTotalAnio"),
+                                                              jsonRutero.getDouble("precio"), jsonRutero.getDouble("precioCliente"), jsonRutero.getString("observacionesItem"), jsonRutero.getInt("status"));
                            
                             if ((new Float(incrementoActual)).intValue()<1)
                             {
@@ -427,6 +427,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		float incrementoActual = 0;
 		int incrementoTotal = 0;
 		double precioCliente = 0;
+		int unidadesTotalAnio = 0;
 		double pesoTotalAnio = 0;
 		
 		Log.d("Sincronizacion", "TRAZA - Sincronizacion para 3G");
@@ -478,17 +479,19 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 				if (jsonResultadoPTA.getInt("codigoError") == 0)
 				{
 					pesoTotalAnio = jsonResultadoTC.getDouble("dato");
+					unidadesTotalAnio = jsonResultadoTC.getInt("dato2");
 				}	
 				else
 				{
 					pesoTotalAnio = 0;
+					unidadesTotalAnio = 0;
 					
 					Log.e("Sincronizacion", "TRAZA - Error al obtener el peso total al anio. idCliente ("+jsonRutero.getInt("idCliente")+") codigoArticulo ("+jsonRutero.getString("codigoArticulo")+") error ("+jsonResultadoPTA.getString("descripcionError")+")");
 				}
 			
 				db.insertarRutero(jsonRutero.getString("codigoArticulo"), jsonRutero.getInt("idCliente"),
-								  jsonRutero.getString("fechaPedido"), jsonRutero.getDouble("peso"), pesoTotalAnio,
-								  jsonRutero.getDouble("precio"), precioCliente, jsonRutero.getString("observacionesItem"));
+								  jsonRutero.getString("fechaPedido"), jsonRutero.getInt("unidades"), jsonRutero.getDouble("peso"), unidadesTotalAnio, pesoTotalAnio,
+								  jsonRutero.getDouble("precio"), precioCliente, jsonRutero.getString("observacionesItem"), jsonRutero.getInt("status"));
 				
 				if ((new Float(incrementoActual)).intValue()<1)
 				{
@@ -535,6 +538,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 		float incrementoActual = 0;
 		int incrementoTotal = 0;
 		double precioCliente = 0;
+		int unidadesTotalAnio = 0;
 		double pesoTotalAnio = 0;
 		
 		Log.d("Sincronizacion", "TRAZA - Sincronizacion para 3G");
@@ -562,6 +566,7 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 				{
 					precioCliente = jsonResultadoDR.getDouble("tarifaCliente");
 					pesoTotalAnio = jsonResultadoDR.getDouble("pesoTotalAnio");
+					unidadesTotalAnio = jsonResultadoDR.getInt("unidadesTotalAnio");
 				}	
 				else
 				{
@@ -569,8 +574,8 @@ public class SubdialogoProgresoSincronizacion extends AsyncTask<Void, Void, Void
 				}
 			
 				db.insertarRutero(jsonRutero.getString("codigoArticulo"), jsonRutero.getInt("idCliente"),
-								  jsonRutero.getString("fechaPedido"), jsonRutero.getDouble("peso"), pesoTotalAnio,
-								  jsonRutero.getDouble("precio"), precioCliente, jsonRutero.getString("observacionesItem"));
+								  jsonRutero.getString("fechaPedido"), jsonRutero.getInt("unidades"), jsonRutero.getDouble("peso"), unidadesTotalAnio, pesoTotalAnio,
+								  jsonRutero.getDouble("precio"), precioCliente, jsonRutero.getString("observacionesItem"), jsonRutero.getInt("status"));
 				
 				if ((new Float(incrementoActual)).intValue()<1)
 				{

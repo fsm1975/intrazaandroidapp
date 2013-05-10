@@ -24,10 +24,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.technicalnorms.intraza.Configuracion;
 import com.technicalnorms.intraza.Constantes;
 import com.technicalnorms.intraza.interfaz.datos.DatosLineaPedido;
 import com.technicalnorms.intraza.interfaz.datosBD.AdaptadorBD;
 import com.technicalnorms.intraza.interfaz.datosBD.TablaArticulo;
+import com.technicalnorms.intraza.interfaz.datosBD.TablaRutero;
 import com.technicalnorms.intraza.R;
 
 /**
@@ -63,6 +65,8 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 	//Para evitar que se cree un bucle recursivo
 	private boolean estaDeshabilitadoEventoTextChanged = false;
 	
+	private int cliente;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -79,8 +83,10 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 		//Obtemos los articulos que ya estan en la pantalla del rutero
 		this.articulosYaEnRutero = this.getIntent().getExtras().getStringArray("ARRAY_ARTICULOS_EN_RUTERO");
 		
+		this.cliente = this.getIntent().getExtras().getInt("ID_CLIENTE");
+		
 		//Obtenemos los datos de los articulos que se pueden añadir al rutero del cliente
-		this.vectorDatosArticulos = dameArticulosParaRuteroBD(this.getIntent().getExtras().getInt("ID_CLIENTE"));
+		this.vectorDatosArticulos = dameArticulosParaRuteroBD(this.cliente);
 		
 		//Segun haya articulos o no, mostramos un mensaje o la pantalla de alta del nuevo articulo
 		if (this.vectorDatosArticulos.size()>0)
@@ -199,12 +205,18 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 				public void onClick(View v) 
 				{		
 					float tarifaDefecto = 0;
+					float tarifaCliente = 0;
 					String nombreArticulo = null;
 					
 					//Comprobamos si el articulo seleccionado es valido
 					if (esArticuloValido(articuloView.getText().toString()))
 					{
-						tarifaDefecto = consultaTarifaDefectoArticuloEnBD(referenciaView.getText().toString()); 
+						tarifaDefecto = consultaTarifaDefectoArticuloEnBD(referenciaView.getText().toString());
+						tarifaCliente = consultaTarifaClienteArticuloEnBD(referenciaView.getText().toString(), cliente);
+						if (tarifaCliente==-1)
+						{
+							tarifaCliente = tarifaDefecto;
+						}
 						nombreArticulo = articuloView.getText().toString();
 						
 						//Si le hemos puesto el sufijo que indica congelado para informar al comercial, se lo quitamos
@@ -213,7 +225,7 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 							nombreArticulo = nombreArticulo.substring(0, nombreArticulo.length()-Constantes.MARCA_CONGELADO.length());
 						}
 								
-						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), nombreArticulo, consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, (float)-1, (float)0, (float)0, (float)-1, 0, tarifaDefecto, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
+						datosLineaPedido =  new DatosLineaPedido(referenciaView.getText().toString(), nombreArticulo, consultaMedidaArticuloEnBD(referenciaView.getText().toString()), consultaCongeladoArticuloEnBD(referenciaView.getText().toString()), Constantes.SIN_FECHA_ANTERIOR_LINEA_PEDIDO, 0, (float)-1, 0, (float)0, (float)0, (float)-1, 0, tarifaCliente, tarifaDefecto, consultaFechaCambioTarifaDefectoArticuloEnBD(referenciaView.getText().toString()), "");
 					
 						//Chequeamos si hay que fijar el articulo en la BD de intraza, para los futuros ruteros
 						if (fijarArticulo.isChecked())
@@ -357,6 +369,33 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 	}
 	
 	/**
+	 * Dado un codigo de articulo y un cliente, obtiene la tarifa de cliente del rutero
+	 * 
+	 * @param codArticulo
+	 * @param idCliente
+	 * @return La tarifa cliente
+	 */
+	private float consultaTarifaClienteArticuloEnBD(String codArticulo, int idCliente)
+	{
+		float tarifaCliente = -1;
+		AdaptadorBD db = new AdaptadorBD(this);
+		Cursor cursorRutero = null;
+		
+		db.abrir();
+		
+		cursorRutero = db.obtenerRutero(codArticulo, idCliente);
+		
+		if (cursorRutero.moveToFirst())
+		{
+			tarifaCliente = cursorRutero.getFloat(TablaRutero.POS_CAMPO_TARIFA_CLIENTE);
+		}
+		
+		db.cerrar();
+		
+		return tarifaCliente;
+	}
+	
+	/**
 	 * Dado un codigo de articulo, obtiene su fecha de cambio de tarifa por defecto para la linea de pedidos
 	 * 
 	 * @param codArticulo
@@ -405,7 +444,7 @@ public class DialogoDatosNuevoArticuloRutero extends Activity
 		
 		db.abrir();
 		
-		cursorArticulos = db.obtenerArticulosNoEnRuteroCliente(idCliente);
+		cursorArticulos = db.obtenerArticulosNoEnRuteroCliente(idCliente, Configuracion.dameCodigoStatusLineasRuteroOcultas(this));
 		
 		if (cursorArticulos.moveToFirst())
 		{

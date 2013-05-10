@@ -83,7 +83,7 @@
         		android:layout_marginLeft="15dp"
 				android:textColor="@android:color/white"
         		android:textSize="@dimen/textSizePedido" 
-        		android:text="OBSERVACIONES"/>
+        		android:text="TLF/OBSERVACIONES"/>
     		
     		<TextView
         		android:id="@+id/textoDescuentoEspecialP"

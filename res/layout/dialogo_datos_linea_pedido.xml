@@ -140,8 +140,19 @@
 		android:layout_alignBaseline="@+id/textoTarifaNuevoLP"
         android:layout_toRightOf="@+id/tarifaNuevoLP"
         android:layout_marginLeft="5dp"
-		android:text="Fijar tarifa"
-		android:textSize="20px" 
+		android:text="Fijar"
+		android:textSize="19px" 
+		android:nextFocusDown="@+id/checkSuprimirTarifaLP"/>
+	
+	<CheckBox
+		android:id="@+id/checkSuprimirTarifaLP"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/textoTarifaNuevoLP"
+        android:layout_toRightOf="@+id/checkFijarTarifaLP"
+        android:layout_marginLeft="0dp"
+		android:text="Suprimir"
+		android:textSize="19px" 
 		android:nextFocusDown="@+id/observacionesLP"/>
         
     <TextView

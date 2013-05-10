@@ -116,6 +116,13 @@ public class AdaptadorBD
 				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES);
 				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_PERMITIR_SINCRONIZAR_CON_PEDIDOS_PENDIENTES);
 				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
+				
+				valoresIniciales = new ContentValues();			
+				valoresIniciales.put(TablaConfiguracion.KEY_CAMPO_NOMBRE_PARAMETRO, Configuracion.NOMBRE_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_VALOR, Configuracion.VALOR_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_DESCRIPCION, Configuracion.DESCRIPCION_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA);
+				valoresIniciales.put(TablaConfiguracion.CAMPO_ES_EDITABLE, Configuracion.ES_EDITABLE_PARAMETRO_CODIGO_STATUS_LINEA_RUTERO_OCULTA);
+				db.insert(TablaConfiguracion.NOMBRE_TABLA, null, valoresIniciales);
 
 				//Creamos el resto de tablas de la BD
 				db.execSQL(TablaArticulo.SQL_CREA_TABLA);
@@ -345,14 +352,15 @@ public class AdaptadorBD
 	 * Recupera todos los articulos de la tabla de articulos que no estan en el rutero del cliente
 	 * 
 	 * @param idCliente
+	 * @param statusLineaRuteroOculta
 	 * 
 	 * @return Cursor
 	 */
-	public Cursor obtenerArticulosNoEnRuteroCliente(int idCliente) 
+	public Cursor obtenerArticulosNoEnRuteroCliente(int idCliente, int statusLineaRuteroOculta) 
 	{
 		return db.query(TablaArticulo.NOMBRE_TABLA, 
 						new String[] { TablaArticulo.KEY_CAMPO_CODIGO_ARTICULO, TablaArticulo.CAMPO_NOMBRE, TablaArticulo.CAMPO_ES_KG, TablaArticulo.CAMPO_ES_CONGELADO, TablaArticulo.CAMPO_TARIFA_DEFECTO, TablaArticulo.CAMPO_FECHA_CAMBIO_TARIFA_DEFECTO }, 
-						TablaArticulo.KEY_CAMPO_CODIGO_ARTICULO + " NOT IN (SELECT "+TablaRutero.KEY_CAMPO_CODIGO_ARTICULO+" FROM "+TablaRutero.NOMBRE_TABLA+" WHERE "+TablaRutero.KEY_CAMPO_ID_CLIENTE + " = " + idCliente+")", 
+						TablaArticulo.KEY_CAMPO_CODIGO_ARTICULO + " NOT IN (SELECT "+TablaRutero.KEY_CAMPO_CODIGO_ARTICULO+" FROM "+TablaRutero.NOMBRE_TABLA+" WHERE "+TablaRutero.KEY_CAMPO_ID_CLIENTE + " = " + idCliente+" AND "+TablaRutero.CAMPO_STATUS+"!="+statusLineaRuteroOculta+")", 
 						null, null, null, TablaArticulo.CAMPO_NOMBRE);
 	}
 
@@ -428,16 +436,18 @@ public class AdaptadorBD
 	 * @param id
 	 * @param nombre
 	 * @param observaciones
+	 * @param telefono
 	 * 
 	 * @return true si ha ido bien, o false en caso de error
 	 */
-	public boolean insertarCliente(int id, String nombre, String observaciones) 
+	public boolean insertarCliente(int id, String nombre, String observaciones, String telefono) 
 	{
 		ContentValues valoresIniciales = new ContentValues();
 		
 		valoresIniciales.put(TablaCliente.KEY_CAMPO_ID_CLIENTE, id);
 		valoresIniciales.put(TablaCliente.CAMPO_NOMBRE_CLIENTE, nombre);
 		valoresIniciales.put(TablaCliente.CAMPO_OBSERVACIONES_PREPEDIDO, observaciones);
+		valoresIniciales.put(TablaCliente.CAMPO_TELEFONO, telefono);
 		
 		return db.insert(TablaCliente.NOMBRE_TABLA, null, valoresIniciales) != -1;
 	}
@@ -472,7 +482,7 @@ public class AdaptadorBD
 	public Cursor obtenerTodosLosClientes() 
 	{
 		return db.query(TablaCliente.NOMBRE_TABLA, 
-						new String[] { TablaCliente.KEY_CAMPO_ID_CLIENTE, TablaCliente.CAMPO_NOMBRE_CLIENTE, TablaCliente.CAMPO_OBSERVACIONES_PREPEDIDO }, 
+						new String[] { TablaCliente.KEY_CAMPO_ID_CLIENTE, TablaCliente.CAMPO_NOMBRE_CLIENTE, TablaCliente.CAMPO_OBSERVACIONES_PREPEDIDO, TablaCliente.CAMPO_TELEFONO }, 
 						null, null, null, null, TablaCliente.CAMPO_NOMBRE_CLIENTE);
 	}
 
@@ -487,7 +497,7 @@ public class AdaptadorBD
 	public Cursor obtenerCliente(int id) throws SQLException 
 	{
 		Cursor mCursor = db.query(true, TablaCliente.NOMBRE_TABLA, 
-								  new String[] { TablaCliente.KEY_CAMPO_ID_CLIENTE, TablaCliente.CAMPO_NOMBRE_CLIENTE, TablaCliente.CAMPO_OBSERVACIONES_PREPEDIDO }, 
+								  new String[] { TablaCliente.KEY_CAMPO_ID_CLIENTE, TablaCliente.CAMPO_NOMBRE_CLIENTE, TablaCliente.CAMPO_OBSERVACIONES_PREPEDIDO, TablaCliente.CAMPO_TELEFONO }, 
 								  TablaCliente.KEY_CAMPO_ID_CLIENTE + " = " + id,
 								  null, null, null, null, null);
 		if (mCursor != null) 
@@ -503,16 +513,18 @@ public class AdaptadorBD
 	 * @param id
 	 * @param nombre
 	 * @param observaciones
+	 * @param telefono
 	 * 
 	 * @return true si los datos se han actualizado correctamente, o false en caso contrario
 	 */
-	public boolean actualizarCliente(int id, String nombre, String observaciones) 
+	public boolean actualizarCliente(int id, String nombre, String observaciones, String telefono) 
 	{
 		ContentValues args = new ContentValues();
 		
 		args.put(TablaCliente.KEY_CAMPO_ID_CLIENTE, id);
 		args.put(TablaCliente.CAMPO_NOMBRE_CLIENTE, nombre);
 		args.put(TablaCliente.CAMPO_OBSERVACIONES_PREPEDIDO, observaciones);
+		args.put(TablaCliente.CAMPO_TELEFONO, telefono);
 		
 		return db.update(TablaCliente.NOMBRE_TABLA, args, TablaCliente.KEY_CAMPO_ID_CLIENTE + " = " + id, null) > 0;
 	}
@@ -744,19 +756,20 @@ public class AdaptadorBD
 	 * @param precio
 	 * @param observaciones
 	 * @param fijarPrecio
+	 * @param suprimirPrecio
 	 * @param fijarArticulo
 	 * @param fijarObservaciones
 	 * 
 	 * @return true si se ha guardado correctamente y false en caso contrario.
 	 */
 	public boolean guardaPrepedidoItem(int idPrepedido, String codArticulo,
-										float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
+										float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean suprimirPrecio, boolean fijarArticulo, boolean fijarObservaciones)
 	{
-		boolean resultado = actualizarPrepedidoItem(idPrepedido, codArticulo, cantidadKg, cantidadUd, precio, observaciones, fijarPrecio, fijarArticulo, fijarObservaciones);
+		boolean resultado = actualizarPrepedidoItem(idPrepedido, codArticulo, cantidadKg, cantidadUd, precio, observaciones, fijarPrecio, suprimirPrecio, fijarArticulo, fijarObservaciones);
 		
 		if (!resultado)
 		{
-			resultado = insertarPrepedidoItem(idPrepedido, codArticulo, cantidadKg, cantidadUd, precio, observaciones, fijarPrecio, fijarArticulo, fijarObservaciones);
+			resultado = insertarPrepedidoItem(idPrepedido, codArticulo, cantidadKg, cantidadUd, precio, observaciones, fijarPrecio, suprimirPrecio, fijarArticulo, fijarObservaciones);
 		}
 		
 		return resultado;
@@ -773,13 +786,14 @@ public class AdaptadorBD
 	 * @param precio
 	 * @param observaciones
 	 * @param fijar tarifa
+	 * @param suprimir tarifa
 	 * @param fijar articulo
 	 * @param fijar observaciones
 	 * 
 	 * @return true si ha ido bien, o false en caso de error
 	 */
 	public boolean insertarPrepedidoItem(int idPrepedido, String codArticulo,
-										 float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
+										 float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean suprimirPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
 	{
 		ContentValues valoresIniciales = new ContentValues();
 		
@@ -790,6 +804,7 @@ public class AdaptadorBD
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_PRECIO, precio);
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_OBSERVACIONES, observaciones);
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, fijarPrecio);
+		valoresIniciales.put(TablaPrepedidoItem.CAMPO_SUPRIMIR_PRECIO, suprimirPrecio);
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, fijarArticulo);
 		valoresIniciales.put(TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES, fijarObservaciones);
 		
@@ -843,7 +858,7 @@ public class AdaptadorBD
 		return db.query(TablaPrepedidoItem.NOMBRE_TABLA, 
 						new String[] { TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO,
 									   TablaPrepedidoItem.CAMPO_CANTIDAD_KG, TablaPrepedidoItem.CAMPO_CANTIDAD_UD, TablaPrepedidoItem.CAMPO_PRECIO,
-									   TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
+									   TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_SUPRIMIR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
 						null, null, null, null, null);
 	}
 	
@@ -859,7 +874,7 @@ public class AdaptadorBD
 		return db.query(TablaPrepedidoItem.NOMBRE_TABLA, 
 						new String[] { TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO,
 									   TablaPrepedidoItem.CAMPO_CANTIDAD_KG, TablaPrepedidoItem.CAMPO_CANTIDAD_UD, TablaPrepedidoItem.CAMPO_PRECIO,
-									   TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
+									   TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_SUPRIMIR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
 						TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO + " = " + idPrepedido,
 						null, null, null, null);
 	}
@@ -878,7 +893,7 @@ public class AdaptadorBD
 		Cursor mCursor = db.query(true, TablaPrepedidoItem.NOMBRE_TABLA, 
 								  new String[] { TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO, TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO,
 												 TablaPrepedidoItem.CAMPO_CANTIDAD_KG, TablaPrepedidoItem.CAMPO_CANTIDAD_UD, TablaPrepedidoItem.CAMPO_PRECIO,
-												 TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
+												 TablaPrepedidoItem.CAMPO_OBSERVACIONES, TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, TablaPrepedidoItem.CAMPO_SUPRIMIR_PRECIO, TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES }, 
 												 TablaPrepedidoItem.KEY_CAMPO_ID_PREPEDIDO + " = " + idPrepedido + " and " + TablaPrepedidoItem.KEY_CAMPO_CODIGO_ARTICULO + " like '" + codArticulo + "'",
 								  null, null, null, null, null);
 		if (mCursor != null) 
@@ -899,13 +914,14 @@ public class AdaptadorBD
 	 * @param precio
 	 * @param observaciones
 	 * @param fijar tarifa
+	 * @param suprimir tarifa
 	 * @param fijar articulo
 	 * @param fijar observaciones
 	 * 
 	 * @return true si los datos se han actualizado correctamente, o false en caso contrario
 	 */
 	public boolean actualizarPrepedidoItem(int idPrepedido, String codArticulo,
-										   float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
+										   float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean suprimirPrecio, boolean fijarArticulo, boolean fijarObservaciones) 
 	{
 		ContentValues args = new ContentValues();
 		
@@ -916,6 +932,7 @@ public class AdaptadorBD
 		args.put(TablaPrepedidoItem.CAMPO_PRECIO, precio);
 		args.put(TablaPrepedidoItem.CAMPO_OBSERVACIONES, observaciones);
 		args.put(TablaPrepedidoItem.CAMPO_FIJAR_PRECIO, fijarPrecio);
+		args.put(TablaPrepedidoItem.CAMPO_SUPRIMIR_PRECIO, suprimirPrecio);
 		args.put(TablaPrepedidoItem.CAMPO_FIJAR_ARTICULO, fijarArticulo);
 		args.put(TablaPrepedidoItem.CAMPO_FIJAR_OBSERVACIONES, fijarObservaciones);
 		
@@ -936,28 +953,34 @@ public class AdaptadorBD
 	 * @param codigo articulo
 	 * @param id cliente
 	 * @param fecha ultima compra
+	 * @param unidades ultima compra
 	 * @param cantidad ultima compra
+	 * @param unidades total_anio
 	 * @param cantidad total_anio
 	 * @param tarifa ultima compra
 	 * @param tarifa cliente
 	 * @param observaciones
+	 * @param status
 	 * 
 	 * @return true si ha ido bien, o false en caso de error
 	 */
 	public boolean insertarRutero(String codArticulo, int idCliente,
-								  String ultimaFecha, double ultimaCantidad, double cantidadTotalAnio, double ultimaTarifa,
-								  double tarifaCliente, String observaciones) 
+								  String ultimaFecha, int ultimaUnidades, double ultimaCantidad, int unidadesTotalAnio, double cantidadTotalAnio, double ultimaTarifa,
+								  double tarifaCliente, String observaciones, int status) 
 	{
 		ContentValues valoresIniciales = new ContentValues();
 		
 		valoresIniciales.put(TablaRutero.KEY_CAMPO_CODIGO_ARTICULO, codArticulo);
 		valoresIniciales.put(TablaRutero.KEY_CAMPO_ID_CLIENTE, idCliente);
 		valoresIniciales.put(TablaRutero.CAMPO_FECHA_ULTIMA_COMPRA, ultimaFecha);
+		valoresIniciales.put(TablaRutero.CAMPO_UNIDADES_ULTIMA_COMPRA, ultimaUnidades);
 		valoresIniciales.put(TablaRutero.CAMPO_CANTIDAD_ULTIMA_COMPRA, ultimaCantidad);
+		valoresIniciales.put(TablaRutero.CAMPO_UNIDADES_TOTAL_ANIO, unidadesTotalAnio);
 		valoresIniciales.put(TablaRutero.CAMPO_CANTIDAD_TOTAL_ANIO, cantidadTotalAnio);
 		valoresIniciales.put(TablaRutero.CAMPO_TARIFA_ULTIMA_COMPRA, ultimaTarifa);
 		valoresIniciales.put(TablaRutero.CAMPO_TARIFA_CLIENTE, tarifaCliente);
 		valoresIniciales.put(TablaRutero.CAMPO_OBSERVACIONES, observaciones);
+		valoresIniciales.put(TablaRutero.CAMPO_STATUS, status);
 		
 		return db.insert(TablaRutero.NOMBRE_TABLA, null, valoresIniciales) != -1;
 	}
@@ -995,8 +1018,8 @@ public class AdaptadorBD
 	{
 		return db.query(TablaRutero.NOMBRE_TABLA, 
 						new String[] { TablaRutero.KEY_CAMPO_CODIGO_ARTICULO, TablaRutero.KEY_CAMPO_ID_CLIENTE,
-									   TablaRutero.CAMPO_FECHA_ULTIMA_COMPRA, TablaRutero.CAMPO_CANTIDAD_ULTIMA_COMPRA, TablaRutero.CAMPO_CANTIDAD_TOTAL_ANIO, 
-									   TablaRutero.CAMPO_TARIFA_ULTIMA_COMPRA,TablaRutero.CAMPO_TARIFA_CLIENTE, TablaRutero.CAMPO_OBSERVACIONES }, 
+									   TablaRutero.CAMPO_FECHA_ULTIMA_COMPRA, TablaRutero.CAMPO_UNIDADES_ULTIMA_COMPRA, TablaRutero.CAMPO_CANTIDAD_ULTIMA_COMPRA, TablaRutero.CAMPO_UNIDADES_TOTAL_ANIO, TablaRutero.CAMPO_CANTIDAD_TOTAL_ANIO, 
+									   TablaRutero.CAMPO_TARIFA_ULTIMA_COMPRA,TablaRutero.CAMPO_TARIFA_CLIENTE, TablaRutero.CAMPO_OBSERVACIONES, TablaRutero.CAMPO_STATUS }, 
 						null, null, null, null, null);
 	}
 	
@@ -1004,14 +1027,15 @@ public class AdaptadorBD
 	 * Recupera todos los ruteros de un cliente
 	 * 
 	 * @param idCliente
+	 * @param status
 	 * @return Cursor
 	 */
-	public Cursor obtenerTodosLosRuterosDelClienteConArticulo(int idCliente) 
+	public Cursor obtenerTodosLosRuterosDelClienteConArticulo(int idCliente, int statusLineaRuteroOculta) 
 	{
 		//La select, devolvera 12 campos 10 de la tabla rutero + 2 de la tabla articulo
-		String select = "SELECT * FROM "+TablaRutero.NOMBRE_TABLA+" r INNER JOIN "+TablaArticulo.NOMBRE_TABLA+" a ON r."+TablaRutero.KEY_CAMPO_CODIGO_ARTICULO+"=a."+TablaArticulo.KEY_CAMPO_CODIGO_ARTICULO+" WHERE r."+TablaRutero.KEY_CAMPO_ID_CLIENTE+"=?";
+		String select = "SELECT * FROM "+TablaRutero.NOMBRE_TABLA+" r INNER JOIN "+TablaArticulo.NOMBRE_TABLA+" a ON r."+TablaRutero.KEY_CAMPO_CODIGO_ARTICULO+"=a."+TablaArticulo.KEY_CAMPO_CODIGO_ARTICULO+" WHERE r."+TablaRutero.KEY_CAMPO_ID_CLIENTE+"=? AND r."+TablaRutero.CAMPO_STATUS+"!=?";
 
-		return db.rawQuery(select, new String[]{String.valueOf(idCliente)});
+		return db.rawQuery(select, new String[]{String.valueOf(idCliente), String.valueOf(statusLineaRuteroOculta)});
 	}
 
 	/**
@@ -1027,9 +1051,9 @@ public class AdaptadorBD
 	{
 		Cursor mCursor = db.query(true, TablaRutero.NOMBRE_TABLA, 
 								  new String[] { TablaRutero.KEY_CAMPO_CODIGO_ARTICULO, TablaRutero.KEY_CAMPO_ID_CLIENTE,
-												 TablaRutero.CAMPO_FECHA_ULTIMA_COMPRA, TablaRutero.CAMPO_CANTIDAD_ULTIMA_COMPRA,
-												 TablaRutero.CAMPO_CANTIDAD_TOTAL_ANIO, TablaRutero.CAMPO_TARIFA_ULTIMA_COMPRA,
-												 TablaRutero.CAMPO_TARIFA_CLIENTE, TablaRutero.CAMPO_OBSERVACIONES }, 
+												 TablaRutero.CAMPO_FECHA_ULTIMA_COMPRA, TablaRutero.CAMPO_UNIDADES_ULTIMA_COMPRA, TablaRutero.CAMPO_CANTIDAD_ULTIMA_COMPRA,
+												 TablaRutero.CAMPO_UNIDADES_TOTAL_ANIO, TablaRutero.CAMPO_CANTIDAD_TOTAL_ANIO, TablaRutero.CAMPO_TARIFA_ULTIMA_COMPRA,
+												 TablaRutero.CAMPO_TARIFA_CLIENTE, TablaRutero.CAMPO_OBSERVACIONES, TablaRutero.CAMPO_STATUS }, 
 								  TablaRutero.KEY_CAMPO_CODIGO_ARTICULO + " like '" + codArticulo + "' and " + TablaRutero.KEY_CAMPO_ID_CLIENTE + " = " + idCliente,
 								  null, null, null, null, null);
 		if (mCursor != null) 
@@ -1046,29 +1070,35 @@ public class AdaptadorBD
 	 * @param codigo articulo
 	 * @param id cliente
 	 * @param fecha ultima compra
+	 * @param unidades ultima compra
 	 * @param cantidad ultima compra
+	 * @param unidades total_anio
 	 * @param cantidad total_anio
 	 * @param tarifa ultima compra
 	 * @param tarifa cliente
 	 * @param observaciones
+	 * @param status
 	 * 
 	 * @return true si los datos se han actualizado correctamente, o false en caso contrario
 	 */
 	public boolean actualizarRutero(String codArticulo, int idCliente,
-									String ultimaFecha, double ultimaCantidad,
-									double cantidadTotalAnio, double ultimaTarifa,
-									double tarifaCliente, double tarifaDefecto, String observaciones) 
+									String ultimaFecha, int ultimaUnidades, double ultimaCantidad,
+									int unidadesTotalAnio, double cantidadTotalAnio, double ultimaTarifa,
+									double tarifaCliente, double tarifaDefecto, String observaciones, int status) 
 	{
 		ContentValues args = new ContentValues();
 		
 		args.put(TablaRutero.KEY_CAMPO_CODIGO_ARTICULO, codArticulo);
 		args.put(TablaRutero.KEY_CAMPO_ID_CLIENTE, idCliente);
 		args.put(TablaRutero.CAMPO_FECHA_ULTIMA_COMPRA, ultimaFecha);
+		args.put(TablaRutero.CAMPO_UNIDADES_ULTIMA_COMPRA, ultimaUnidades);
 		args.put(TablaRutero.CAMPO_CANTIDAD_ULTIMA_COMPRA, ultimaCantidad);
+		args.put(TablaRutero.CAMPO_UNIDADES_TOTAL_ANIO, unidadesTotalAnio);
 		args.put(TablaRutero.CAMPO_CANTIDAD_TOTAL_ANIO, cantidadTotalAnio);
 		args.put(TablaRutero.CAMPO_TARIFA_ULTIMA_COMPRA, ultimaTarifa);
 		args.put(TablaRutero.CAMPO_TARIFA_CLIENTE, tarifaCliente);
 		args.put(TablaRutero.CAMPO_OBSERVACIONES, observaciones);
+		args.put(TablaRutero.CAMPO_STATUS, status);
 		
 		return db.update(TablaRutero.NOMBRE_TABLA, args, TablaRutero.KEY_CAMPO_CODIGO_ARTICULO + " like '" + codArticulo + "' and " + 
 														 TablaRutero.KEY_CAMPO_ID_CLIENTE + " = " + idCliente, null) > 0;

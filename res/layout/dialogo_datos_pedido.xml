@@ -32,7 +32,7 @@
         android:textSize="20px" />
     
 	<AutoCompleteTextView android:id="@+id/clienteDCNP"
-		android:layout_width="400dp"
+		android:layout_width="370dp"
 		android:layout_height="wrap_content"
 		android:layout_alignLeft="@+id/textoClienteDCNP"
 		android:layout_below="@+id/textoClienteDCNP"
@@ -47,6 +47,16 @@
 		android:layout_alignBaseline="@+id/clienteDCNP"
 		android:textSize="20px"
 		android:text=" ... " />
+	
+	<Button
+		android:id="@+id/botonInfoTelefonoDCNP"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/botonAbreSpinnerDCNP"
+		android:layout_alignBaseline="@+id/clienteDCNP"
+        android:layout_marginLeft="1dp"
+		android:textSize="20px"
+		android:text="TLF" />
 	
 	<Spinner
         android:id="@+id/spinnerInvisibleClienteDCNP"

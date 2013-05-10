@@ -15,6 +15,7 @@ public class JsonLineaPedido
 	private float precio = 0;
 	private String observaciones = null;
 	boolean fijarPrecio = false;
+	boolean suprimirPrecio = false;
 	boolean fijarArticulo = false;
 	boolean fijarObservaciones = false;
 
@@ -29,10 +30,11 @@ public class JsonLineaPedido
 	 * @param precio
 	 * @param observaciones
 	 * @param fijarPrecio
+	 * @param suprimirPrecio
 	 * @param fijarArticulo
 	 * @param fijarObservaciones
 	 */
-	public JsonLineaPedido(int idPrepedido, String codArticulo, String nombreArticulo, float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean fijarArticulo, boolean fijarObservaciones)
+	public JsonLineaPedido(int idPrepedido, String codArticulo, String nombreArticulo, float cantidadKg, int cantidadUd, float precio, String observaciones, boolean fijarPrecio, boolean suprimirPrecio, boolean fijarArticulo, boolean fijarObservaciones)
 	{
 		this.idPrepedido = idPrepedido;
 		this.codArticulo = codArticulo;
@@ -42,6 +44,7 @@ public class JsonLineaPedido
 		this.precio = precio;
 		this.observaciones = observaciones;
 		this.fijarPrecio = fijarPrecio;
+		this.suprimirPrecio = suprimirPrecio;
 		this.fijarArticulo = fijarArticulo;
 		this.fijarObservaciones = fijarObservaciones;
 	}
@@ -112,6 +115,14 @@ public class JsonLineaPedido
 
 	public void setFijarPrecio(boolean fijar) {
 		this.fijarPrecio = fijar;
+	}
+	
+	public boolean getSuprimirPrecio() {
+		return suprimirPrecio;
+	}
+
+	public void setSuprimirPrecio(boolean suprimir) {
+		this.suprimirPrecio = suprimir;
 	}
 	
 	public boolean getFijarArticulo() {
